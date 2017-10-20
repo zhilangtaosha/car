@@ -381,44 +381,52 @@ function setCard(img1,img2,name,linkMan,phone,tel,qq,address,main_icon_1,main_ic
     	linkManW = linkManW+65;
     }
     
-    //图标一
-    var image2 = new Image();
-        image2.src = main_icon_1;
-        ctx.save(); // 保存当前ctx的状态
-        ctx.arc(50,100,25,0,2*Math.PI); //画出圆
-        ctx.clip(); //裁剪上面的圆形
-        ctx.drawImage(image2,25,75,50,50); // 在刚刚裁剪的园上画图
-        ctx.restore(); // 还原状态
-
-        if(!main_icon_1){
-            var con_2 = 50;           	
-        }else{
-            var con_2 = 115;
-        }
-        
-     //图标二   
-    var image3 = new Image();
-        image3.src = main_icon_2;
-        ctx.save(); // 保存当前ctx的状态
-        ctx.arc(con_2,100,25,0,2*Math.PI); //画出圆
-        ctx.clip(); //裁剪上面的圆形
-        ctx.drawImage(image3,con_2-25,75,50,50); // 在刚刚裁剪的园上画图
-        ctx.restore(); // 还原状态
-        if(!main_icon_1 && !main_icon_2){
-            var con_3 = 50;
-        }else if(!main_icon_1 || !main_icon_2){
-            var con_3 = 115;
-        }else{
-            var con_3 = 180;
-        }
-     //图标三   
-    var image4 = new Image();
-        image4.src = main_icon_3;
-        ctx.save(); // 保存当前ctx的状态
-        ctx.arc(con_3,100,25,0,2*Math.PI); //画出圆
-        ctx.clip(); //裁剪上面的圆形
-        ctx.drawImage(image4,con_3-25,75,50,50); // 在刚刚裁剪的园上画图
-        ctx.restore(); // 还原状态
+    if(main_icon_1){
+	    //图标一
+	    var image2 = new Image();
+	        image2.src = main_icon_1;
+	        ctx.save(); // 保存当前ctx的状态
+	        ctx.arc(50,100,25,0,2*Math.PI); //画出圆
+	        ctx.clip(); //裁剪上面的圆形
+	        ctx.drawImage(image2,25,75,50,50); // 在刚刚裁剪的园上画图
+	        ctx.restore(); // 还原状态
+	
+	        if(!main_icon_1){
+	            var con_2 = 50;           	
+	        }else{
+	            var con_2 = 115;
+	        }
+    } 
+    
+    if(main_icon_2){
+	     //图标二   
+	    var image3 = new Image();
+	        image3.src = main_icon_2;
+	        ctx.save(); // 保存当前ctx的状态
+	        ctx.arc(con_2,100,25,0,2*Math.PI); //画出圆
+	        ctx.clip(); //裁剪上面的圆形
+	        ctx.drawImage(image3,con_2-25,75,50,50); // 在刚刚裁剪的园上画图
+	        ctx.restore(); // 还原状态
+	        if(!main_icon_1 && !main_icon_2){
+	            var con_3 = 50;
+	        }else if(!main_icon_1 || !main_icon_2){
+	            var con_3 = 115;
+	        }else{
+	            var con_3 = 180;
+	        }
+     }
+    
+    if(main_icon_3){
+    	 //图标三   
+	    var image4 = new Image();
+	        image4.src = main_icon_3;
+	        ctx.save(); // 保存当前ctx的状态
+	        ctx.arc(con_3,100,25,0,2*Math.PI); //画出圆
+	        ctx.clip(); //裁剪上面的圆形
+	        ctx.drawImage(image4,con_3-25,75,50,50); // 在刚刚裁剪的园上画图
+	        ctx.restore(); // 还原状态
+    }
+   
     
     	ctx.font="22px Microsoft YaHei";       
         ctx.fillText("联系人："+linkMan,linkManW,110); 

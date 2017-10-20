@@ -428,6 +428,14 @@ function xiaoXi(){
 
 //底部导航跳转
 function goUrl(i){
+	plus.webview.close('view/index/index.html');
+	plus.webview.close('view/vin/index.html');
+	plus.webview.close('view/coterie/list.html');
+	plus.webview.close('view/gonggao/notice.html');
+	plus.webview.close('view/person/index.html');  
+
+	plus.webview.getLaunchWebview().show;      
+	
 	var url = '../../../../index.html';   
 	var id  = 'index_index1';  
 	var extras  = {'tabNav':i};    

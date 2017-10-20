@@ -2694,9 +2694,21 @@
 					"image/person/icon_vip@2x.png",
 					"image/salesman/guiJi.png",
 					"image/person/biao_weirz@2x.png",
-					"view/index/index.html"
+					"view/index/index.html",
+					"image/index/chaxun.png",
+					"image/index/quanzi.png",
+					"image/index/icon_xiaoxi@3x.png",
+					"image/index/gonggao.png",
+					"css/common.css",
+					"image/person/more/icon_chenggong_mrtx.png",
+					"image/index/gerenzhongxin.png",
+					"image/index/home.png",
+					"fonts/mui.ttf"
 				],
-				"refer": [],
+				"refer": [
+					"index.html",
+					"view/person/salesman/store/guanLiIndex.html"
+				],
 				"priority": 0
 			},
 			"view/person/salesman/verifyCompany/index.html": {
@@ -2720,11 +2732,45 @@
 					"image/salesman/person/lv_dw_s1.png",
 					"image/salesman/person/lan_dw_s3.png",
 					"image/salesman/person/lv_dw_k3.png",
-					"image/salesman/person/lan_dw_k3.png"
+					"image/salesman/person/lan_dw_k3.png",
+					"js/mui.pullToRefresh.js",
+					"image/index/icon_wz_sousuo@3x.png",
+					"js/mui.pullToRefresh.material.js",
+					"js/yeWu.city.data-3.js",
+					"css/common.css",
+					"image/person/repair/icon_ditu@3x.png",
+					"image/person/renzheng2.png",
+					"image/salesman/red_qq.png",
+					"image/salesman/red_tel.png",
+					"image/salesman/red_ren.png",
+					"image/salesman/red_phone.png",
+					"image/salesman/red_dingwei.png"
 				],
 				"refer": [
-					"view/person/repair/detail.html"
+					"view/person/repair/detail.html",
+					"view/person/salesman/store/index.html"
 				],
+				"priority": 0
+			},
+			"view/person/salesman/store/guanLiIndex.html": {
+				"resources": [
+					"js/laytpl/laytpl.js",
+					"image/person/store/icon_dpzy_renzheng.png",
+					"js/jquery.min.js",
+					"fonts/mui.ttf",
+					"image/person/store/icon_dpzy_jingying.png",
+					"image/person/store/icon_dpzy_tel.png",
+					"css/common.css",
+					"js/mui.min.js",
+					"image/person/store/icon_dpzy_peoples.png",
+					"image/person/store/icon_dpzy_mingpian.png",
+					"css/mui.min.css",
+					"image/person/store/beijing.png",
+					"js/global.js",
+					"image/person/store/icon_dpzy_chanpin.png",
+					"image/person/store/icon_dpzy_xinxi.png"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},
