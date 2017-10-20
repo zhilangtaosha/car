@@ -122,6 +122,7 @@ class ApiSevUploadModel extends Model{
             }
             //新文件名
             $newFileName = date("YmdHis") . '_' . rand(10000, 99999) . '.' . $file_ext;
+
             //移动文件
             $filePath = $savePath . $newFileName;
             if (move_uploaded_file($tmpName, $filePath) === false) {
@@ -130,6 +131,26 @@ class ApiSevUploadModel extends Model{
             }
             @chmod($filePath, 0644);
             $fileUrl = $saveUrl . $newFileName;
+            writeLog($fileUrl);
+            $fileUrlDir = $savePath . "/" . $newFileName;
+            //旋转图片
+            $source = $this->imageCreateFromAny($fileUrlDir);
+            @$exif = exif_read_data($fileUrlDir);
+
+             if(!empty($exif['Orientation'])) {
+                 switch($exif['Orientation']) {
+                     case 8:
+                         $tmpName = imagerotate($source,90,0);
+                         break;
+                     case 3:
+                         $tmpName = imagerotate($source,180,0);
+                         break;
+                     case 6:
+                         $tmpName = imagerotate($source,-90,0);
+                         break;
+                 }
+                        imagejpeg($tmpName, $fileUrlDir);
+             }
 
             //生成缩微图
             if($this->cTempFile&&$fileSize>500*1024)
@@ -174,9 +195,43 @@ class ApiSevUploadModel extends Model{
             if(file_exists($file))
             {
                 $resize = import('img', 'lib', true);
-                $resize->resizeImg($file, $width, $height ,'1' ,$thumbFile);
+                $resize->resizeImg($file, $width, $height ,'2' ,$thumbFile);
             }
         }
     }
+
+    /**
+     * 获取文件资源
+     * @param $filepath
+     * @return bool|resource
+     */
+    function imageCreateFromAny($filepath) {
+
+        $type = exif_imagetype($filepath); // [] if you don't have exif you could use getImageSize()
+        writeLog($type);
+        $allowedTypes = array(
+            1,  // [] gif
+            2,  // [] jpg
+            3  // [] png
+        );
+        if (!in_array($type, $allowedTypes)) {
+            return false;
+        }
+        switch ($type) {
+            case 1 :
+                $im = imagecreatefromgif($filepath);
+                break;
+            case 2 :
+                $im = imagecreatefromjpeg($filepath);
+                break;
+            case 3 :
+                $im = imagecreatefrompng($filepath);
+                break;
+        }
+        return $im;
+    }
+
+
+
 
 }

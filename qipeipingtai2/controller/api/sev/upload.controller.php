@@ -14,7 +14,6 @@ class ApiSevUploadController extends Controller{
     public function uploadImg(){
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
             foreach ( $_FILES as $name=>$file ) {
                 $upMo = model('api.sev.upload');
                 $return = $upMo->uploadImg($file);
