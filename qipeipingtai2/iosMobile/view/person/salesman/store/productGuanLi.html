@@ -266,6 +266,7 @@
 	var showSelf;
 	//mui plusReady
 	mui.plusReady(function() {
+		getRefresh();
 		var pro_cate_2 = [];
 		plus.storage.setItem('pro_cate_2',JSON.stringify(pro_cate_2));
 //		设置刷新dian
@@ -500,7 +501,7 @@
 		var postData    = {};
         postData.token      = token;        
 		//如果已经登陆 获取登录后的数据
-		http.load('api.sev.user','getRefresh',postData,function(rData){//请求成功									
+		http.load('api.sev.user','getRefresh',postData,function(rData){//请求成功	
  			if(rData.status==200){//保存成功
  				//根据刷新点提示
  				sw.jcon(rData);  
