@@ -1287,6 +1287,7 @@ class ApiSevUserController extends Controller{
             if($return['status']==200){
                 $userId = $return['data']['id'];
                 $return = $userMo ->getCardInfo($userId);
+
             }
 
         }else{
@@ -1330,6 +1331,15 @@ class ApiSevUserController extends Controller{
             if($return['status']==200){
                 $userId = $return['data']['id'];
                 $return = $userMo ->getCardTplInfo($userId);
+
+                if($return['status']==200){
+                    $EnterpriseID = $return['data']['EnterpriseID'];
+                    $companyName  = $return['data']['companyname'];
+                    $companyType  = $return['data']['type'];
+                    //进入名片页面时重新生成二维码
+                    model('web.firms','mysql')->getQRStore($EnterpriseID,$companyName,$companyType);
+                }
+
             }
 
         }else{

@@ -1903,7 +1903,8 @@
 					"js/jquery.min.js",
 					"js/mui.zoom.js",
 					"js/mui.previewimage.js",
-					"css/common.css"
+					"css/common.css",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"view/person/card/editCard.html",
@@ -2475,7 +2476,8 @@
 					"image/card-bg1.jpg",
 					"image/card-bg2.jpg",
 					"image/card-bg4.jpg",
-					"image/card-bg3.jpg"
+					"image/card-bg3.jpg",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"view/person/card/editCard.html"

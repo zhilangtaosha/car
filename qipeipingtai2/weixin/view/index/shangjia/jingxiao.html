@@ -675,7 +675,7 @@
 			<li class="mui-table-view-cell sw-after-no sw-no-active">		
 				<span class="sw-list-title2">微信</span>
 				{{# if(d.wechat_pic){ }}
-				<img src="{{ imgUrl+d.wechat_pic }}" class="sw-img1"/>
+				<img src="{{ imgUrl+d.wechat_pic }}" data-preview-src="{{ imgUrl+d.wechat_pic }}" data-preview-group="2" class="sw-img1"/>
 				{{# }else{ }}
 				<div class="sw-list-text2">
 					<p style="margin-bottom: 6px;">未上传</p>	
@@ -1033,7 +1033,7 @@
 		        	nav_info.linkPhone = (info.linkPhoneArr.length>0)?info.linkPhoneArr[0]:'';
 		        	nav_info.qq = (info.qqArr.length>0)?info.qqArr[0]:'';
 		        	nav_info.id = info.id;
-		        	nav_info.wechat_pic = info.QR_pic;
+		        	nav_info.wechat_pic = info.wechat_pic;
  	
 		        if(nav_info!=null&&nav_info!=''){
 		        	var navTpl   = $('#nav-list-tpl').html();	 		

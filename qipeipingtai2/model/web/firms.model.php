@@ -380,7 +380,7 @@ class WebFirmsModel extends Model
         $outPath    = './data/firmsQR/'.$firmsID.'.png';
         include_once './lib/phpqrcode/phpqrcode.php';
         if($type==1){
-            $url = "{$domainName}/weixin/view/index/shangjia/jingxiao.html?data={\"EnterpriseID\":\"{$firmsID}\",\"qxName\":\"{$name}\",\"type\":\"QR\"}";
+            $url = "{$domainName}/weixin/view/index/shangjia/jingxiao.html?data={\"EnterpriseID\":\"{$firmsID}\",\"jxName\":\"{$name}\",\"type\":\"QR\"}";
         }else{
             $url = "{$domainName}/weixin/view/person/repair/detail.html?data={\"EnterpriseID\":\"{$firmsID}\",\"qxName\":\"{$name}\",\"type\":\"QR\"}";
         }
