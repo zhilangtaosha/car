@@ -131,7 +131,10 @@ class WebCollectModel extends Model
             ->field('b.EnterpriseID as sID,a.create_time as collectTime,b.face_pic,b.companyname,b.type,b.classification,b.province,b.city,b.district,b.major,b.wechat_pic,b.is_vip,b.is_check,b.vip_time,QR_pic')
             ->jion('left join firms as b on a.firms_id=b.id')
             ->where($where)->order('a.create_time desc')->limit($start,$pageSize)->get();
-
+        foreach($res as $k=>$v){
+            $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+            //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
+        }
         return array('list'=>$res,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
     }
 

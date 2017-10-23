@@ -38,6 +38,10 @@ class WebLogModel extends Model
             ->jion('left join firms as b on a.firms_id=b.id')
             ->order('a.create_time desc')
             ->limit($start,$pageSize)->get();
+        foreach($res as $k=>$v){
+            $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+            //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
+        }
         return array('list'=>$res,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
     }
 
@@ -51,6 +55,10 @@ class WebLogModel extends Model
             ->jion('left join firms as b on a.firms_id=b.id')
             ->order('a.create_time desc')
             ->limit($start,$pageSize)->get();
+        foreach($res as $k=>$v){
+            $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+            //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
+        }
         return array('list'=>$res,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
     }
 
@@ -64,6 +72,10 @@ class WebLogModel extends Model
             ->jion('left join firms as b on a.firms_id=b.id')
             ->order('a.create_time desc')
             ->limit($start,$pageSize)->get();
+        foreach($res as $k=>$v){
+            $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+            //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
+        }
         return array('list'=>$res,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
     }
 
@@ -78,6 +90,10 @@ class WebLogModel extends Model
             ->group('a.to_firms_id')
             ->order('a.create_time desc')
             ->limit($start,$pageSize)->get();
+        foreach($res as $k=>$v){
+            $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+            //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
+        }
         return array('list'=>$res,'count'=>$count['num'],'page'=>$page,'pageSize'=>$pageSize);
     }
 
@@ -93,6 +109,10 @@ class WebLogModel extends Model
             ->order('a.create_time desc')
             ->limit($start,$pageSize)->get();
         //dump($this->lastSql());
+        foreach($res as $k=>$v){
+            $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+            //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
+        }
         return array('list'=>$res,'count'=>$count['num'],'page'=>$page,'pageSize'=>$pageSize);
     }
 
@@ -106,6 +126,10 @@ class WebLogModel extends Model
             ->jion('left join firms as b on a.to_firms_id=b.id')
             ->order('a.create_time desc')
             ->limit($start,$pageSize)->get();
+        foreach($res as $k=>$v){
+            $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+            //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
+        }
         return array('list'=>$res,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
     }
     //获取某厂商访问一厂商详情
@@ -119,6 +143,10 @@ class WebLogModel extends Model
             ->order('a.create_time desc')
             ->limit($start,$pageSize)->get();
         //dump($this->lastSql());
+        foreach($res as $k=>$v){
+            $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+            //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
+        }
         return array('list'=>$res,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
     }
 
