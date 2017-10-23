@@ -197,10 +197,10 @@
 				
 				<ul class="mui-table-view mui-grid-view sw-coterie-imgBox" style="margin-left: -12px;">
 					{{# for(var j=0,len2=d[i].imgs.length;j<len2;j++){ }}
-					<li class="mui-table-view-cell mui-media mui-col-xs-4">
-						<img class="mui-media-object" src="{{ imgUrl+d[i].imgs[j] }}" data-preview-src="{{ imgUrl+d[i].imgs[j] }}" data-preview-group="{{ d[i].id }}" width="100%" style="height: {{ imgH }}px;">
+					<li class="mui-table-view-cell mui-media mui-col-xs-4" style="height:{{imgH}}px;">
+						<img style="background:url({{ imgUrl+d[i].imgs[j] }}) no-repeat center center!important;backgorund-size:100% auto;" width="100%" height="{{imgH}}px" src="{{ imgUrl+d[i].imgs[j] }}"  data-preview-src="{{ imgUrl+d[i].imgs[j] }}" data-preview-group="{{ d[i].id }}" >
 					</li>
-					{{# } }}
+					{{# } }}  
 				</ul>
 				
 				{{# } }}

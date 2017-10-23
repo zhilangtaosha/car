@@ -19,7 +19,9 @@
 			"js/mui.min.js",
 			"js/global.js"
 		],
-		"refer": []
+		"refer": [
+			"view/coterie/coterieDetail.html"
+		]
 	},
 	"index.html": {
 		"resources": [
@@ -121,7 +123,10 @@
 			"view/person/salesman/verifyCompany/index.html",
 			"view/person/store/index.html",
 			"view/person/VIP/index.html",
-			"view/person/refresh/index.html"
+			"view/person/refresh/index.html",
+			"view/person/salesman/jilu/dial.html",
+			"view/person/myCircle/list.html",
+			"view/person/salesman/register/material.html"
 		]
 	},
 	"view/index/index.html": {
@@ -147,7 +152,9 @@
 			"js/global.js"
 		],
 		"refer": [
-			"view/index/car/index.html"
+			"view/index/car/index.html",
+			"view/index/changeCity.html",
+			"view/index/qiugou/index.html"
 		]
 	},
 	"view/person/set/index.html": {
@@ -187,7 +194,8 @@
 			"css/mui.min.css",
 			"js/mui.previewimage.js",
 			"js/global.js",
-			"image/person/renzv-renz.png"
+			"image/person/renzv-renz.png",
+			"image/person/renzheng2.png"
 		],
 		"refer": [
 			"view/person/salesman/store/index.html"
@@ -218,7 +226,8 @@
 			"image/salesman/red_tel.png",
 			"image/salesman/red_ren.png",
 			"image/salesman/red_phone.png",
-			"image/salesman/red_dingwei.png"
+			"image/salesman/red_dingwei.png",
+			"image/salesman/person/lan_dw_s.png"
 		],
 		"refer": [
 			"view/person/salesman/store/index.html"
@@ -226,7 +235,14 @@
 	},
 	"view/index/car/index.html": {
 		"resources": [
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"css/common.css",
+			"js/laytpl/laytpl.js",
+			"image/index/icon_wz_sousuo@3x.png",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/global.js"
 		],
 		"refer": [
 			"view/index/shangjia/list.html"
@@ -235,7 +251,16 @@
 	"view/index/shangjia/list.html": {
 		"resources": [
 			"image/person/renzheng2.png",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"css/common.css",
+			"image/person/renzv-renz.png",
+			"js/laytpl/laytpl.js",
+			"js/mui.pullToRefresh.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"js/global.js"
 		],
 		"refer": [
 			"view/index/shangjia/jingxiao.html"
@@ -273,7 +298,13 @@
 			"js/mui.pullToRefresh.js",
 			"js/mui.pullToRefresh.material.js",
 			"css/mui.min.css",
-			"image/person/renzheng2.png"
+			"image/person/renzheng2.png",
+			"image/face_pic.png",
+			"js/mui.min.js",
+			"js/laytpl/laytpl.js",
+			"js/jquery.min.js",
+			"fonts/mui.ttf",
+			"js/global.js"
 		],
 		"refer": []
 	},
@@ -487,6 +518,116 @@
 		"resources": [
 			"css/common.css",
 			"css/mui.min.css"
+		]
+	},
+	"view/index/product/index.html": {
+		"refer": [
+			"view/index/product/list.html"
+		]
+	},
+	"view/index/changeCity.html": {
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"image/index/icon_wz_sousuo@3x.png",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"css/common.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/global.js"
+		]
+	},
+	"view/index/qiugou/index.html": {
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"js/mui.pullToRefresh.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"css/common.css",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/global.js"
+		]
+	},
+	"view/index/product/list.html": {
+		"resources": [
+			"js/mui.pullToRefresh.js",
+			"css/common.css",
+			"js/mui.pullToRefresh.material.js",
+			"css/mui.min.css",
+			"css/swiper.css"
+		]
+	},
+	"view/person/salesman/jilu/dial.html": {
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"js/mui.pullToRefresh.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"css/common.css",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/global.js"
+		]
+	},
+	"view/person/myCircle/list.html": {
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"js/mui.pullToRefresh.js",
+			"image/index/icon_wz_sousuo@3x.png",
+			"js/mui.zoom.js",
+			"js/jquery.min.js",
+			"image/coterie/sheying.png",
+			"js/mui.min.js",
+			"css/common.css",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/mui.previewimage.js",
+			"js/global.js",
+			"image/coterie/dingwei.png",
+			"image/coterie/icon_dt_like.png",
+			"image/coterie/icon_dt_pingjia.png"
+		]
+	},
+	"view/person/salesman/register/material.html": {
+		"resources": [
+			"image/salesman/green_yes.png",
+			"js/mui.picker.js",
+			"js/jquery.min.js",
+			"fonts/mui.ttf",
+			"image/person/purchase/tianjiazp.png",
+			"image/salesman/phone.png",
+			"image/login/icon_quan.png",
+			"js/city.data-3.js",
+			"image/login/icon_gou.png",
+			"image/salesman/red_no.png",
+			"image/salesman/person/dingWei.png",
+			"css/common.css",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"css/mui.picker.all.css",
+			"js/global.js"
+		]
+	},
+	"view/coterie/coterieDetail.html": {
+		"resources": [
+			"image/coterie/pen.png",
+			"css/common.css",
+			"css/mui.min.css",
+			"js/laytpl/laytpl.js",
+			"js/jquery.min.js",
+			"fonts/mui.ttf",
+			"image/coterie/dingwei.png",
+			"js/mui.zoom.js",
+			"js/mui.min.js",
+			"image/coterie/icon_dt_like.png",
+			"image/coterie/icon_dt_pingjia.png",
+			"js/mui.previewimage.js",
+			"js/global.js"
 		]
 	}
 }

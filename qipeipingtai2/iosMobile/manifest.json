@@ -772,7 +772,9 @@
 					"view/register/register.html",
 					"view/person/salesman/login/login.html",
 					"view/index/index.html",
-					"view/vin/index.html"
+					"view/vin/index.html",
+					"view/person/salesman/jilu/dial.html",
+					"view/person/salesman/register/material.html"
 				],
 				"priority": 0
 			},
@@ -1926,7 +1928,9 @@
 					"js/laytpl/laytpl.js",
 					"js/jquery.min.js",
 					"fonts/mui.ttf",
-					"css/common.css"
+					"css/common.css",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js"
 				],
 				"refer": [
 					"view/index/qiugou/detail.html"
@@ -2117,7 +2121,8 @@
 					"image/person/renzv-renz.png",
 					"fonts/mui.ttf",
 					"js/mui.pullToRefresh.js",
-					"js/mui.pullToRefresh.material.js"
+					"js/mui.pullToRefresh.material.js",
+					"image/face_pic.png"
 				],
 				"refer": [
 					"view/index/shangjia/daohang.html",
@@ -2338,7 +2343,9 @@
 					"js/swiper.js",
 					"js/laytpl/laytpl.js",
 					"js/jquery.min.js",
-					"css/common.css"
+					"css/common.css",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js"
 				],
 				"refer": [
 					"view/index/product/detail.html"
@@ -2746,7 +2753,8 @@
 					"image/salesman/red_tel.png",
 					"image/salesman/red_ren.png",
 					"image/salesman/red_phone.png",
-					"image/salesman/red_dingwei.png"
+					"image/salesman/red_dingwei.png",
+					"image/salesman/person/lan_dw_s.png"
 				],
 				"refer": [
 					"view/person/repair/detail.html",
@@ -2771,6 +2779,44 @@
 					"js/global.js",
 					"image/person/store/icon_dpzy_chanpin.png",
 					"image/person/store/icon_dpzy_xinxi.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"view/person/salesman/jilu/dial.html": {
+				"resources": [
+					"js/laytpl/laytpl.js",
+					"js/mui.pullToRefresh.js",
+					"js/jquery.min.js",
+					"js/mui.min.js",
+					"css/common.css",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/global.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"view/person/salesman/register/material.html": {
+				"resources": [
+					"image/salesman/green_yes.png",
+					"js/mui.picker.js",
+					"js/jquery.min.js",
+					"fonts/mui.ttf",
+					"image/person/purchase/tianjiazp.png",
+					"image/salesman/phone.png",
+					"image/login/icon_quan.png",
+					"js/city.data-3.js",
+					"image/login/icon_gou.png",
+					"image/salesman/red_no.png",
+					"image/salesman/person/dingWei.png",
+					"css/common.css",
+					"js/mui.min.js",
+					"js/mui.poppicker.js",
+					"css/mui.min.css",
+					"css/mui.picker.all.css",
+					"js/global.js"
 				],
 				"refer": [],
 				"priority": 0

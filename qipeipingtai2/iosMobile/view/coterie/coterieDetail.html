@@ -222,6 +222,16 @@
 					</a>
 				</li>
 			</ul>
+			{{# }else if(d.circle_type==3){ }}
+			 
+			<ul class="mui-table-view mui-grid-view sw-coterie-imgBox" style="margin-left: -12px;">
+				{{# for(var j=0,len2=d.imgs.length;j<len2;j++){ }}
+				<li class="mui-table-view-cell mui-media mui-col-xs-8">
+					<img class="mui-media-object" src="{{ imgUrl+d.imgs[j] }}" data-preview-src="{{ imgUrl+d.imgs[j] }}" data-preview-group="{{ d.id }}" width="100%">
+				</li>
+				{{# } }}
+			</ul> 
+			
 			{{# }else{ }}
 			<ul class="mui-table-view mui-grid-view sw-coterie-imgBox" style="margin-left: -12px;">
 				{{# for(var j=0,len2=d.imgs.length;j<len2;j++){ }}
