@@ -881,7 +881,9 @@
 					"image/index/gerenzhongxin.png",
 					"image/index/gerenzhongxin_r.png",
 					"js/laytpl/laytpl.js",
-					"js/jquery.min.js"
+					"js/jquery.min.js",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -1365,7 +1367,9 @@
 					"image/index/gerenzhongxin_r.png",
 					"image/coterie/muwu.png",
 					"js/laytpl/laytpl.js",
-					"js/jquery.min.js"
+					"js/jquery.min.js",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js"
 				],
 				"refer": [
 					"view/person/store/productCate.html",
@@ -1882,7 +1886,12 @@
 					"image/person/card/card.png",
 					"js/laytpl/laytpl.js",
 					"js/jquery.min.js",
-					"css/common.css"
+					"css/common.css",
+					"image/card-bg2.jpg",
+					"fonts/mui.ttf",
+					"image/card-bg1.jpg",
+					"image/card-bg4.jpg",
+					"image/card-bg3.jpg"
 				],
 				"refer": [
 					"view/person/store/uploadImg.html"
@@ -2423,7 +2432,8 @@
 					"image/person/purchase/tianjiazp.png",
 					"css/mui.min.css",
 					"js/global.js",
-					"image/person/purchase/icon_zp_cha.png"
+					"image/person/purchase/icon_zp_cha.png",
+					"css/common.css"
 				],
 				"refer": [],
 				"priority": 0

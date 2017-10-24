@@ -226,9 +226,15 @@
 			 
 			<ul class="mui-table-view mui-grid-view sw-coterie-imgBox" style="margin-left: -12px;">
 				{{# for(var j=0,len2=d.imgs.length;j<len2;j++){ }}
-				<li class="mui-table-view-cell mui-media mui-col-xs-8">
-					<img class="mui-media-object" src="{{ imgUrl+d.imgs[j] }}" data-preview-src="{{ imgUrl+d.imgs[j] }}" data-preview-group="{{ d.id }}" width="100%">
-				</li>
+					{{# if(j==0){ }}
+						<li class="mui-table-view-cell mui-media mui-col-xs-12">
+							<img class="mui-media-object" src="{{ imgUrl+d.imgs[j] }}" data-preview-src="{{ imgUrl+d.imgs[j] }}" data-preview-group="{{ d.id }}" width="100%">
+						</li>
+					{{# }else{ }}
+						<li class="mui-table-view-cell mui-media mui-col-xs-4" style="height:{{imgH}}px;">  
+							<img style="background:url({{ imgUrl+d.imgs[j] }}) no-repeat center center!important;backgorund-size:100% auto;" width="100%" height="{{imgH}}px" src="{{ imgUrl+d.imgs[j] }}"  data-preview-src="{{ imgUrl+d.imgs[j] }}" data-preview-group="{{ d.id }}" >
+						</li>  
+					{{# } }}
 				{{# } }}
 			</ul> 
 			
@@ -274,7 +280,7 @@
 			<div style="clear: both;"></div>
 		</div>
 
-{{# if(d.pl.length>0){ }}
+		{{# if(d.pl.length>0){ }}
 		<div class="sw-sanjiao"></div>
 		
 		<div class="sw-box2">
@@ -317,7 +323,7 @@
 			</div>
 			{{# } }}
 		</div>
-		{{# mui.previewImage();  } }}
+		{{#  }  mui.previewImage();   }}
 	</div>
 </script>
 

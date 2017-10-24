@@ -69,6 +69,11 @@
 	    <button class="mui-btn mui-btn-link mui-pull-right" onclick="savaCanvas()">保存</button>
 	</header>
 	<div class="mui-content" style="background: #efefef;">
+		<!--将背景图初始化加载进入-->
+		<img src="../../../image/card-bg1.jpg" width="0" height="0"/>
+		<img src="../../../image/card-bg2.jpg" width="0" height="0"/>
+		<img src="../../../image/card-bg3.jpg" width="0" height="0"/>
+		<img src="../../../image/card-bg4.jpg" width="0" height="0"/>
 		
 	    <div class="mui-input-row" style="margin-bottom: 30px;">
 	    	
@@ -146,12 +151,12 @@
 	 	<input class="sw-list-input1" onkeyup="inputChange()" id="companyname" value="{{ d.companyname }}" placeholder="请输入企业名称"/>
 	 </li>
 	 
-	  <li class="mui-table-view-cell  sw-no-active sw-after-no">
+	<li class="mui-table-view-cell  sw-no-active sw-after-no">
 	 	<span class="sw-list-title">联系人：</span>
 	 	<input class="sw-list-input1" onkeyup="inputChange()" id="linkMan" placeholder="请输入联系人姓名" value="{{ d.linkMan }}"/>
-	 </li>
+	</li>
 	
-	 <li class="mui-table-view-cell  sw-no-active sw-after-no">
+	<li class="mui-table-view-cell  sw-no-active sw-after-no">
 	 	<span class="sw-list-title">手机号：</span>
 	 	<input class="sw-list-input1" onkeyup="inputChange()" id="phoneStr" placeholder="请输入联系人手机号码" value="{{ d.phoneStr }}"/>
 	 </li>
@@ -203,6 +208,11 @@
 <script src="../../../js/jquery.min.js"></script>
 <script src="../../../js/laytpl/laytpl.js"></script>
 <script type="text/javascript">
+		
+	var tplId = '';
+	var publishStatus = 1;
+	var userType = 1;
+	
 	//监听主营图片上传返回事件
  	 window.addEventListener('refreshImg',function(){ 	 	 
  	 	var main_icon_1 = plus.storage.getItem('main_icon_1');
@@ -231,16 +241,13 @@
  	 		$("#iconCon3").html('');
  	 	}
  	 	setTimeout(function(){
- 	 		createCanvas();
+ 	 		createCanvas(userType);
  	 	},300)
  	 	
 	});
  		//mui初始化
 	mui.init();
-	
-	var tplId = '';
-	var publishStatus = 1;
-	var userType = 1;
+
 	//mui plusReady
 	mui.plusReady(function() { 	
 		var self  = plus.webview.currentWebview();		
@@ -254,8 +261,8 @@
 				postData.token = token;				
 			//如果已经登陆 获取登录后的数据
 			http.load('api.sev.user','getCardTplInfo',postData,function(rData){//请求成功
-	 			sw.jcon(rData)  
-	 			if(rData.status==200){  
+	 			//sw.jcon(rData)  
+	 			if(rData.status==200){   
 	 				var data = rData.data;
 	 				var tplList = tplId==1?'#tpl1-list-tpl':'#tpl2-list-tpl';
 	 					userType = data.type;
@@ -296,13 +303,16 @@
 							openView('../../../view/person/store/uploadImg.html','person_store_uploadImg','pop-in',{upId:'main_icon_3'});
 						}) 
 					}
-					
-					//画布初始化					
-			       	createCanvas(data.type);
-			       
+			
+					QR_pic.onload =function() {  
+			            //画布初始化					
+				       	createCanvas(data.type);
+			        }
+								
 	 			}else{ 
 	 				sw.toast(rData.msg); 	 
 	 			}
+	 			
 	 			setTimeout(function(){ 
 	 				//关闭加载框 
 					closeLoading();	 

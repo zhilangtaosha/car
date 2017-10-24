@@ -389,7 +389,15 @@
 			"css/common.css",
 			"css/mui.min.css",
 			"image/person/store/icon_shaixuan.png",
-			"css/swiper.css"
+			"css/swiper.css",
+			"js/mui.pullToRefresh.js",
+			"image/index/icon_wz_sousuo@3x.png",
+			"js/mui.pullToRefresh.material.js",
+			"js/laytpl/laytpl.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/global.js"
 		]
 	},
 	"view/person/VIP/pay.html": {
@@ -447,7 +455,8 @@
 			"js/global.js"
 		],
 		"refer": [
-			"view/person/refresh/pay.html"
+			"view/person/refresh/pay.html",
+			"view/person/refresh/payHistory.html"
 		]
 	},
 	"view/person/refresh/pay.html": {
@@ -517,7 +526,19 @@
 	"view/person/card/editCard.html": {
 		"resources": [
 			"css/common.css",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"js/laytpl/laytpl.js",
+			"image/card-bg2.jpg",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/global.js",
+			"image/card-bg1.jpg",
+			"image/card-bg4.jpg",
+			"image/card-bg3.jpg"
+		],
+		"refer": [
+			"view/person/store/uploadImg.html"
 		]
 	},
 	"view/index/product/index.html": {
@@ -590,6 +611,9 @@
 			"image/coterie/dingwei.png",
 			"image/coterie/icon_dt_like.png",
 			"image/coterie/icon_dt_pingjia.png"
+		],
+		"refer": [
+			"view/coterie/coterieDetail.html"
 		]
 	},
 	"view/person/salesman/register/material.html": {
@@ -628,6 +652,27 @@
 			"image/coterie/icon_dt_pingjia.png",
 			"js/mui.previewimage.js",
 			"js/global.js"
+		]
+	},
+	"view/person/refresh/payHistory.html": {
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"js/mui.pullToRefresh.js",
+			"js/mui.pullToRefresh.material.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"css/common.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/global.js"
+		]
+	},
+	"view/person/store/uploadImg.html": {
+		"resources": [
+			"css/common.css",
+			"image/person/purchase/tianjiazp.png",
+			"css/mui.min.css",
+			"image/person/purchase/icon_zp_cha.png"
 		]
 	}
 }
