@@ -644,6 +644,8 @@ function greatMap(c){
 					var mk = new BMap.Marker(poin);
 					map.addOverlay(mk);
 					map.panTo(poin);
+					JsonStorage.setItem('allZuoBiao','')
+					
 					getAllZuoBiao();
 				}else{
 					alert("您选择地址没有解析到结果!");
@@ -664,7 +666,7 @@ function greatMap(c){
 						map.centerAndZoom(poin, 12);
 						var mk = new BMap.Marker(poin);
 						map.addOverlay(mk);
-						map.panTo(poin);
+						map.panTo(poin);   
 						getAllZuoBiao(); 
 					}else{
 						alert("您选择地址没有解析到结果!");
@@ -704,10 +706,10 @@ function getAllZuoBiao(){
     map.clearOverlays();        //清除之前所有标注 lan_ dw_shi.png
     var allZuoBiao = JsonStorage.getItem('allZuoBiao');
     var center = map.getCenter();
-    var circle = new BMap.Circle(center,30000,{fillColor:"#fff", strokeWeight: 1 ,fillOpacity: 0.1, strokeOpacity: 0.1}); //创建圆
+    var circle = new BMap.Circle(center,300000,{fillColor:"#fff", strokeWeight: 1 ,fillOpacity: 0.1, strokeOpacity: 0.1}); //创建圆
     map.addOverlay(circle);
     var c = circle.getCenter();
-    var r = circle.getRadius(30000);  
+    var r = circle.getRadius(300000);  
     var allJia = 0;
     if(allZuoBiao){
     	if(allZuoBiao.length>0){
