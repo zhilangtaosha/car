@@ -271,12 +271,25 @@ class PlatFirmsController extends Controller {
         $firmMo = model('plat.firms.firms','mysql');
         $firm   = $firmMo->table('firms')->field('id')->where(array('phone'=>$data['phone']))->getOne() ;
         $return = array('massageCode'=>0);
-        if($firm){
-            $return['massage']     = '该帐号已存在' ;
+
+        $tel    = getNumber($data['phone']) ;
+        if($tel){
+            $phoneRule = "/^1([3-9][0-9])\d{8}$/u";//手机号码
+            if(!preg_match($phoneRule, $tel)){
+                $return['massage']         = '请输入正确的手机号' ;
+            }else{
+
+                if($firm){
+                    $return['massage']     = '该帐号已存在' ;
+                }else{
+                    $return['massageCode'] = 'success' ;
+                    $return['massage']     = '可以新增'  ;
+                }
+            }
         }else{
-            $return['massageCode'] = 'success' ;
-            $return['massage']     = '可以新增'  ;
+            $return['massage']         = '请输入手机号' ;
         }
+
         exit(json_encode($return,JSON_UNESCAPED_UNICODE));
     }
 

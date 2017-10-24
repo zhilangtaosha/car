@@ -114,16 +114,21 @@ class PlatFirmsFirmsModel extends Model
         $data['qq'] = $d['qq'];
         $data['update_time'] = $time;
 
+        $com_banner = isset($d['com_banner']) ? $d['com_banner'] : '' ;
 
         if($d['id']){
             $data['is_showfactry'] = $d['factry'];
             $data['wechat_pic'] = $d['wx_pic'];
             $data['info'] = $d['info'];
+            $enterpriseID = $this->table('firms')->field('EnterpriseID')->where(array('id'=>$d['id']))->getOne();
+            $enterpriseID = $enterpriseID['EnterpriseID'] ;
+            $data['QR_pic'] = model('web.firms','mysql')->getQRStore($enterpriseID,$d['comName'],$d['type']);
+
             $res = $this->table('firms')->where(array('id'=>$d['id']))->update($data);
 
             if($res){
                 $this->table('firms_banner')->where(array('firms_id'=>$d['id']))->del();
-                if($d['com_banner']){
+                if($com_banner){
                     foreach ($d['com_banner'] as $v){
                         $this->table('firms_banner')->insert(array('firms_id'=>$d['id'],'banner_url'=>$v));
                     }
@@ -132,10 +137,12 @@ class PlatFirmsFirmsModel extends Model
             }
             $action = '编辑厂商信息';
         }else{
-
-            $data['phone']          = $d['phone'];
+            $tel                    = getNumber($d['phone']) ;
+            $data['phone']          = $tel;
             $enterpriseID           = $this->getEnterpriseID();
             $invite_code            = $this->makeYQ();
+
+            $data['QR_pic'] = model('web.firms','mysql')->getQRStore($enterpriseID,$d['comName'],$d['type']);
             $data['EnterpriseID']   = $enterpriseID;
             $data['password']       = md5(sha1('7777777').'sw');
             $data['type']           = $d['type'];
@@ -782,7 +789,7 @@ class PlatFirmsFirmsModel extends Model
     public function getSaleLog($d){
         $pages  = ($d['page']-1)* $d['pageSize'];
         $date   = date('Y-m-d H:i:s',time());
-        $find   = 'a.firms_id='.$d['firmId'] . ' and DATE_FORMAT(a.end_time,"%Y-%m-%d") >"'. $date .'"';
+        $find   = 'a.firms_id='.$d['firmId'] ;//. ' and DATE_FORMAT(a.end_time,"%Y-%m-%d") >"'. $date .'"';
 
         if($d['keywords']){
             $find  .= ' and (b.uId like "%'.$d['keywords'].'%" or b.uname like "%'.$d['keywords'].'%" or b.phone like "%'.$d['keywords'].'%")' ;

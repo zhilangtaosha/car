@@ -216,10 +216,10 @@
                                                 <span>{{ list[i].info }}</span>
                                             </td>
                                             <td>
-                                                <span>{{ list[i].name }}</span>
+                                                <span>{{ list[i].name == null ? '' : list[i].name }}</span>
                                             </td>
                                             <td>
-                                                <span>{{ list[i].code }}</span>
+                                                <span>{{ list[i].code == null ? '' : list[i].code }}</span>
                                             </td>
                                             <td style="text-align: center;">
                                                 <span>{{ list[i].create_time }}</span>

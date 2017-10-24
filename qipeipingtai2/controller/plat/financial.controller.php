@@ -221,6 +221,30 @@ class PlatFinancialController extends Controller
         exit(json_encode($return,JSON_UNESCAPED_UNICODE));
     }
     public function getWageInfo(){
+        //dump(date('Y-m-d',strtotime('+3 day',strtotime('2017-10-19 15:34:54')))) ;
+        /*$start = '2016-12-01' ;
+        $bind_day = floor((strtotime('2017-04-01') - strtotime($start))/84600) ;
+
+        if( $bind_day < 30 ){
+            //小于30天下月统计
+            $use_start = '' ;
+            $use_end   = '' ;
+        }else if( $bind_day >= 30 && $bind_day < 62 ){ //因为可能出行连续两个31天的月份 所以 是小于62
+            $use_start = date('Y-m-d',strtotime('+ 1 day',strtotime($start))) ;
+            $use_end   = date('Y-m-d',strtotime('+30 day',strtotime($start))) ;
+        }else if( $bind_day >= 62 && $bind_day < 92 ){
+            $use_start = date('Y-m-d',strtotime('+31 day',strtotime($start))) ;
+            $use_end   = date('Y-m-d',strtotime('+60 day',strtotime($start))) ;
+        }else if( $bind_day >= 92 && $bind_day < 122){
+            $use_start = date('Y-m-d',strtotime('+61 day',strtotime($start))) ;
+            $use_end   = date('Y-m-d',strtotime('+90 day',strtotime($start))) ;
+        }else{
+            $use_start = '' ;
+            $use_end   = '' ;
+        }
+        dump($bind_day) ;
+        dump($use_start) ;
+        dump($use_end) ;*/
         $wid       = $this->getRequest('wid' ,'');
         $salesMo   = model('plat.sales.financial','mysql');
         $WageInfo  = $salesMo->getWageInfo($wid);
