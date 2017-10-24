@@ -62,6 +62,7 @@
 				
 		var aniShow = {};		
 		 //创建子页面，首个选项卡页面显示，其它均隐藏；
+		 var aaa = '';
 		mui.plusReady(function() {
 			var self   = plus.webview.currentWebview();
 			var tabNav = (self.tabNav&&self.tabNav<5)?self.tabNav:0;
@@ -72,11 +73,20 @@
 				if (i != tabNav) {
 					sub.hide(); 
 				}else{
+					if(aaa == subpages[i]){
+						return false;
+					}
+					aaa = subpages[i];
 					var pop = document.getElementById("tabNav"+tabNav);
 						pop.classList.add('mui-active');
 
+					
 					temp[subpages[i]] = "true";
-					mui.extend(aniShow,temp);
+					setTimeout(function(){
+						mui.extend(aniShow,temp);
+					},200)  
+					
+					
 				}
 				self.append(sub); 
 			}
