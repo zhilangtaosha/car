@@ -321,19 +321,10 @@
 
   	//mui plusReady
 	mui.plusReady(function() {
-		//初始化城市配置
-		var cityIni= plus.storage.getItem('cityIni');
-			if(cityIni==undefined){
-				cityIni = '成都市';
-				 plus.storage.setItem('cityIni',cityIni) 
-			}
-			
-			if(cityIni.length>4){
-				cityIni = cityIni.substring(0,4)+'...';
-			}
-
-			$("#addressCon").text(cityIni);
-			
+		
+		//设置城市
+		setCityIni();
+		
 		//将之前保存数据提前显示到页面
 		var data = plus.storage.getItem('banner');
 		if(data){
@@ -497,5 +488,47 @@
 	mui("#wuliu")[0].addEventListener('tap',function(){
 		openView('../../view/index/wuliu/index.html','wuliu','pop-in');
 	})
+	
+	//获取城市坐标
+	function setCityIni(){
+		//当前位置获取
+        plus.geolocation.getCurrentPosition(function(p){
+
+			//初始化城市配置
+			var cityIni= p.address.city;
+			
+			if(cityIni==undefined){
+				sw.toast("定位失败，请手动选择");  
+				cityIni = '成都市';
+				plus.storage.setItem('cityIni',cityIni) 
+			}
+			
+			if(cityIni.length>4){
+				cityIni = cityIni.substring(0,4)+'...';
+			}
+
+			$("#addressCon").text(cityIni);
+			
+		}, function(e){
+//			sw.toast(e.message);
+			//console.log('Gelocation Error: code - ' + e.code + '; message - ' + e.message);
+			 switch(e.code) {  
+		          case e.PERMISSION_DENIED:  
+		              sw.toast("位置访问权限获取失败");  
+		              break;  
+		          case e.POSITION_UNAVAILABLE:  
+		              sw.toast("位置信息不可用");  
+		              break;  
+		          case e.TIMEOUT:  
+		              sw.toast("获取位置信息超时");  
+		              break;  
+		          case e.UNKNOWN_ERROR:  
+		              sw.toast("An unknown error occurred.");  
+		              break;  
+          	} 
+		} );
+	
+	}
+	
  </script>
 </html>
