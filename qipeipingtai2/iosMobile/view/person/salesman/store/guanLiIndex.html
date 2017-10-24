@@ -229,8 +229,10 @@
 			})			 
 			mui("#productView")[0].addEventListener('tap',function(){
 				var self    = plus.webview.currentWebview();		//获取传递的参数
-				var	tokenId = self.tokenId;						    //业务员工资表ID
-				var extras  = {'tokenId':tokenId}; 
+				var	tokenId      = self.tokenId;	//业务员工资表ID
+				var EnterpriseID = self.EnterpriseID;
+				var extras  = {'tokenId':tokenId,'EnterpriseID':EnterpriseID}; 
+			
 				openView('../../../../view/person/salesman/store/productGuanLi.html','person_salesman_store_productGuanLi','pop-in',extras);
 			})						
 			mui("#card")[0].addEventListener('tap',function(){

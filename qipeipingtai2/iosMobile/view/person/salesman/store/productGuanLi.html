@@ -499,12 +499,16 @@
  		//获取刷新点数量
 		var token      = plus.storage.getItem('token');		
 		var postData    = {};
-        postData.token      = token;        
-		//如果已经登陆 获取登录后的数据
+          
+        var self    = plus.webview.currentWebview();		//获取传递的参数
+		var EnterpriseID = self.EnterpriseID;
+		postData.token        = token; 
+		postData.EnterpriseID = EnterpriseID; 
+		//如果已经登陆 获取登录后的数据 
 		http.load('api.sev.user','getRefresh',postData,function(rData){//请求成功	
  			if(rData.status==200){//保存成功
  				//根据刷新点提示
- 				sw.jcon(rData);  
+ 				sw.jcon(rData);   
 				// 
 				if(rData.refresh_point>0){//刷新点充足
 					 $("#allRefresh").text(rData.refresh_point);
