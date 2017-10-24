@@ -634,7 +634,7 @@ class ApiSevUserModel extends Model{
      */
     public function getRefresh($userId){
 
-        $refresh = $this->table('firms')->where("id=$userId")->field("refresh_point")->getOne();
+        $refresh = $this->table('firms')->where("EnterpriseID=$userId")->field("refresh_point")->getOne();
 
         if($refresh){
             $refresh['refresh_point'] = $refresh['refresh_point']?$refresh['refresh_point']:0;
