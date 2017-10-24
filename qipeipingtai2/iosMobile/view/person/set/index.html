@@ -146,10 +146,12 @@
 			//获取本地app版本号
 			plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo){
 				var html = [wgtinfo.version];
-				if(rData.data.value!=html){
-					$("#newVersion").text('有最新版本');
-					$("#newVersionBox").attr('onclick','downloadApp()');  
-				}   
+				if(rData.data!=null){
+					if(rData.data.value!=html){
+						$("#newVersion").text('有最新版本');
+						$("#newVersionBox").attr('onclick','downloadApp()');  
+					} 
+				}
 			});
 			
 			
