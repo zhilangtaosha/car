@@ -1221,9 +1221,14 @@ class ApiSevUserController extends Controller{
             $return = $userMo ->loginIs($token);
             //用户数据请求成功
             if($return['status']==200){
-                //获取
-                $userId = $return['data']['id'];
-                $return = $userMo ->getRefresh($userId);
+                $EnterpriseID = $this->getRequest('EnterpriseID','');
+                if($EnterpriseID){
+                    //获取
+                    $userId = $return['data']['id'];
+                    $return = $userMo ->getRefresh($EnterpriseID);
+                }else{
+                    $return = array('status'=>201,'msg'=>'获取EnterpriseID失败');
+                }
             }
 
         }else{
