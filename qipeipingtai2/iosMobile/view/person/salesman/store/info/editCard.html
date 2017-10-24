@@ -217,7 +217,7 @@
 <script src="../../../../../js/laytpl/laytpl.js"></script>
 <script type="text/javascript">
 	//监听主营图片上传返回事件
-	window.addEventListener('refreshImg',function(){
+	window.addEventListener('refreshImg',function(){ 
 		var main_icon_1 = plus.storage.getItem('main_icon_1');
 		var main_icon_2 = plus.storage.getItem('main_icon_2');
 		var main_icon_3 = plus.storage.getItem('main_icon_3');
@@ -244,7 +244,7 @@
 			$("#iconCon3").html('');
 		}
 		setTimeout(function(){
-			createCanvas();
+			createCanvas(userType);
 		},300)
 
 	});
@@ -344,7 +344,7 @@
 				//关闭加载框
 				closeLoading();
 				//无网络提示
-				sw.toast('获取数据失败，请检查网络链接');
+				sw.toast('获取数据失败，请检查网络链接111');
 			})
 		}
 	})
