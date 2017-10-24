@@ -152,6 +152,8 @@ class ApiSevSalesmanSouCangModel extends Model
                 }
                 $ids = join(',',$ids);
                 $this->table('product_list')->where('id not in ('.$ids.') and firms_id='.$companyId)->update(array('pro_refresh'=>0));
+            }else{
+                $this->table('product_list')->where('firms_id='.$companyId)->update(array('pro_refresh'=>0));
             }
         }
     }
