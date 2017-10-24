@@ -539,7 +539,7 @@
 <script src="../../js/mui.pullToRefresh.js"></script>
 <script src="../../js/mui.pullToRefresh.material.js"></script> 
 <script type="text/javascript" charset="utf-8">
-	window.addEventListener('msgPerson', function(e) {  
+	window.addEventListener('msgPerson', function(e) {    
 		$("#naTip").hide();  
     })
 
@@ -638,7 +638,9 @@
 	 			}
 		
 	 		},function(xhr,type,errorThrown){//请求失败 将之前的数据填入
-	 			isDown.endPullDownToRefresh();
+//	 			isDown.endPullDownToRefresh(); 
+				location.reload(); 
+				//循环初始化所有下拉刷新，上拉加载。
 //				if(isDown){
 //	 				isDown.endPullDownToRefresh();
 //	 			}
