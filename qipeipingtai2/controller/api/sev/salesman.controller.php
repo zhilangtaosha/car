@@ -189,8 +189,8 @@ class ApiSevSalesmanController extends Controller
         if($token){
             $city      = $this->getRequest('city','');            //市
             $district  = $this->getRequest('district','');        //区
-            $city = '';
-            $district = '';
+//            $city = '';
+//            $district = '';
             $classType = $this->getRequest('classType','');       //厂商类型(1:经销商,2:汽修厂)
             $jiShu     = $this->getRequest('jiShu','');           //级数(1:一级,2:二级,3:三级)
             $shaiXuan  = $this->getRequest('shaiXuan','');        //筛选(1:未认证厂商,2:已关联厂商,3:未关联厂商)
