@@ -53,9 +53,10 @@ class ApiSevSalesmanSouCangModel extends Model
                 $company['companyType'] = '汽修厂';
             }
             $company['tokenId'] = authcode($company['id'],'ENCODE');
-            $boDaAll = $this->table('firms_call_log')->where('to_firms_id='.$company['id'])->count();
-            $fangWen = $this->table('firms_visit_log')->where('to_firms_id='.$company['id'])->count();
-
+            $boDaAll = $this->table('firms_call_log')->where('to_firms_id='.$company['id'])->group('firms_id')->get();
+            $boDaAll = count($boDaAll);
+            $fangWen = $this->table('firms_visit_log')->where('to_firms_id='.$company['id'])->group('firms_id')->get();
+            $fangWen = count($fangWen);
             if($boDaAll && $boDaAll>0){
                 $boDaAll = $this->countInt($boDaAll);
             }
@@ -120,10 +121,12 @@ class ApiSevSalesmanSouCangModel extends Model
         $res['typeStr']  = $typeArr[$res['type']];
         $res['classStr'] = $classArr[$res['classification']];
         //获取访问数据
-        $res['visit_num'] = $this->table('firms_visit_log')->where(array('to_firms_id'=>$userId))->count();
+        $res['visit_num'] = $this->table('firms_visit_log')->where(array('to_firms_id'=>$userId))->group('firms_id')->get();
+        $res['visit_num'] = count($res['visit_num']);
         $res['visit_num'] = $this->countInt($res['visit_num']);
         //获取来电数据
-        $res['call_num']  = $this->table('firms_call_log')->where(array('to_firms_id'=>$userId))->count();
+        $res['call_num']  = $this->table('firms_call_log')->where(array('to_firms_id'=>$userId))->group('firms_id')->get();
+        $res['call_num']  = count($res['call_num']);
         $res['call_num']  = $this->countInt($res['call_num']);
         //获取该厂商banner
         $res['banners'] = $this->table('firms_banner')->where(array('firms_id'=>$userId))->limit(0,3)->get();
