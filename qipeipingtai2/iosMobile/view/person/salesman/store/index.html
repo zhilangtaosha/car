@@ -426,8 +426,13 @@ function xiaoXi(){
 	openView('../../../../view/msg/index.html','view_msg_index','pop-in');
 }
 
+var bbb = '';
 //底部导航跳转
 function goUrl(i){
+	if(bbb == 1){
+		return false;
+	}
+	bbb = 1; 
 	plus.webview.close('view/index/index.html');
 	plus.webview.close('view/vin/index.html');
 	plus.webview.close('view/coterie/list.html');
