@@ -493,42 +493,91 @@
 	function setCityIni(){
 		//当前位置获取
         plus.geolocation.getCurrentPosition(function(p){
-
+ 
 			//初始化城市配置
 			var cityIni= p.address.city;
-			
+
 			if(cityIni==undefined){
 				sw.toast("定位失败，请手动选择");  
-				cityIni = '成都市';
-				plus.storage.setItem('cityIni',cityIni) 
+				getNoCity();
+			}else{//定位成功从服务器获取已配置的城市
+				
+				//获取配置城市数据
+				http.load('api.sev.index','getCityIni',{'key':cityIni},function(rData){			
+					if(rData.status==200){
+						
+						if(rData.data.length>0){//有城市且城市获取成功 
+							
+							plus.storage.setItem('cityIni',cityIni);
+							
+							if(cityIni.length>4){ 
+								cityIni = cityIni.substring(0,4)+'...';
+							}
+
+							$("#addressCon").text(cityIni);	
+							
+						}else{
+							
+							sw.toast("当前城市未开通服务，请手动选择");  
+							getNoCity();
+							
+						}
+											
+					}else{
+						
+						sw.toast("定位失败，请手动选择");  
+						getNoCity();
+						
+					}			
+				},function(xhr,type,errorThrown){	
+					
+					sw.toast("定位失败，请手动选择");  
+					getNoCity();
+					
+				})
+				
 			}
 			
-			if(cityIni.length>4){
-				cityIni = cityIni.substring(0,4)+'...';
-			}
-
-			$("#addressCon").text(cityIni);
 			
 		}, function(e){
-//			sw.toast(e.message);
-			//console.log('Gelocation Error: code - ' + e.code + '; message - ' + e.message);
-			 switch(e.code) {  
-		          case e.PERMISSION_DENIED:  
-		              sw.toast("位置访问权限获取失败");  
+			sw.toast(e.code);
+			 switch(e.code) {   
+		          case 1:     
+		              sw.toast("位置访问权限获取失败，请查看是否打开定位");  
 		              break;  
-		          case e.POSITION_UNAVAILABLE:  
-		              sw.toast("位置信息不可用");  
+		          case 2:  
+		              sw.toast("位置信息不可用，请查看是否打开定位");    
 		              break;  
-		          case e.TIMEOUT:  
+		          case 3:  
 		              sw.toast("获取位置信息超时");  
 		              break;  
-		          case e.UNKNOWN_ERROR:  
-		              sw.toast("An unknown error occurred.");  
+		          case 4:  
+		              sw.toast("未知错误");  
 		              break;  
-          	} 
+          		}
+			 
+			 getNoCity();
+			 
 		} );
 	
 	}
+	
+	/**
+	 * 获取定位失败  或者没有配置的城市时处理
+	 */
+	function getNoCity(){
+		
+		cityIni = '成都市';
+		plus.storage.setItem('cityIni',cityIni);
+				
+		if(cityIni.length>4){
+			cityIni = cityIni.substring(0,4)+'...';
+		}
+		
+		$("#addressCon").text(cityIni);
+		
+	}
+	
 	
  </script>
 </html>

@@ -1,6 +1,6 @@
 //图片地址
 var imgUrl = 'http://app.7pqun.com'; 
-//var imgUrl = 'http://192.168.2.21';  
+//var imgUrl = 'http://192.168.2.21';    
 //图片上传地址
 //var imgUploadImg =  'http://119.23.215.135/api.sev.upload/uploadImg';  
 var imgUploadImg = imgUrl+'/api.sev.upload/uploadImg';  
