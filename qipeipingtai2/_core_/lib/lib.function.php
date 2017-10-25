@@ -982,5 +982,21 @@ if (! function_exists('array_column'))
     }
 }
 
+/**
+ * 提取字符串中的数字
+ * @param $str
+ * @return string
+ */
+function getNumber($str){
+    $strItem = trim($str);
+    if(!$strItem) return '' ;
+    $result='';
+    for ($i=0;$i<strlen($strItem);$i++){
+        if (is_numeric($strItem[$i])){
+            $result .= $strItem[$i] ;
+        }
+    }
 
+    return $result ;
+}
 
