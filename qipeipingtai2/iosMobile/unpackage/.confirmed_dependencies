@@ -20,7 +20,8 @@
 			"js/global.js"
 		],
 		"refer": [
-			"view/coterie/coterieDetail.html"
+			"view/coterie/coterieDetail.html",
+			"view/coterie/publish.html"
 		]
 	},
 	"index.html": {
@@ -381,7 +382,8 @@
 		"refer": [
 			"view/person/store/product.html",
 			"view/index/shangjia/jingxiao.html",
-			"view/person/card/index.html"
+			"view/person/card/index.html",
+			"view/person/store/history.html"
 		]
 	},
 	"view/person/store/product.html": {
@@ -673,6 +675,30 @@
 			"image/person/purchase/tianjiazp.png",
 			"css/mui.min.css",
 			"image/person/purchase/icon_zp_cha.png"
+		]
+	},
+	"view/person/store/history.html": {
+		"resources": [
+			"js/mui.pullToRefresh.js",
+			"css/common.css",
+			"js/mui.pullToRefresh.material.js",
+			"css/mui.min.css",
+			"image/person/renzheng2.png",
+			"image/person/store/icon_number.png"
+		]
+	},
+	"view/coterie/publish.html": {
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"image/coterie/icon_dt_pic.png",
+			"css/common.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/global.js",
+			"image/coterie/icon_dt_add.png",
+			"image/coterie/icon_dt_c.png"
 		]
 	}
 }

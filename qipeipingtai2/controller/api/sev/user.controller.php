@@ -1241,6 +1241,32 @@ class ApiSevUserController extends Controller{
 
 
     /**
+     * 获取厂商产品刷新点
+     */
+    public function getRefreshX(){
+        //获取提交的数据
+        $token      = $this->getRequest('token','');
+        if($token){
+
+            $userMo = model('api.sev.user','mysql');
+            $return = $userMo ->loginIs($token);
+            //用户数据请求成功
+            if($return['status']==200){
+                //获取
+                $userId = $return['data']['id'];
+                $return = $userMo ->getRefreshX($userId);
+            }
+
+        }else{
+            $return = array('status'=>101,'msg'=>'提交数据有误，刷新后重试');
+        }
+
+        exit(json_encode($return,JSON_UNESCAPED_UNICODE));
+
+    }
+
+
+    /**
      * 刷新一条产品
      */
     public function refreshProduct(){

@@ -645,6 +645,25 @@ class ApiSevUserModel extends Model{
         return $return;
     }
 
+    /**
+     *  获取厂商刷新点
+     * @param $userId
+     * @return array
+     */
+    public function getRefreshX($userId){
+
+        $refresh = $this->table('firms')->where("id=$userId")->field("refresh_point")->getOne();
+
+        if($refresh){
+            $refresh['refresh_point'] = $refresh['refresh_point']?$refresh['refresh_point']:0;
+            $return = array('status'=>'200','msg'=>'获取刷新点数据成功','refresh_point'=>$refresh['refresh_point']);
+        }else{
+            $return = array('status'=>'201','msg'=>'获取刷新点数据失败');
+        }
+        return $return;
+    }
+
+
 
     /**
      * 刷新产品
