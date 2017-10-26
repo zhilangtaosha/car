@@ -72,6 +72,7 @@ class ApiSevSalesmanModel extends Model
                     $last_time = $this->table('sales_call_log')->where('sales_user_id='.$id.' and firms_id='.$companyInfo[$i]['id'])->order('create_time desc')->getOne();
                     $last_time = date('m-d H:i',strtotime($last_time['create_time']));
                     $companyInfo[$i]['last_create_time'] = $last_time;
+                    $companyInfo[$i]['face_pic'] = $companyInfo[$i]['face_pic']?$companyInfo[$i]['face_pic']:'/images/pub/face_pic.png';
                 }
                 if($dingWeiToken){
                     //对位失败返回的信息
@@ -854,6 +855,7 @@ class ApiSevSalesmanModel extends Model
                                 $data[$i]['vip'] = 1;
                             }
                         }
+                        $data[$i]['face_pic'] = $data[$i]['face_pic']?$data[$i]['face_pic']:'/images/pub/face_pic.png';
                     }
                     $return = array('status'=>200,'list'=>$data,'msg'=>'获取数据成功','page'=>$page,'pageSize'=>$pageSize,'count'=>$count);
                 }else{

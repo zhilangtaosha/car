@@ -115,6 +115,7 @@ class ApiSevSalesmanSouCangModel extends Model
         if($res['qq']){
             $res['qq']         = str_replace(",","<br>",$res['qq']);
         }
+        $res['face_pic'] = $res['face_pic']?$res['face_pic']:'/images/pub/face_pic.png';
         $typeArr = array(1=>'经销商',2=>'修理厂');
         $classArr = array(1=>'轿车商家' ,2=>'货车商家', 3=>'用品商家', 4=>'修理厂', 5=>'快修保养', 6=>'美容店');
 
