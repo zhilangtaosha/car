@@ -133,6 +133,13 @@ class WebCollectModel extends Model
             ->where($where)->order('a.create_time desc')->limit($start,$pageSize)->get();
         foreach($res as $k=>$v){
             $res[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
+
+            $res[$k]['is_vip'] = 0;
+            if($v['vip_time']){
+                if($v['vip_time'] > date('Y-m-d H:i:s',time())){
+                    $res[$k]['is_vip'] = 1;
+                }
+            }
             //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
         }
         return array('list'=>$res,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
