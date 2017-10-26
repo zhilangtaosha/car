@@ -141,9 +141,24 @@ class ApiSevSalesmanSouCangModel extends Model
      * 统计支付表刷新点，修改产品当日刷新点
      */
     public function resetRefresh($companyId){
+//        if($companyId){
+//            $nowTime = date("Y-m-d 00:00:00");
+//            $data    = $this->table('pay_history')->field('refrsh_prduct_id,count(refrsh_prduct_id) as num')->where('type=3 and create_time>="'.$nowTime.'" and refrsh_prduct_id is not null and firms_id='.$companyId)->group('refrsh_prduct_id')->get();
+//            if($data){
+//                $ids = array();
+//                foreach($data as $v){
+//                    array_push($ids,$v['refrsh_prduct_id']);
+//                    $this->table('product_list')->where('id='.$v['refrsh_prduct_id'])->update(array('pro_refresh'=>$v['num']));
+//                }
+//                $ids = join(',',$ids);
+//                $this->table('product_list')->where('id not in ('.$ids.') and firms_id='.$companyId)->update(array('pro_refresh'=>0));
+//            }else{
+//                $this->table('product_list')->where('firms_id='.$companyId)->update(array('pro_refresh'=>0));
+//            }
+//        }
         if($companyId){
             $nowTime = date("Y-m-d 00:00:00");
-            $data    = $this->table('pay_history')->field('refrsh_prduct_id,count(refrsh_prduct_id) as num')->where('type=3 and create_time>="'.$nowTime.'" and refrsh_prduct_id is not null and firms_id='.$companyId)->group('refrsh_prduct_id')->get();
+            $data    = $this->table('pay_history')->field('refrsh_prduct_id,count(refrsh_prduct_id) as num')->where('type=3 and refrsh_prduct_id is not null and firms_id='.$companyId)->group('refrsh_prduct_id')->get();
             if($data){
                 $ids = array();
                 foreach($data as $v){
