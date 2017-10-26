@@ -169,7 +169,14 @@
    					</p>
    					
    					<p style="font-size: 12px;line-height: 24px;margin-bottom: 0;">
-   						<span style="color: #333;">类别：</span><span style="color: #666;">{{ d[i].cate_2_name }}</span>
+   						<span style="color: #333;">类别：</span><span style="color: #666;">
+   							
+   							{{# if(d[i].cate_2_name && d[i].cate_2_name!=null){ }}
+   							{{ d[i].cate_2_name }}
+   							{{# }else{ }}
+   							
+   							{{# } }}
+   						</span>
    					</p>
    					
    					<p class="sw-text1-2">
@@ -178,10 +185,10 @@
    					
    					<p style="font-size: 12px;line-height: 22px;margin-bottom: 0;">
    						<span style="color: #333;">价格：</span>
-   						{{# if(d[i].pro_price&&d[i].pro_price!=null){ }}
+   						{{# if(d[i].pro_price&&d[i].pro_price!=null && d[i].pro_price&&d[i].pro_price>0){ }}
    						<span style="color: #FF534C;font-size: 14px;">￥{{ d[i].pro_price }}</span>
    						{{# }else{ }}
-   						<span style="color: #FF534C;font-size: 14px;">欢迎来电询价</span>
+   						<span style="color: #FF534C;font-size: 14px;">欢迎来电咨询</span>
    						{{# } }}
    					</p>  					
    				</div>  				
@@ -206,7 +213,13 @@
    					</p>
    					
    					<p style="font-size: 12px;line-height: 24px;margin-bottom: 0;">
-   						<span style="color: #333;">类别：</span><span style="color: #666;">{{ d[i].cate_2_name }}</span>
+   						<span style="color: #333;">类别：</span><span style="color: #666;">
+   							{{# if(d[i].cate_2_name && d[i].cate_2_name!=null){ }}
+   							{{ d[i].cate_2_name }}
+   							{{# }else{ }}
+   							
+   							{{# } }}
+   						</span>
    					</p>
    					
    					<p class="sw-text1-2">
@@ -215,10 +228,10 @@
    					
    					<p style="font-size: 12px;line-height: 22px;margin-bottom: 0;">
    						<span style="color: #333;">价格：</span>
-   						{{# if(d[i].pro_price&&d[i].pro_price!=null){ }}
+   						{{# if(d[i].pro_price&&d[i].pro_price!=null && d[i].pro_price&&d[i].pro_price>0){ }}
    						<span style="color: #FF534C;font-size: 14px;">￥{{ d[i].pro_price }}</span>
    						{{# }else{ }}
-   						<span style="color: #FF534C;font-size: 14px;">欢迎来电询价</span>
+   						<span style="color: #FF534C;font-size: 14px;">欢迎来电咨询</span>
    						{{# } }}
    					</p>  					
    				</div>  				
