@@ -564,7 +564,7 @@ class ApiSevIndexModel extends Model{
                 '1'=>'',
                 '1000'=>'k',
             );
-            $distanceStr = 0;
+            $distanceStr = $count;
             foreach ($f as $k=>$v){
                 $distanceNum = $count/(int)$k;
                 $distanceNum  = round($distanceNum,1);

@@ -132,7 +132,7 @@ class ApiSevSalesmanModel extends Model
                 '1'=>'',
                 '1000'=>'k',
             );
-            $distanceStr = 0;
+            $distanceStr = $count;
             foreach ($f as $k=>$v){
                 $distanceNum = $count/(int)$k;
                 $distanceNum  = round($distanceNum,1);
@@ -734,6 +734,109 @@ class ApiSevSalesmanModel extends Model
 //                        $allCallNum  = $firmCallNum+$yeWuCallNum;
                         $allCallNum  = $firmCallNum;
                         $firmQqNum   = $this->table('firms_visit_log')->where('to_firms_id='.$data[$i]['firmId'])->count();
+                        if($allCallNum>0){
+                            $allCallNum = $this->countInt($allCallNum);
+                        }
+                        if($firmQqNum>0){
+                            $firmQqNum = $this->countInt($firmQqNum);
+                        }
+                        $data[$i]['telNum'] = $allCallNum;
+                        $data[$i]['qqNum']  = $firmQqNum;
+                        if($data[$i]['distance']){
+                            $data[$i]['distance'] = $this->latlng($data[$i]['distance']);
+                        }
+                        $data[$i]['vip'] = '';
+                        if($data[$i]['vip_time']){
+                            if($data[$i]['vip_time']>$nowTime){
+                                $data[$i]['vip'] = 1;
+                            }
+                        }
+                    }
+                    $return = array('status'=>200,'list'=>$data,'msg'=>'获取数据成功','page'=>$page,'pageSize'=>$pageSize,'count'=>$count);
+                }else{
+                    $return = array('status'=>200,'list'=>array(),'msg'=>'获取数据成功','page'=>$page,'pageSize'=>$pageSize,'count'=>$count);
+                }
+            }else{
+                $return = array('status'=>104,'msg'=>'关键信息不一致，请重新登录');
+            }
+        }else{
+            $return = array('status'=>103,'msg'=>'登录信息不正确，请重新登录');
+        }
+        return $return;
+    }
+
+    public function getAllListZuoBiao1($token,$city,$district,$classType,$jiShu,$shaiXuan,$page,$pageSize,$lat=30.674024,$lng=104.072315,$cityCode,$keywords){
+        $id  = authcode($token,'DECODE');
+        $id  = intval($id);
+        $user= $this->getSalesmanInfo($id);
+        if($user){
+            $area = $user['area'];      //业务员管辖省份
+            if($area == $cityCode){
+                $startTime = date('Y-m-d H:i:s',strtotime('-30 day'));
+                $newTime   = date('Y-m-d',time());
+                $p = ($page-1)*$pageSize;
+                $where = 'y.firmId>0';
+                if($city){
+                    $where .= ' and y.city="'.$city.'"';
+                    if($district){
+                        $where .= ' and y.district="'.$district.'"';
+                    }
+                }
+                if($classType){
+                    $where .= ' and y.type='.$classType;
+                }
+                if($jiShu){
+                    $where .= ' and y.levels='.$jiShu;
+                }
+                if($shaiXuan){
+                    if($shaiXuan==1){       //未认证
+                        $where .= ' and y.is_check>1';
+                    }
+                    if($shaiXuan==2){       //已关联
+                        $where .= ' and y.isGuanLian>0';
+                    }
+                    if($shaiXuan==3){       //未关联
+                        $where .= ' and y.isGuanLian=0';
+                    }
+                }
+                if($keywords){
+                    $where .= ' and (y.companyname like "%'.$keywords.'%" or y.phone like "%'.$keywords.'%" or y.linkPhone like "%'.$keywords.'%")';
+                }
+                $levelXiShu= $this->table('base_ini')->field('value')->where('id=7')->getOne();     //获取拨打级数配置
+                $levelXiShu= json_decode($levelXiShu['value']);
+                //获取数据总条数
+                $sqlC  = 'SELECT * from (';
+                $sqlC .= 'SELECT t.id as firmId,t.EnterpriseID,t.companyname,t.major,t.classification,t.linkPhone,t.qq,t.longitude,t.latitude,count(g.id) as isGuanLian ,t.is_check,t.type,t.city,t.district,t.phone,t.num as callCount, CASE WHEN t.num >= '.$levelXiShu->lv3->min.' THEN 3 WHEN t.num >= '.$levelXiShu->lv2->min.' THEN 2 WHEN t.num <= '.$levelXiShu->lv1->max.' THEN 1 END AS levels FROM ';
+                $filedC = 'a.companyname,a.EnterpriseID,a.major,a.is_check,a.classification,a.linkPhone,a.phone,a.qq,a.longitude,a.latitude,a.type,a.id,a.city,a.district,b.create_time,count(b.id) AS num';
+                $sqlC .= '(SELECT '.$filedC.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.to_firms_id AND b.create_time>"'.$startTime.'" where a.province="'.$cityCode.'" GROUP BY a.id)';
+                $sqlC .= ' AS t LEFT JOIN firms_sales_user g ON t.id=g.firms_id and g.end_time>"'.$newTime.'" GROUP BY t.id';
+                $sqlC .= ') as y where '.$where;
+                $count = $this->count($sqlC);
+                //获取数据
+                $sql  = 'SELECT * from (';
+                $sql .= 'SELECT t.id as firmId,t.companyname,t.face_pic,t.major,t.distance,t.classification,t.linkPhone,t.qq,t.longitude,t.latitude,count(g.id) as isGuanLian ,t.is_check,t.type,t.EnterpriseID,t.city,t.phone,t.district,t.vip_time,t.num as callCount, CASE WHEN t.num >= 10 THEN 3 WHEN t.num >= 3 THEN 2 WHEN t.num <= 3 THEN 1 END AS levels FROM ';
+                $filed = 'ROUND(6378.138*2*ASIN(SQRT(POW(SIN(('.$lat.'*PI()/180-a.latitude*PI()/180)/2),2)+COS('.$lat.'*PI()/180)*COS(latitude*PI()/180)*POW(SIN(('.$lng.'*PI()/180-a.longitude*PI()/180)/2),2)))*1000) AS distance,a.companyname,a.major,a.is_check,a.classification,a.linkPhone,a.qq,a.longitude,a.face_pic,a.latitude,a.type,a.id,a.city,a.phone,a.district,b.create_time,a.vip_time,count(b.id) AS num,a.EnterpriseID';
+                $sql .= '(SELECT '.$filed.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.to_firms_id where a.province="'.$cityCode.'" GROUP BY a.id)';
+                $sql .= ' AS t LEFT JOIN firms_sales_user g ON t.id=g.firms_id and g.end_time>"'.$newTime.'" GROUP BY t.id';
+                $sql .= ') as y where '.$where.' LIMIT '.$p.','.$pageSize;
+                $data = $this->get($sql);
+                if($data){
+                    $nowTime = date('Y-m-d H:i:s',time());
+                    for($i=0; $i<count($data); ++$i){
+                        if($data[$i]['linkPhone']){
+                            $data[$i]['linkPhone'] = explode(',',$data[$i]['linkPhone']);
+                        }
+                        if($data[$i]['qq']){
+                            $data[$i]['qq'] = explode(',',$data[$i]['qq']);
+                        }
+                        $firmCallNum = $this->table('firms_call_log')->where('to_firms_id='.$data[$i]['firmId'])->group('firms_id')->get();
+                        $firmCallNum = count($firmCallNum);
+
+//                        $yeWuCallNum = $this->table('sales_call_log')->where('firms_id='.$data[$i]['firmId'])->count();
+//                        $allCallNum  = $firmCallNum+$yeWuCallNum;
+                        $allCallNum  = $firmCallNum;
+                        $firmQqNum   = $this->table('firms_visit_log')->where('to_firms_id='.$data[$i]['firmId'])->group('firms_id')->get();
+                        $firmQqNum   = count($firmQqNum);
                         if($allCallNum>0){
                             $allCallNum = $this->countInt($allCallNum);
                         }
