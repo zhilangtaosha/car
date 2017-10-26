@@ -132,25 +132,6 @@ class ApiSevUploadModel extends Model{
             @chmod($filePath, 0644);
             $fileUrl = $saveUrl . $newFileName;
             writeLog($fileUrl);
-            $fileUrlDir = $savePath . "/" . $newFileName;
-            //旋转图片
-            $source = $this->imageCreateFromAny($fileUrlDir);
-            @$exif = exif_read_data($fileUrlDir);
-
-             if(!empty($exif['Orientation'])) {
-                 switch($exif['Orientation']) {
-                     case 8:
-                         $tmpName = imagerotate($source,90,0);
-                         break;
-                     case 3:
-                         $tmpName = imagerotate($source,180,0);
-                         break;
-                     case 6:
-                         $tmpName = imagerotate($source,-90,0);
-                         break;
-                 }
-                        imagejpeg($tmpName, $fileUrlDir);
-             }
 
             //生成缩微图
             if($this->cTempFile&&$fileSize>500*1024)
@@ -167,6 +148,26 @@ class ApiSevUploadModel extends Model{
 
                     $this->createTempFile($savePath . "/" . $newFileName,$newWidth,$newHeight);
                 }
+            }
+
+            $fileUrlDir = $savePath . "/" . $newFileName;
+            //旋转图片
+            $source = $this->imageCreateFromAny($fileUrlDir);
+            @$exif = exif_read_data($fileUrlDir);
+
+            if(!empty($exif['Orientation'])) {
+                switch($exif['Orientation']) {
+                    case 8:
+                        $tmpName = imagerotate($source,90,0);
+                        break;
+                    case 3:
+                        $tmpName = imagerotate($source,180,0);
+                        break;
+                    case 6:
+                        $tmpName = imagerotate($source,-90,0);
+                        break;
+                }
+                imagejpeg($tmpName, $fileUrlDir);
             }
 
             return array('status' => 200, 'url' => $fileUrl,'msg'=>'上传成功');

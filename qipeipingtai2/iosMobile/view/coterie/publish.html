@@ -148,6 +148,7 @@ function upload(){
 		plus.nativeUI.alert("没有添加上传文件！");
 		return;
 	}
+	
 	loading('上传中');
 	var task=plus.uploader.createUpload(imgUploadImg, 
 		{method:"POST"},
@@ -168,21 +169,11 @@ function upload(){
 			
 		}
 	);
+	
 	task.addFile(files.path,{key:files.name});	
 	task.start();
 }
-// 拍照添加文件
-function appendByCamera(){
-	plus.camera.getCamera().captureImage(function(p){
-		appendFile(p);
-	});	
-}
-// 从相册添加文件
-function appendByGallery(){
-	plus.gallery.pick(function(p){
-        appendFile(p);
-    });
-}
+
 // 添加文件
 function appendFile(p){
 	files = {name:"uploadkey",path:p};

@@ -383,7 +383,8 @@
 			"view/person/store/product.html",
 			"view/index/shangjia/jingxiao.html",
 			"view/person/card/index.html",
-			"view/person/store/history.html"
+			"view/person/store/history.html",
+			"view/person/store/info.html"
 		]
 	},
 	"view/person/store/product.html": {
@@ -570,7 +571,9 @@
 			"js/mui.pullToRefresh.material.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css",
-			"js/global.js"
+			"js/global.js",
+			"image/person/icon_clock_r.png",
+			"image/index/home_r.png"
 		]
 	},
 	"view/index/product/list.html": {
@@ -699,6 +702,13 @@
 			"js/global.js",
 			"image/coterie/icon_dt_add.png",
 			"image/coterie/icon_dt_c.png"
+		]
+	},
+	"view/person/store/info.html": {
+		"resources": [
+			"css/common.css",
+			"image/person/purchase/tianjiazp.png",
+			"css/mui.min.css"
 		]
 	}
 }

@@ -208,9 +208,10 @@
 		loading('加载中...'); 
 		//获取数据
 		http.load('api.sev.user','getStoreInfo',{'token':token},function(rData){
+			sw.jcon(rData)
 			//关闭加载框
 			closeLoading();	
- 			sw.jcon(rData)
+ 			
  			if(rData.face_pic==null||rData.face_pic==''){
  				rData.face_pic = '../../../image/person/store/icon_dpzy_mrtx.png';			
 			}
@@ -263,6 +264,7 @@
 			
  						
 		},function(xhr,type,errorThrown){
+			dy(xhr)
 		 		//关闭加载框
 				closeLoading();		
 				//无网络提示

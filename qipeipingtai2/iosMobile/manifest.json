@@ -1939,7 +1939,8 @@
 					"fonts/mui.ttf",
 					"css/common.css",
 					"js/mui.pullToRefresh.js",
-					"js/mui.pullToRefresh.material.js"
+					"js/mui.pullToRefresh.material.js",
+					"image/index/home_r.png"
 				],
 				"refer": [
 					"view/index/qiugou/detail.html"
