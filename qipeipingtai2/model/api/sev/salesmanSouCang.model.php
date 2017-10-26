@@ -121,11 +121,11 @@ class ApiSevSalesmanSouCangModel extends Model
         $res['typeStr']  = $typeArr[$res['type']];
         $res['classStr'] = $classArr[$res['classification']];
         //获取访问数据
-        $res['visit_num'] = $this->table('firms_visit_log')->where(array('to_firms_id'=>$userId))->group('firms_id')->get();
+        $res['visit_num'] = $this->table('firms_visit_log')->where('to_firms_id='.$userId.' and firms_id>0')->group('firms_id')->get();
         $res['visit_num'] = count($res['visit_num']);
         $res['visit_num'] = $this->countInt($res['visit_num']);
         //获取来电数据
-        $res['call_num']  = $this->table('firms_call_log')->where(array('to_firms_id'=>$userId))->group('firms_id')->get();
+        $res['call_num']  = $this->table('firms_call_log')->where('to_firms_id='.$userId.' and firms_id>0')->group('firms_id')->get();
         $res['call_num']  = count($res['call_num']);
         $res['call_num']  = $this->countInt($res['call_num']);
         //获取该厂商banner
