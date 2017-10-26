@@ -497,7 +497,7 @@
 			//初始化城市配置
 			var cityIni= p.address.city;
 
-			if(cityIni==undefined){
+			if(cityIni=='undefined'){
 				sw.toast("定位失败，请手动选择");  
 				getNoCity();
 			}else{//定位成功从服务器获取已配置的城市

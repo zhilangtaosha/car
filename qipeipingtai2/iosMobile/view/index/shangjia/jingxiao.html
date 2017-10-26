@@ -1393,8 +1393,8 @@ function shareMessage(s, ex) {
                 href: shareUrl,//分享链接 apk 下载地址                         
                 title: title,        
                 content: title,
-                thumbs: [logBg],   
-                pictures: [face_pic],    
+                thumbs: [logBg],       
+                pictures: ['face_pic'],      
                 extra: {
                     scene: ex
                 }
@@ -1402,7 +1402,8 @@ function shareMessage(s, ex) {
             s.send(msg, function() {
 				sw.toast('分享成功！')
             }, function(e) {
-                sw.toast("取消分享");
+            	dy(e)
+                sw.toast(e.message);
             });
         }
 	

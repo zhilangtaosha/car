@@ -302,12 +302,13 @@ function appendByCamera(imgId){
         var index2=filesName.length;
         var suffix=filesName.substring(index1+1,index2);//后缀名
 
-        if(suffix!='png' && suffix!='jpg' && suffix!='jpeg'){
+        if(suffix=='png' || suffix=='jpg' || suffix=='jpeg' || suffix=='PNG' || suffix=='JPG' || suffix=='JPEG'){
+            appendFile(p,imgId);
+        }else{
             sw.toast("只支持png、jpg、jpeg图片格式上传");
             return;
         }
 
-		appendFile(p,imgId);
 	});
 }
 // 从相册添加文件
@@ -319,13 +320,13 @@ function appendByGallery(imgId){
         var index1=filesName.lastIndexOf(".");
         var index2=filesName.length;
         var suffix=filesName.substring(index1+1,index2);//后缀名
-
-        if(suffix!='png' && suffix!='jpg' && suffix!='jpeg'){
+		console.log(suffix)  
+        if(suffix=='png' || suffix=='jpg' || suffix=='jpeg' || suffix=='PNG' || suffix=='JPG' || suffix=='JPEG'){
+            appendFile(p,imgId);
+        }else{
             sw.toast("只支持png、jpg、jpeg图片格式上传");
             return;
         }
-
-        appendFile(p,imgId);
     });
 }
 // 添加文件

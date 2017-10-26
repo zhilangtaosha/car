@@ -88,10 +88,10 @@
 		</header>
 
 		<div class="mui-content">
-			
 			<div class="mui-scroll-wrapper" style="margin-top:44px;">  
-				<div id="infoCon"></div>
+				
 				<div class="mui-scroll sw-coterie-box" id="loadList">  
+					<div id="infoCon"></div>
 					<ul class="mui-table-view" id="show-list" style="margin-top: 10px;">
 	
 					</ul>
@@ -302,7 +302,7 @@
 	      	var postData = {};    
 	  		     		
 	      		//请求的数据
-				postData.page     = page;//请求的页码   
+				postData.page     = page;//请求的页码     
 	      		postData.pageSize = 10;//每页显示数量 
 	     		postData.token    = token;
 				
@@ -375,6 +375,7 @@
 			s.send(msg, function() {
 				sw.toast('分享成功！')
 			}, function(e) {
+				dy(e)
 				sw.toast("取消分享");
 			});
 		}
@@ -418,7 +419,7 @@
 					closeLoading(300);
 					sw.toast(rData.msg);
 					if(rData.status == 200) {
-						plus.webview.getWebviewById("share").reload(true);
+						plus.webview.getWebviewById("person_share_index").reload(true);
 					}
 				}, function(xhr, type, errorThrown) { //请求失败 将之前的数据填入
 					//关闭加载框
