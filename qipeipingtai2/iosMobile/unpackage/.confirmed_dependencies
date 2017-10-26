@@ -127,7 +127,11 @@
 			"view/person/refresh/index.html",
 			"view/person/salesman/jilu/dial.html",
 			"view/person/myCircle/list.html",
-			"view/person/salesman/register/material.html"
+			"view/person/salesman/register/material.html",
+			"view/person/share/index.html",
+			"view/person/auth/index.html",
+			"view/person/info/index.html",
+			"view/person/orbit/index.html"
 		]
 	},
 	"view/index/index.html": {
@@ -688,6 +692,9 @@
 			"css/mui.min.css",
 			"image/person/renzheng2.png",
 			"image/person/store/icon_number.png"
+		],
+		"refer": [
+			"view/person/repair/detail.html"
 		]
 	},
 	"view/coterie/publish.html": {
@@ -708,7 +715,83 @@
 		"resources": [
 			"css/common.css",
 			"image/person/purchase/tianjiazp.png",
+			"css/mui.min.css",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/global.js"
+		]
+	},
+	"view/person/share/index.html": {
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"js/mui.pullToRefresh.js",
+			"image/person/more/icon_more_qq.png",
+			"js/jquery.min.js",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"image/person/more/icon_more_fri.png",
+			"image/person/more/icon_more_wechat.png",
+			"image/person/more/icon_more_qqkj.png",
+			"image/person/more/icon_chenggong_mrtx.png",
+			"css/common.css",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/global.js"
+		],
+		"refer": [
+			"view/index/shangjia/jingxiao.html",
+			"view/person/share/publish.html"
+		]
+	},
+	"view/person/share/publish.html": {
+		"resources": [
+			"image/coterie/icon_dt_pic.png",
+			"css/common.css",
+			"css/mui.min.css",
+			"image/log.png",
+			"image/coterie/icon_dt_add.png"
+		]
+	},
+	"view/person/auth/index.html": {
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"js/mui.picker.js",
+			"js/jquery.min.js",
+			"fonts/mui.ttf",
+			"image/person/purchase/tianjiazp.png",
+			"js/city.data-3.js",
+			"js/mui.zoom.js",
+			"css/common.css",
+			"js/mui.min.js",
+			"js/mui.poppicker.js",
+			"css/mui.min.css",
+			"css/mui.picker.all.css",
+			"js/mui.previewimage.js",
+			"js/global.js",
+			"image/person/purchase/icon_zp_cha.png"
+		]
+	},
+	"view/person/info/index.html": {
+		"resources": [
 			"css/mui.min.css"
+		]
+	},
+	"view/person/orbit/index.html": {
+		"resources": [
+			"css/common.css",
+			"css/mui.min.css",
+			"js/laytpl/laytpl.js",
+			"js/mui.pullToRefresh.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"js/global.js",
+			"image/person/renzheng2.png"
+		],
+		"refer": [
+			"view/index/shangjia/jingxiao.html"
 		]
 	}
 }

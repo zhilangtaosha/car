@@ -1283,7 +1283,7 @@ class ApiSevUserController extends Controller{
             if($return['status']==200){
                 $userId = $return['data']['id'];
                 //获取刷新点
-                $return = $userMo ->getRefresh($userId);
+                $return = $userMo ->getRefreshX($userId);
                 if($return['status']==200){
                     writeLog(1111111111);
                     if($return['refresh_point'] && $return['refresh_point']>0){

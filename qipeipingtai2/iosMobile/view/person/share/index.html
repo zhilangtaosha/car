@@ -89,10 +89,9 @@
 
 		<div class="mui-content">
 			
-			<div class="mui-scroll-wrapper" style="margin-top:44px;">    
-				<div class="mui-scroll sw-coterie-box" id="loadList">  
+			<div class="mui-scroll-wrapper" style="margin-top:44px;">  
 				<div id="infoCon"></div>
-					
+				<div class="mui-scroll sw-coterie-box" id="loadList">  
 					<ul class="mui-table-view" id="show-list" style="margin-top: 10px;">
 	
 					</ul>
@@ -107,8 +106,8 @@
 		{{# var inviteMe = d.inviteMe; var myInviteCode = d.myInviteCode; if(d.isInvited==false){ }}
 		<div style="padding:15px 15px 5px;background: #FFFFFF;">
 			<p style="font-size: 14px;color: #333">我的邀请人</p>
-			<p style="padding: 10px 10%;">
-				<input type="text" name="inviteCode" id="inviteCode" maxlength="8" value="" placeholder="输入邀请码绑定分享人" class="sw-invite-input" />
+			<p >
+				<input type="text" name="inviteCode" id="inviteCode" maxlength="8" value="" placeholder="输入邀请码绑定分享人"  />
 				<button type="button" class="mui-btn mui-btn-tangerine sw-submit-btn" onclick="bindSharer()">绑定</button>
 			</p>
 		</div>

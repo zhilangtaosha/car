@@ -680,13 +680,14 @@ class ApiSevUserModel extends Model{
 
         //生成记录
         if($res1){
-            $productName = $this->table('product_list')->field('proName')->where('proId='.$productId.' and firms_id='.$userId)->getOne();
+            $productName = $this->table('product_list')->field('id,proName')->where('proId='.$productId.' and firms_id='.$userId)->getOne();
 
             $data['type']   = 3;          //刷新点消费
             $data['status'] = 1;          //充值成功
             $data['info']   = $productName['proName']; //详情
             $data['payway'] = 4;          //刷新产品
             $data['refresh_point'] = 1;   //刷新点数
+            $data['refrsh_prduct_id'] = $productName['id'];   //刷新点数
             $data['firms_id'] = $userId;  //厂商ID
             $data['money']    = 0;         //充值金额
             $data['admin_id'] = 0;         //管理员ID（没有为0）

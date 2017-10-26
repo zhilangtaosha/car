@@ -137,18 +137,7 @@ function upload(){
 	task.addFile(files.path,{key:files.name});	
 	task.start();
 }
-// 拍照添加文件
-function appendByCamera(){
-	plus.camera.getCamera().captureImage(function(p){
-		appendFile(p);
-	});	
-}
-// 从相册添加文件
-function appendByGallery(){
-	plus.gallery.pick(function(p){
-        appendFile(p);
-    });
-}
+
 // 添加文件
 function appendFile(p){
 	files = {name:"uploadkey",path:p};

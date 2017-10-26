@@ -1775,7 +1775,9 @@
 					"image/person/more/icon_chenggong_mrtx.png",
 					"image/coterie/face.png",
 					"js/laytpl/laytpl.js",
-					"js/jquery.min.js"
+					"js/jquery.min.js",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js"
 				],
 				"priority": 12,
 				"refer": [

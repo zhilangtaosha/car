@@ -182,6 +182,7 @@ class ApiSevLogModel extends Model
                 $res[$key]['isVip']    = 1;
             }
 
+            $res[$key]['face_pic'] = $item['face_pic']?$item['face_pic']:'/images/pub/face_pic.png';
         }
 
         //dump($this->lastSql());

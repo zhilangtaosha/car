@@ -162,7 +162,12 @@ background-color: #EFEFF4;
 	{{# for(var i=0;i<len;i++){ }}
 	<div style="width: 100%;padding: 0 15px;margin-bottom: 10px;" id="child{{ d[i].proId }}">
    		<div style="background: #FFFFFF;">
-   			<div class="sw-box-1"><span>{{ d[i].pro_type }}</span><span style="float: right;">历史刷新：<span class="sw-ctheme" id="refresh{{ d[i].proId }}" data-refresh = "{{ d[i].proId }}">{{ d[i].pro_refresh }}</span></span></div>
+   			<div class="sw-box-1">
+   				<span>{{ d[i].pro_type }}</span>
+   				<span style="float: right;">历史刷新：
+   					<span class="sw-ctheme" id="refresh{{ d[i].proId }}" data-refresh = "{{ d[i].proId }}" data-freshPoint="{{ d[i].pro_refresh }}">{{ d[i].pro_refresh }}</span>
+   				</span>
+   			</div>
    			<div class="sw-box-2">
    				<img src="{{ imgUrl+d[i].pro_pic }}" style="width: 92px;height: 92px;"/>  				
    				<div class="sw-box-3">
@@ -189,10 +194,10 @@ background-color: #EFEFF4;
    				</div>  				
    			</div>
 			<div class="sw-list-box">
-				<div class="sw-title-1 " onclick="offSale({{ d[i].proId }})">下架</div>
-				<div class="sw-title-1 sw-ctheme" onclick="delProduct({{ d[i].proId }})">删除</div>
+				<div class="sw-title-1 " onclick="offSale('{{ d[i].proId }}')">下架</div>
+				<div class="sw-title-1 sw-ctheme" onclick="delProduct('{{ d[i].proId }}')">删除</div>
 				<input type="number" name="delStatus{{ d[i].proId }}" id="delStatus{{ d[i].proId }}" value="1" hidden="hidden" />			
-				<div class="sw-title-1 sw-cbtheme" onclick="refreshProduct({{ d[i].proId }})">刷新</div>
+				<div class="sw-title-1 sw-cbtheme" onclick="refreshProduct('{{ d[i].proId }}')">刷新</div>
 			</div>  			
    		</div>
    </div>
@@ -232,8 +237,8 @@ background-color: #EFEFF4;
    				</div>  				
    			</div>
 			<div class="sw-list-box">
-				<div class="sw-title-2 sw-cgtheme" onclick="productSale({{ d[i].proId }})">上架</div>
-				<div class="sw-title-2 sw-ctheme" onclick="delProduct({{ d[i].proId }})">删除</div>
+				<div class="sw-title-2 sw-cgtheme" onclick="productSale('{{ d[i].proId }}')">上架</div>
+				<div class="sw-title-2 sw-ctheme" onclick="delProduct('{{ d[i].proId }}')">删除</div>
 				<input type="number" name="delStatus{{ d[i].proId }}" id="delStatus{{ d[i].proId }}" value="1" hidden="hidden" />		 	
 			</div>				
    		</div>
@@ -248,7 +253,7 @@ background-color: #EFEFF4;
 <script type="text/javascript" src="../../../js/mui.pullToRefresh.js"></script>
 <script type="text/javascript" src="../../../js/mui.pullToRefresh.material.js"></script>
  <script type="text/javascript" charset="utf-8">
-  var showSelf;
+  var showSelf; 
  //监听banner上传返回事件
  	 window.addEventListener('cateSelect',function(){ 	 	
  		//清空数据
@@ -486,7 +491,7 @@ background-color: #EFEFF4;
 		},'div')
 		$('.mui-popup-button').css('font-size','16px');
  	}
- 	
+  	
  	/**
  	 * 获取刷新点
  	 */
@@ -584,11 +589,12 @@ background-color: #EFEFF4;
 				//如果已经登陆 获取登录后的数据
 				http.load('api.sev.user','refreshProduct',postData,function(rData){//请求成功						
 					//关闭加载框
-					closeLoading();
+					closeLoading(); 
 					sw.toast(rData.msg);  
 		 			if(rData.status==200){//刷新成功 
+		 				
 		 				var newR = parseInt($("#refresh"+productId).text())+1;
-							$("#refresh"+productId).text(newR);
+							$("#refresh"+productId).text(newR); 
 							
 						var newAr = parseInt($("#allRefresh").text())-1;
 							newAr = newAr>0?newAr:0;
