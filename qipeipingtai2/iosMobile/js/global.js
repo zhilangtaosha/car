@@ -1,6 +1,6 @@
 //图片地址
 var imgUrl = 'http://app.7pqun.com'; 
-//var imgUrl = 'http://192.168.2.21';    
+//var imgUrl = 'http://192.168.2.21';           
 //图片上传地址
 //var imgUploadImg =  'http://119.23.215.135/api.sev.upload/uploadImg';  
 var imgUploadImg = imgUrl+'/api.sev.upload/uploadImg';  
@@ -40,6 +40,12 @@ mui("#loadList").on('tap', 'span', function (event) {
 
 mui("#loadList").on('tap', 'img', function (event) {
 	this.click();
+});
+mui("#loadList").on('tap', 'button', function (event) {
+	this.click();
+});
+mui("#loadList").on('tap', 'input', function (event) {
+	this.focus();
 });
 /**
  * 打开新页面
@@ -88,7 +94,7 @@ http.load = function(mod,fun,postData,success,error)
 		data:postData,
 		dataType:'json',//服务器返回json格式数据 
 		type:'post',//HTTP请求类型
-		timeout:3000,//超时时间设置为10秒；
+		timeout:300000,//超时时间设置为10秒；
 		//headers:{'Content-Type':'application/json'},	              
 		success:function(data){ 
 			success(data);
@@ -635,4 +641,46 @@ function unsafe_tap(){
     }else{
         return true;
     }
+}
+
+
+// 拍照添加文件
+function appendByCamera(){
+	plus.camera.getCamera().captureImage(function(p){
+		
+		//格式判断
+		var filesName = p;
+		var index1=filesName.lastIndexOf(".");
+		var index2=filesName.length;
+		var suffix=filesName.substring(index1+1,index2);//后缀名
+				
+		if(suffix=='png' || suffix=='jpg' || suffix=='jpeg' || suffix=='PNG' || suffix=='JPG' || suffix=='JPEG'){
+			appendFile(p);
+		}else{
+			sw.toast("只支持png、jpg、jpeg图片格式上传");	
+			return;
+		}
+		
+	});	
+}
+
+// 从相册添加文件
+function appendByGallery(){
+	plus.gallery.pick(function(p){
+		
+		//格式判断
+		var filesName = p;
+		var index1=filesName.lastIndexOf(".");
+		var index2=filesName.length;
+		var suffix=filesName.substring(index1+1,index2);//后缀名
+				
+		if(suffix=='png' || suffix=='jpg' || suffix=='jpeg' || suffix=='PNG' || suffix=='JPG' || suffix=='JPEG'){
+			appendFile(p); 
+		}else{
+			sw.toast("只支持png、jpg、jpeg图片格式上传");	
+			return;
+		}
+	
+	    
+    });
 }

@@ -262,9 +262,10 @@
 		var pIImg = plus.storage.getItem('pIImg');
 		if(pIImg==1){
 			var face_pic = plus.storage.getItem('face_pic');
+				$("#face_img").val(face_pic);
 			var faceImg  =	imgUrl + face_pic;
 			    $("#faceImg").attr('src',faceImg);
-			    $("#face_img").val(faceImg);
+			    
 			    
 			//刷新后清除刷新标记
 			plus.storage.removeItem('pIImg');
