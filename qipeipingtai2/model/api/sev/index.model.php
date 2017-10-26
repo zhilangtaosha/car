@@ -182,7 +182,7 @@ class ApiSevIndexModel extends Model{
                 $return['is_delete'] = 0;
 
                 //价格
-                $data['price']       = $data['pro_price']?'￥'.$data['pro_price']:'欢迎来电询价';
+                $data['price']       = $data['pro_price']>0?'￥'.$data['pro_price']:'欢迎来电询价';
                 $data['cate_1_name'] = $data['cate_1_name']?$data['cate_1_name']:'--';
                 $data['cate_2_name'] = $data['cate_2_name']?$data['cate_2_name']:'--';
                 //地址
