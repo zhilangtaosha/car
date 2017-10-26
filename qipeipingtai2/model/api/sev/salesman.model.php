@@ -829,13 +829,13 @@ class ApiSevSalesmanModel extends Model
                         if($data[$i]['qq']){
                             $data[$i]['qq'] = explode(',',$data[$i]['qq']);
                         }
-                        $firmCallNum = $this->table('firms_call_log')->where('to_firms_id='.$data[$i]['firmId'])->group('firms_id')->get();
+                        $firmCallNum = $this->table('firms_call_log')->where('to_firms_id='.$data[$i]['firmId'].' and firms_id>0')->group('firms_id')->get();
                         $firmCallNum = count($firmCallNum);
 
 //                        $yeWuCallNum = $this->table('sales_call_log')->where('firms_id='.$data[$i]['firmId'])->count();
 //                        $allCallNum  = $firmCallNum+$yeWuCallNum;
                         $allCallNum  = $firmCallNum;
-                        $firmQqNum   = $this->table('firms_visit_log')->where('to_firms_id='.$data[$i]['firmId'])->group('firms_id')->get();
+                        $firmQqNum   = $this->table('firms_visit_log')->where('to_firms_id='.$data[$i]['firmId'].' and firms_id>0')->group('firms_id')->get();
                         $firmQqNum   = count($firmQqNum);
                         if($allCallNum>0){
                             $allCallNum = $this->countInt($allCallNum);

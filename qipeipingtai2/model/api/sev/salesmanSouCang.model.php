@@ -53,9 +53,9 @@ class ApiSevSalesmanSouCangModel extends Model
                 $company['companyType'] = '汽修厂';
             }
             $company['tokenId'] = authcode($company['id'],'ENCODE');
-            $boDaAll = $this->table('firms_call_log')->where('to_firms_id='.$company['id'])->group('firms_id')->get();
+            $boDaAll = $this->table('firms_call_log')->where('to_firms_id='.$company['id'].' and firms_id>0')->group('firms_id')->get();
             $boDaAll = count($boDaAll);
-            $fangWen = $this->table('firms_visit_log')->where('to_firms_id='.$company['id'])->group('firms_id')->get();
+            $fangWen = $this->table('firms_visit_log')->where('to_firms_id='.$company['id'].' and firms_id>0')->group('firms_id')->get();
             $fangWen = count($fangWen);
             if($boDaAll && $boDaAll>0){
                 $boDaAll = $this->countInt($boDaAll);
