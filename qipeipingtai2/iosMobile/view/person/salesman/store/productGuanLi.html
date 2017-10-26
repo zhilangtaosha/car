@@ -160,7 +160,7 @@
 	{{# for(var i=0;i<len;i++){ }}
 	<div style="width: 100%;padding: 0 15px;margin-bottom: 10px;" id="child{{ d[i].proId }}">
    		<div style="background: #FFFFFF;border: #DDDDDD 1px solid;">
-   			<div class="sw-box-1"><span>{{ d[i].pro_type }}</span><span style="float: right;">今日刷新：<span class="sw-ctheme" id="refresh{{ d[i].proId }}" data-refresh = "{{ d[i].proId }}">{{ d[i].pro_refresh }}</span></span></div>
+   			<div class="sw-box-1"><span>{{ d[i].pro_type }}</span><span style="float: right;">历史刷新：<span class="sw-ctheme" id="refresh{{ d[i].proId }}" data-refresh = "{{ d[i].proId }}">{{ d[i].pro_refresh }}</span></span></div>
    			<div class="sw-box-2">
    				<img src="{{ imgUrl+d[i].pro_pic }}" style="width: 92px;height: 92px;"/>  				
    				<div class="sw-box-3">
@@ -197,7 +197,7 @@
 	{{# for(var i=0;i<len;i++){ }}
 	<div style="width: 100%;padding: 0 15px;margin-bottom: 10px;" id="child{{ d[i].proId }}">
    		<div style="background: #FFFFFF;border: #DDDDDD 1px solid;">
-   			<div class="sw-box-1"><span>{{ d[i].pro_type }}</span><span style="float: right;">今日刷新：<span class="sw-ctheme">{{ d[i].pro_refresh }}</span></span></div>
+   			<div class="sw-box-1"><span>{{ d[i].pro_type }}</span><span style="float: right;">历史刷新：<span class="sw-ctheme">{{ d[i].pro_refresh }}</span></span></div>
    			<div class="sw-box-2">
    				<img src="{{ imgUrl+d[i].pro_pic }}" style="width: 92px;height: 92px;"/>  				
    				<div class="sw-box-3">
@@ -338,12 +338,12 @@
   		data.listId   = 'productsCon';//列表容器  
 		data.pageId   = 'page';//页码Id	
 		
-		//请求并处理数据
+		//请求并处理数据 
 		loadInfoArr(data,false,showSelf);	
 	 }	
 	
 	/**  
-	 * 重新获取数据 产品分类
+	 * 重新获取数据 产品分类 
 	 * @param {Object} type
 	 * @param {Object} j
 	 */
