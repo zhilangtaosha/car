@@ -20,7 +20,7 @@
         </div>
         <div style="clear: both;"></div>
         <div class="productInfoText">
-            <span>价格：</span><span  class="money">￥<?php echo $data['pro_price'];?></span>
+            <span>价格：</span><span  class="money"><?php echo $data['pro_price']>0?'￥'.$data['pro_price']:'欢迎来电咨询';?></span>
             <div>厂家编码: <?php echo $data['pro_no'];?></div>
             <div>产品品牌：<?php echo $data['pro_brand'];?></div>
             <div>产品类别：<?php echo $data['oneTypeName'];?></div>

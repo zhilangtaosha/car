@@ -59,6 +59,8 @@ class WebProductModel extends Model
             }else{
                 $data[$k]['pro_price'] = '￥ '.$v['pro_price'];
             }
+            $data[$k]['cate_1_name'] = $v['cate_1_name'] ? $v['cate_1_name']: '';
+            $data[$k]['cate_2_name'] = $v['cate_2_name'] ? $v['cate_2_name']: '';
         }
         return array('list'=>$data,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
     }
