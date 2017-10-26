@@ -168,6 +168,13 @@ class WebCollectModel extends Model
             ->jion('left join product_list as d on a.pro_id=d.id left join product_category as b on d.pro_cate_1=b.id left join product_category as c on d.pro_cate_2=c.id')
             ->where($where)->order('a.create_time desc')->limit($start,$pageSize)->get();
 
+        //预处理数据
+        foreach ($data as $k=>$item){
+            $data[$k]['pro_price'] = $item['pro_price']>0?'￥'.$item['pro_price']:'欢迎来电询价';
+            $data[$k]['cate_2_name'] = $item['cate_2_name']?$item['cate_2_name']:'--';
+            $data[$k]['cate_1_name'] = $item['cate_1_name']?$item['cate_1_name']:'--';
+        }
+
         return array('list'=>$data,'count'=>$count,'page'=>$page,'pageSize'=>$pageSize);
     }
     //收藏圈子列表

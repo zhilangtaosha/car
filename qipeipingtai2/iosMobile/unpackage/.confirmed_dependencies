@@ -159,7 +159,8 @@
 		"refer": [
 			"view/index/car/index.html",
 			"view/index/changeCity.html",
-			"view/index/qiugou/index.html"
+			"view/index/qiugou/index.html",
+			"view/index/product/index.html"
 		]
 	},
 	"view/person/set/index.html": {
@@ -200,10 +201,14 @@
 			"js/mui.previewimage.js",
 			"js/global.js",
 			"image/person/renzv-renz.png",
-			"image/person/renzheng2.png"
+			"image/person/renzheng2.png",
+			"image/coterie/icon_dt_like_r.png",
+			"image/coterie/dingwei.png",
+			"image/coterie/icon_dt_pingjia.png"
 		],
 		"refer": [
-			"view/person/salesman/store/index.html"
+			"view/person/salesman/store/index.html",
+			"view/index/shangjia/jingxiao.html"
 		]
 	},
 	"view/person/salesman/verifyCompany/index.html": {
@@ -551,6 +556,17 @@
 	"view/index/product/index.html": {
 		"refer": [
 			"view/index/product/list.html"
+		],
+		"resources": [
+			"js/laytpl/laytpl.js",
+			"image/index/icon_wz_sousuo@3x.png",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"css/common.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/global.js",
+			"css/swiper.css"
 		]
 	},
 	"view/index/changeCity.html": {
@@ -586,7 +602,16 @@
 			"css/common.css",
 			"js/mui.pullToRefresh.material.js",
 			"css/mui.min.css",
-			"css/swiper.css"
+			"css/swiper.css",
+			"js/laytpl/laytpl.js",
+			"image/index/icon_wz_sousuo@3x.png",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/global.js"
+		],
+		"refer": [
+			"view/index/product/detail.html"
 		]
 	},
 	"view/person/salesman/jilu/dial.html": {
@@ -691,7 +716,12 @@
 			"js/mui.pullToRefresh.material.js",
 			"css/mui.min.css",
 			"image/person/renzheng2.png",
-			"image/person/store/icon_number.png"
+			"image/person/store/icon_number.png",
+			"js/laytpl/laytpl.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"js/global.js"
 		],
 		"refer": [
 			"view/person/repair/detail.html"
@@ -792,6 +822,28 @@
 		],
 		"refer": [
 			"view/index/shangjia/jingxiao.html"
+		]
+	},
+	"view/index/product/detail.html": {
+		"resources": [
+			"image/index/people.png",
+			"js/mui.zoom.js",
+			"image/coterie/icon_dt_like.png",
+			"image/person/repair/icon_dingwei.png",
+			"image/index/icon_cp_phone.png",
+			"js/mui.previewimage.js",
+			"image/index/weixin.png",
+			"image/index/home_r.png",
+			"image/person/renzv-renz.png",
+			"image/index/icon_cp_qq.png",
+			"image/index/bgImg.png",
+			"css/common.css",
+			"css/mui.min.css",
+			"js/laytpl/laytpl.js",
+			"js/jquery.min.js",
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"js/global.js"
 		]
 	}
 }

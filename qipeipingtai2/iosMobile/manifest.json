@@ -2339,7 +2339,8 @@
 					"css/swiper.css",
 					"image/ca9c5da17d6b411aa67a6366abd7d166.jpg",
 					"fonts/mui.ttf",
-					"css/common.css"
+					"css/common.css",
+					"image/index/icon_wz_sousuo@3x.png"
 				],
 				"refer": [
 					"view/index/product/list.html"
@@ -2357,7 +2358,9 @@
 					"js/jquery.min.js",
 					"css/common.css",
 					"js/mui.pullToRefresh.js",
-					"js/mui.pullToRefresh.material.js"
+					"js/mui.pullToRefresh.material.js",
+					"image/index/icon_wz_sousuo@3x.png",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"view/index/product/detail.html"
@@ -2386,7 +2389,10 @@
 					"image/coterie/icon_dt_like_r.png",
 					"image/person/renzheng2.png",
 					"css/common.css",
-					"image/person/renzv-renz.png"
+					"image/person/renzv-renz.png",
+					"image/coterie/icon_dt_like.png",
+					"image/index/home_r.png",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"view/login/login.html",

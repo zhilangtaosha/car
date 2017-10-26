@@ -561,7 +561,14 @@ class ApiSevUserModel extends Model{
             ->field('a.proId,a.proName,a.pro_type,b.name as cate_1_name,c.name as cate_2_name,a.pro_price,a.car_group,a.pro_pic,a.pro_refresh')
             ->jion('left join product_category as b on a.pro_cate_1=b.id left join product_category as c on a.pro_cate_2=c.id')
             ->where($where)->order('pro_refresh desc')->limit($start,$pageSize)->get();
-        return $data = array('list'=>$data,'count'=>$count,'status'=>'200','page'=>$page,'pageSize'=>$pageSize);
+
+        //预处理数据
+        foreach ($data as $k=>$item){
+            $data[$k]['pro_price'] = $item['pro_price']>0?'￥'.$item['pro_price']:'欢迎来电询价';
+            $data[$k]['cate_2_name'] = $item['cate_2_name']?$item['cate_2_name']:'--';
+        }
+
+        return array('list'=>$data,'count'=>$count,'status'=>'200','page'=>$page,'pageSize'=>$pageSize);
     }
 
 
