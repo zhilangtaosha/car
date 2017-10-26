@@ -81,7 +81,7 @@
 			<li class="mui-table-view-cell sw-no-active">
 			 	<span class="sw-ctheme sw-list-title">企业账号：</span>
 			 	<span class="sw-list-text1" style="position: relative;">
-			 		<input type="text" class="qiYeShouJiInput" value="" placeholder="请输入厂商11位手机号码" onblur="yanZhengShuZi(this)"/>
+			 		<input type="number" class="qiYeShouJiInput" value="" placeholder="请输入厂商11位手机号码" onblur="yanZhengShuZi(this)"/>
 			 		<div style="position: absolute;top: -2px;left: 5px;">
 			 			<img src="../../../../image/salesman/phone.png" width="10px" alt="" />
 			 		</div>
@@ -263,6 +263,7 @@
 		 </div>
 		
 	</div>
+	<input type="hidden" value="" id="telMsg" />
 	
 </body>
 <script src="../../../../js/jquery.min.js"></script>
@@ -291,14 +292,15 @@
 		var text = $(obj).val(); 
 		if(!text){
 			$('.cuoWu').show();
-			return false;
+			return false; 
 		}
 		if(!(/^1[34578]\d{9}$/.test(text))){
 			$('.cuoWu').show();
+			sw.toast('企业账号格式填写不正确'); 
 			return false;
-		}
-		var postData = {}
-		postData.tel = text;
+		} 
+		var postData = {} 
+		postData.tel = text;  
 		http.load('api.sev.register','isUseTel',postData,function(rData){  //验证厂商手机号码是否已经被使用
 			sw.jcon(rData); 
 			if(rData.status==200){
@@ -307,6 +309,7 @@
 			}else{
 				sw.toast(rData.msg); 
 				$('.cuoWu').show();
+				$('#telMsg').val(rData.msg);
 				return;
 			}
 		});	
@@ -584,6 +587,25 @@
         }else {
             var scale = ''; 
         } 
+        
+        var display =$('#cuoWu').css('display');
+		if(display == 'none'){}else{
+			var msg = $('#telMsg').val();
+			if(msg){
+				sw.toast(msg); 
+				return false;
+			}
+		}
+        if(!phone){
+        	sw.toast('请填写企业账号'); 
+			return false;
+        }
+        
+        if(!(/^1[34578]\d{9}$/.test(phone))){
+			sw.toast('企业账号格式不正确'); 
+			return false;
+		}
+        
         if(!companyname){
         	sw.toast('请填写企业名称'); 
         	return false;
