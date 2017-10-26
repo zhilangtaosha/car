@@ -304,6 +304,9 @@
             i.refresh_time = '-';
         }
         var str = '';
+        if(!i.twoTypeName){
+            i.twoTypeName = '';
+        }
         str += '<tr>';
         str += '<td><img src="'+ i.pro_pic +'" alt="" class="heig50maxW50"></td>';
         str += '<td>'+ i.proId +'</td>';
