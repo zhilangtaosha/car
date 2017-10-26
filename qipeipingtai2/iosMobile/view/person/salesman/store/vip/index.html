@@ -33,7 +33,7 @@
 	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	    <h1 class="mui-title">VIP会员</h1>
 	</header>
-	
+	       
 	<div class="mui-content" style="padding: 0 20px;background: #EFEFEF;padding-top: 60px;">
 	   
 	   	<div style="width: 100%;margin-bottom: 60px;" id="vip_card">
@@ -86,7 +86,7 @@
 			//如果已经登陆 获取登录后的数据
 			http.load('api.sev.salesmanSouCang','getUserInfo',postData,function(rData){//请求成功
 	 			
-	 			if(rData.status==200){
+	 			if(rData.status==200){ 
 	 				sw.jcon(rData); 
 	 				var data = rData.data;
 	 				//填入数据
@@ -111,7 +111,7 @@
 	mui("#payHistory")[0].addEventListener('tap',function(){
 		var self = plus.webview.currentWebview();		//获取传递的参数
 		var EnterpriseID = self.EnterpriseID;		    
-		openView('../../../../../view/person/salesman/store/VIP/payHistory.html','person_salesman_store_VIP_payHistory','pop-in',{'EnterpriseID':EnterpriseID});
+		openView('../../../../../view/person/salesman/store/vip/payHistory.html','person_salesman_store_VIP_payHistory','pop-in',{'EnterpriseID':EnterpriseID});
 	})
 	
  </script>

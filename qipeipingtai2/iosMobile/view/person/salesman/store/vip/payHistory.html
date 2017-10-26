@@ -41,9 +41,15 @@
 	
 	<div class="mui-content" style="background: #EFEFEF;">
 	   
-	 <ul class="mui-table-view" style="margin-top: 0;" id="payList"></ul> 
+	 <!--<ul class="mui-table-view" style="margin-top: 0;" id="payList"></ul> 
 	 
-	 <div id="loadList"><input value="1" hidden="hidden" id="page"/></div>  
+	 <div id="loadList"><input value="1" hidden="hidden" id="page"/></div>  -->
+	 <div class="mui-scroll-wrapper" style="margin-top:44px;"> 
+			<div class="mui-scroll sw-coterie-box" id="loadList">  
+				<div class="mui-table-view" style="margin-top: 0;background: #EFEFF4;" id="orbitList"></div>
+			</div>    
+		</div>  
+		<input value="1" hidden="hidden" id="page" />   	    
 	</div>
 	
 <!--充值记录模板-->
@@ -70,50 +76,106 @@
  <script src="../../../../../js/global.js"></script>
  <script src="../../../../../js/jquery.min.js"></script>
 <script src="../../../../../js/laytpl/laytpl.js"></script>
+<script src="../../../../../js/mui.pullToRefresh.js"></script>
+<script src="../../../../../js/mui.pullToRefresh.material.js"></script> 
 <script type="text/javascript" charset="utf-8">
  	//mui初始化	
+ 	var showSelf;
 	mui.init({
-	  pullRefresh : {
-	    container:'#loadList',//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
-	    up : {
-	      height:50,//可选.默认50.触发上拉加载拖动距离
-	      auto:true,//可选,默认false.自动上拉加载一次
-	      contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
-	      contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
-	      callback :function(){	
-	      	
-	      	var page = mui("#page")[0].value;//获取页数
-	      	sw.jcon(page)
+//	  pullRefresh : {
+//	    container:'#loadList',//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+//	    up : {
+//	      height:50,//可选.默认50.触发上拉加载拖动距离
+//	      auto:true,//可选,默认false.自动上拉加载一次
+//	      contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+//	      contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+//	      callback :function(){	
+//	      	
+//	      	var page = mui("#page")[0].value;//获取页数
+//
+//	      	var data = {};  
+//	      	var postData = {};
+//	      		
+//	      		//请求的数据
+//	      		postData.page     = page;//请求的页码
+//	      		postData.pageSize = 10;//每页显示数量
+//	      		var self = plus.webview.currentWebview();		//获取传递的参数
+//				var EnterpriseID = self.EnterpriseID;		   
+//	      		postData.token    = EnterpriseID;
+//	      		data.postData = postData; 
+//	      		
+//	      		//页面相关数据
+//	      		data.mod      = 'api.sev.salesmanSouCang';//模型
+//	      		data.fun      = 'getVipHistory';//方法
+//	      		data.tpl      = 'pay-list-tpl';//列表模板  
+//	      		data.listId   = 'payList';//列表容器
+//	      		
+//				//请求并处理数据
+//	  			loadInfo(data,true);
+//	      } //必选，刷新函数
+//	    }
+//	  }
+	});
+	
+	//从新开始加载数据 
+	 function getStartList(showSelf){
+	 	var self = plus.webview.currentWebview();		//获取传递的参数
+	 	
+	 	var page = mui("#page")[0].value;//获取页数
 
 	      	var data = {};  
 	      	var postData = {};
 	      		
-	      		//请求的数据
-	      		postData.page     = page;//请求的页码
-	      		postData.pageSize = 10;//每页显示数量
-	      		var self = plus.webview.currentWebview();		//获取传递的参数
-				var EnterpriseID = self.EnterpriseID;		   
-	      		postData.token    = EnterpriseID;
-	      		data.postData = postData; 
-	      		
-	      		//页面相关数据
-	      		data.mod      = 'api.sev.salesmanSouCang';//模型
-	      		data.fun      = 'getVipHistory';//方法
-	      		data.tpl      = 'pay-list-tpl';//列表模板  
-	      		data.listId   = 'payList';//列表容器
-	      		
-				//请求并处理数据
-	  			loadInfo(data,true);
-	      } //必选，刷新函数
-	    }
-	  }
-	});
+      		//请求的数据
+      		postData.page     = page;//请求的页码
+      		postData.pageSize = 3;//每页显示数量
+      		var self = plus.webview.currentWebview();		//获取传递的参数
+			var EnterpriseID = self.EnterpriseID;		   
+      		postData.token    = EnterpriseID;
+      		data.postData = postData; 
+      		
+      		
+      		//页面相关数据
+      		data.mod      = 'api.sev.salesmanSouCang';//模型
+      		data.fun      = 'getVipHistory';//方法
+      		data.tpl      = 'pay-list-tpl';//列表模板   
+      		data.listId   = 'orbitList';//列表容器
+      		data.pageId   = 'page';//页码Id	
+			//请求并处理数据
+	 		loadInfoArr(data,true,showSelf);
+		
+		
+	 }	
 	
 	//mui plusReady
 	mui.plusReady(function() {
+		(function($) {
+				//阻尼系数
+				var deceleration = mui.os.ios?0.003:0.009;
+				$('.mui-scroll-wrapper').scroll({		
+					bounce: false,   
+					indicators: true, //是否显示滚动条
+					deceleration:deceleration 
+				});
+			})
 		
-		
-	
+			mui("#loadList").pullToRefresh({ 
+				down: {
+					callback: function(){
+						location.href = location.href;
+					}
+				},
+				up: {  
+					auto: true,
+					offset: 50, //距离底部高度(到达该高度即触发)
+					contentnomore:contentnomoreStr,   
+					contentrefresh:contentrefreshStr,
+					callback: function() {  
+						showSelf = this;				
+						getStartList(showSelf);			
+						}
+					}
+			});
 	})	
 	
 </script>
