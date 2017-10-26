@@ -280,9 +280,9 @@ function createOrder(){
 function pay(coder,payType){
 var id = payType;
 var token  = plus.storage.getItem('token');		
-var url= httpUrl+'/api.sev.pay/toPayOrder/?coder='+coder+'&token='+token;       
+var url= httpUrl+'/api.sev.pay/toPayOrder/?coder='+coder+'&token='+token+'&xbbxR='+Math.random();       
 	dy(url)
-	if(w){return;}//检查是否请求订单中       
+	if(w){return;}//检查是否请求订单中        
 	if(id==='appleiap'){
 		dy('应用内支付');
 		clicked('payment_iap.html');
@@ -312,8 +312,8 @@ var url= httpUrl+'/api.sev.pay/toPayOrder/?coder='+coder+'&token='+token;
 			w.close();w=null;
 			if(xhr.status==200){
 				dy('----- 请求订单成功 -----');
-				var order=xhr.responseText;
-
+				var order=xhr.responseText;  
+					dy(order);
 				plus.payment.request(pays[id],order,function(result){
 					dy('----- 支付成功 -----');
 					dy(JSON.stringify(result));	

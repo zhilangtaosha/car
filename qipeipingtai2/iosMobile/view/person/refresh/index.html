@@ -111,7 +111,8 @@
  	
  	//刷新点充值
 	mui("#pay")[0].addEventListener('tap',function(){
-		openView('../../../view/person/refresh/pay.html','person_refresh_pay','pop-in');
+		var url = '../../../view/person/refresh/pay.html?random='+Math.random();
+		openView(url,'person_refresh_pay','pop-in');
 	})
 	
 	//充值记录

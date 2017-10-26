@@ -127,7 +127,8 @@
 	}
  	
 	mui("#pay")[0].addEventListener('tap',function(){
-		openView('../../../view/person/VIP/pay.html','person_vip_pay','pop-in');
+		var url = '../../../view/person/VIP/pay.html?random='+Math.random();
+		openView(url,'person_vip_pay','pop-in');
 	})
 	
 	mui("#payHistory")[0].addEventListener('tap',function(){
