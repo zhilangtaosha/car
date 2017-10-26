@@ -225,7 +225,7 @@ class ApiSevSalesmanController extends Controller
             $lng       = $this->getRequest('lng',104.072315);
             $cityCode  = $this->getRequest('cityCode','四川省');        //管辖省份
             if($cityCode){
-                $return = model('api.sev.salesman','mysql')->getAllListZuoBiao($token,$city,$district,$classType,$jiShu,$shaiXuan,$page,$pageSize,$lat,$lng,$cityCode,$keywords);
+                $return = model('api.sev.salesman','mysql')->getAllListZuoBiao1($token,$city,$district,$classType,$jiShu,$shaiXuan,$page,$pageSize,$lat,$lng,$cityCode,$keywords);
             }else{
                 $return = array('status'=>102,'msg'=>'登录过期，获取信息失败，请重新登录');
             }
