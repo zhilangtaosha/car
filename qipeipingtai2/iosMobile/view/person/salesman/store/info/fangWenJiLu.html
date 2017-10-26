@@ -153,8 +153,14 @@
 	   		<input type="number" name="orbitType" id="orbitType" value="1" hidden="hidden" />
 	   		<input type="number" name="clearStatus" id="clearStatus" value="1" hidden="hidden" />	 
 	   </div>
-	     <div style="padding-top: 44px;" id="orbitList"></div>
-	    <div id="loadList"><input value="1" hidden="hidden" id="page"/></div> 	   
+	   <div class="mui-scroll-wrapper" style="margin-top:84px;"> 
+			<div class="mui-scroll sw-coterie-box" id="loadList">  
+				<div class="mui-table-view" style="margin-top: 0;background: #EFEFF4;" id="orbitList"></div>
+			</div>
+		</div> 
+	     <!--<div style="padding-top: 44px;" id="orbitList"></div>-->
+	    <!--<div id="loadList"><input value="1" hidden="hidden" id="page"/></div>--> 	   
+	    
 	<!--<ul class="mui-table-view" style="margin-top: 10px;">
 		<li class="mui-table-view-cell mui-media sw-card-li sw-no-active">
 				
@@ -182,8 +188,10 @@
 			</div>	
 		</li>
 	 </ul>-->
-	    	  	    
+	 <input value="1" hidden="hidden" id="page" />   	    
 	</div>
+
+	   
 <!--列表模板-->
 <script id="history-list-tpl" type="text/html">
 	{{# var len = d.length; }} 
@@ -257,29 +265,61 @@
  <script src="../../../../../js/global.js"></script>
  <script src="../../../../../js/jquery.min.js"></script>
 <script src="../../../../../js/laytpl/laytpl.js"></script>
+<script src="../../../../../js/mui.pullToRefresh.js"></script>
+<script src="../../../../../js/mui.pullToRefresh.material.js"></script> 
  <script type="text/javascript" charset="utf-8">
 	//mui初始化
-	mui.init({
-	  pullRefresh : {
-	    container:'#loadList',//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
-	    up : {
-	      height:50,//可选.默认50.触发上拉加载拖动距离
-	      auto:true,//可选,默认false.自动上拉加载一次
-	      contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
-	      contentnomore:'没有更多记录了',//可选，请求完毕若没有更多数据时显示的提醒内容；
-	      callback :function(){	
-	      	getStartList();
-	      } //必选，刷新函数
-	    }
-	  }
-	});
+//	mui.init({
+//	  pullRefresh : {
+//	    container:'#loadList',//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+//	    up : {
+//	      height:50,//可选.默认50.触发上拉加载拖动距离
+//	      auto:true,//可选,默认false.自动上拉加载一次
+//	      contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+//	      contentnomore:'没有更多记录了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+//	      callback :function(){	
+//	      	getStartList();
+//	      } //必选，刷新函数
+//	    }
+//	  }
+//	});
 
 var kefuStatus = 1;
 var xcmToken = 1;
+var showSelf;
 	//mui plusReady
-	mui.plusReady(function() {})	
+	mui.plusReady(function() {
+		(function($) {
+				//阻尼系数
+				var deceleration = mui.os.ios?0.003:0.009;
+				$('.mui-scroll-wrapper').scroll({		
+					bounce: false,   
+					indicators: true, //是否显示滚动条
+					deceleration:deceleration 
+				});
+			})
+		
+		
+			mui("#loadList").pullToRefresh({ 
+				down: {
+					callback: function(){
+						location.href = location.href;
+					}
+				},
+				up: {  
+					auto: true,
+					offset: 50, //距离底部高度(到达该高度即触发)
+					contentnomore:contentnomoreStr,   
+					contentrefresh:contentrefreshStr,
+					callback: function() {  
+						showSelf = this;				
+						getStartList(showSelf);			
+						}
+					}
+			});  
+	})
 	 //从新开始加载数据 
-	 function getStartList(){
+	 function getStartList(showSelf){
 	 	var self = plus.webview.currentWebview();		//获取传递的参数
 		var	tokenId = self.tokenId;						//业务员工资表ID
 		var typeJiLu= self.typeJiLu;					//1为访问记录，2为拨打记录
@@ -311,11 +351,13 @@ var xcmToken = 1;
       		//页面相关数据   
       		data.mod      = 'api.sev.salesmanSouCang';//模型    
       		data.fun      = orbitType==1?'getFirmsToVisitLog':'getFirmsToCallLog';//方法       
-      		data.tpl      = 'history-list-tpl';//列表模板     		      		
+      		data.tpl      = 'history-list-tpl';//列表模板  
+      		data.pageId   = 'page';//页码Id	
       		data.listId   = 'orbitList';//列表容器  
-   
+   console.log(page)
 			//请求并处理数据     
-  			loadInfo(data,true);	  	
+//			loadInfo(data,true);	  	
+  			loadInfoArr(data,true,showSelf);
 	 }	
 	
 	/**
@@ -335,9 +377,9 @@ var xcmToken = 1;
 			$("#orbitList").html('');
 			$("#page").val(1);
 			//从新开始加载数据 
-			 getStartList();
-			//加载标记								
-			mui('#loadList').pullRefresh().refresh(true); 
+			 getStartList(showSelf);	
+			//加载标记							
+			showSelf.refresh(true);    
  		}		
  	}
  	 	

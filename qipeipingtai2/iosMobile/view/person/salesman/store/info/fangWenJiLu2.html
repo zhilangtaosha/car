@@ -145,7 +145,7 @@
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	    <h1 class="mui-title" id="titleStr">访问记录</h1>
 	</header>
-	
+	 
 	<div class="mui-content" style="background: #F5F5F5;">
 	   <div class="sw-title-box">
 	   		<div class="sw-title-1 sw-ctheme" onclick="reGetInfo(1,this)">访问记录</div>
@@ -380,6 +380,7 @@ var xcmToken = 1;
 	 */
  	function reGetInfo(type,j){
  		if($(j).hasClass('sw-ctheme')==false){
+// 			self.endPullUpToRefresh(false);
  			
  			var titleStr = type==1?'访问记录':'拨打记录';
  			mui("#titleStr")[0].innerText = titleStr;  
@@ -391,8 +392,8 @@ var xcmToken = 1;
 			$("#page").val(1);
 			//从新开始加载数据 
 			 getStartList(showSelf);	
-			//加载标记								
-			mui('#loadList').pullRefresh().refresh(true); 
+			//加载标记							
+			showSelf.refresh(true);  
  		}		
  	}
  	 	
