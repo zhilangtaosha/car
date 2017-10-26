@@ -654,7 +654,7 @@ class ApiSevSalesmanSouCangModel extends Model
         foreach ($list as $k=>$item){
             $list[$k]['statusStr'] = $item['status']==1?'充值成功':'充值失败';
             $list[$k]['paywayStr'] = $item['payway']==1?'微信支付':($item['payway']==2?'支付宝':'人工充值');
-            $list[$k]['money']     = intval($list[$k]['money']);
+            $list[$k]['money']     = $list[$k]['money'];
         }
         return $data = array('list'=>$list,'count'=>$count,'status'=>'200','page'=>$p,'pageSize'=>$pageSize);
     }
