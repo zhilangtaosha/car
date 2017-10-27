@@ -8,7 +8,7 @@
  */
 class WebFirmsModel extends Model
 {
-    public function getFirms($type,$classification,$business,$categorise,$keyword,$page,$pageSize=4,$currentCity='成都市'){
+    public function getFirms($type,$classification,$business,$categorise,$keyword,$page,$pageSize=6,$currentCity='成都市'){
         $start = ($page-1)*$pageSize;
         $where = 'status=1 and is_check=1';
         if($type){
@@ -42,16 +42,22 @@ class WebFirmsModel extends Model
         $data  = $this->table('firms')
             ->field('id,EnterpriseID,face_pic,companyname,major,province,city,district,address,longitude,latitude,wechat_pic,is_vip,vip_time,is_check,QR_pic')
             ->where($where)
-            ->order('vip_time desc,rand()')->limit($start,$pageSize)->get();
+            ->order('vip_time desc,create_time asc')->limit($start,$pageSize)->get();
         foreach($data as $k=>$v){
             if(strtotime($v['vip_time'])>time()){
                 $data[$k]['is_vip'] = 1;
+                $data[$k]['sjpx'] = rand(1,50);
             }else{
                 $data[$k]['is_vip'] = 0;
+                $data[$k]['sjpx'] = rand(51,100);
             }
             $data[$k]['face_pic'] = $v['face_pic']?$v['face_pic']:'/images/pub/face_pic.png';
             //$data[$k]['QR_pic'] = $v['QR_pic']?$v['QR_pic']:'/images/pub/QR_pic.png';
         }
+        if($data){
+            array_multisort(array_column($data, 'sjpx'),SORT_NUMERIC, SORT_ASC, $data);
+        }
+
 
         return array('list'=>$data,'page'=>$page,'pageSize'=>$pageSize,'count'=>$count);
 
