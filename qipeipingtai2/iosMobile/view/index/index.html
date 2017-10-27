@@ -111,7 +111,7 @@
 	    	<img src="../../image/index/icon_xiaoxi@3x.png" class="sw-title-img2"/>
 	    </button> 
 	</header> 
-	<div class="mui-content">
+	<div class="mui-content" style="padding-bottom: 44px;">
 	    
 		<!--顶部banner-->
 		<div id="topList">
@@ -153,8 +153,35 @@
 			</div>
 			
 		<!--腰部banner-->
-		<div id="yaoList"></div>
-
+		<div id="yaoList" style="margin-bottom: 20px;"></div>
+		
+		<nav class="mui-bar mui-bar-tab" style="background: #FFFFFF;box-shadow: none;">
+			<a id="tabNav0" class="mui-tab-item  mui-active" href="view/index/index.html">
+				<span class="mui-icon sw-home">
+				</span>
+				<span class="mui-tab-label">首页</span>
+			</a>    
+			<a id="tabNav1" class="mui-tab-item" href="view/vin/index.html">
+				<span class="mui-icon sw-vin">
+				</span>
+				<span class="mui-tab-label">VIN查询</span>
+			</a>
+			<a id="tabNav2" class="mui-tab-item" href="view/coterie/list.html">
+				<span class="mui-icon sw-quanzi">
+				</span>
+				<span class="mui-tab-label">圈子</span>
+			</a>
+			<a id="tabNav3" class="mui-tab-item" href="view/gonggao/notice.html">
+				<span class="mui-icon sw-gonggao">
+				</span>
+				<span class="mui-tab-label">通知公告</span>
+			</a>
+			<a id="tabNav4" class="mui-tab-item" href="view/person/index.html">
+				<span class="mui-icon sw-geren">
+				</span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
 	</div>  
 	
 	<!--顶部banner模板-->
@@ -294,7 +321,22 @@
  <script src="../../js/mui.pullToRefresh.js"></script>
 <script src="../../js/mui.pullToRefresh.material.js"></script> 
  <script type="text/javascript" charset="utf-8">	
- 
+// 	vin查询
+ 	mui("#tabNav1")[0].addEventListener('tap',function(){
+		openView('../../view/vin/index.html','view_vin_index','fade-in');
+	})
+// 	圈子
+ 	mui("#tabNav2")[0].addEventListener('tap',function(){
+		openView('../../view/coterie/list.html','view_coterie_list','fade-in');
+	})
+// 	通知公告
+ 	mui("#tabNav3")[0].addEventListener('tap',function(){
+		openView('../../view/gonggao/notice.html','view_gonggao_notice','fade-in');
+	})
+// 	个人中心
+ 	mui("#tabNav4")[0].addEventListener('tap',function(){
+		openView('../../view/person/index.html','view_person_index','fade-in'); 
+	})
  	//监听自定义事件
 	window.addEventListener('refreshIndex', function(e) {  
 		//初始化城市配置

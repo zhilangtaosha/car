@@ -74,10 +74,10 @@
 				JsonStorage.setItem('userType',2);			//2为业务员
 				JsonStorage.setItem('yeWuInfo',rData.info);	//记录业务详细信息
 					//刷新个人中心
- 				var person = plus.webview.getWebviewById("view/person/index.html");
+   				var person = plus.webview.getWebviewById("view_person_index");
 					person.reload(true); 
-				//关闭登录界面
-				plus.webview.close( 'setSys', 'slide-out-bottom', '300');
+				//关闭登录界面 
+				plus.webview.close( 'setSys', 'slide-out-bottom', '300'); 
 				plus.webview.close( 'view_login_login', 'slide-out-bottom', '300');
 				
 				//刷新个人中心

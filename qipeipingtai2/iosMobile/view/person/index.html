@@ -165,7 +165,7 @@
 	</head>
 
 	<body>
-	<div class="mui-content">
+	<div class="mui-content" style="padding-bottom: 44px;">
 			
 			<div id="userInfo" style="display: none;">
 				<!--顶部板块-->
@@ -278,7 +278,34 @@
 			</div>
 			
 		</div>
-
+		
+		<nav class="mui-bar mui-bar-tab" style="background: #FFFFFF;box-shadow: none;">
+			<a id="tabNav0" class="mui-tab-item" href="view/index/index.html">
+				<span class="mui-icon sw-home">
+				</span>
+				<span class="mui-tab-label">首页</span>
+			</a>    
+			<a id="tabNav1" class="mui-tab-item" href="view/vin/index.html">
+				<span class="mui-icon sw-vin">
+				</span>
+				<span class="mui-tab-label">VIN查询</span>
+			</a>
+			<a id="tabNav2" class="mui-tab-item" href="view/coterie/list.html">
+				<span class="mui-icon sw-quanzi">
+				</span>
+				<span class="mui-tab-label">圈子</span>
+			</a>
+			<a id="tabNav3" class="mui-tab-item" href="view/gonggao/notice.html">
+				<span class="mui-icon sw-gonggao">
+				</span>
+				<span class="mui-tab-label">通知公告</span>
+			</a>
+			<a id="tabNav4" class="mui-tab-item  mui-active" href="view/person/index.html">
+				<span class="mui-icon sw-geren">
+				</span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
 <!--未登录个人中心头部模板-->
 <script id="noTop-list-tpl" type="text/html">
 	
@@ -539,6 +566,23 @@
 <script src="../../js/mui.pullToRefresh.js"></script>
 <script src="../../js/mui.pullToRefresh.material.js"></script> 
 <script type="text/javascript" charset="utf-8">
+// 	首页
+ 	mui("#tabNav0")[0].addEventListener('tap',function(){
+		openView('../../view/index/index.html','view_index_index','fade-in');
+	})
+// 	vin查询
+ 	mui("#tabNav1")[0].addEventListener('tap',function(){ 
+		openView('../../view/vin/index.html','view_vin_index','fade-in');
+	})
+// 	圈子
+ 	mui("#tabNav2")[0].addEventListener('tap',function(){
+		openView('../../view/coterie/list.html','view_coterie_list','fade-in');
+	})
+// 	通知公告
+ 	mui("#tabNav3")[0].addEventListener('tap',function(){
+		openView('../../view/gonggao/notice.html','view_gonggao_notice','fade-in');
+	})
+
 	window.addEventListener('msgPerson', function(e) {    
 		$("#naTip").hide();  
     })

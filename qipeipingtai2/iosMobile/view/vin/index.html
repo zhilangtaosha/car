@@ -67,7 +67,7 @@
 	<header class="mui-bar mui-bar-nav">	   
 	    <h1 class="mui-title">VIN查询</h1>
 	</header>
-	<div class="mui-content" style="background: #EFEFEF;">  
+	<div class="mui-content" style="background: #EFEFEF;padding-bottom: 44px;">  
 		 <div class="mui-input-row sw-input-box">
 		 	<input type="text" name="oldVinCode" id="oldVinCode" value="" hidden="hidden"/>
 	        <input type="text" id="vinCode" placeholder="输入17位车架号" maxlength="17" onkeyup="searchVin()" class="sw-input-phone">
@@ -78,6 +78,34 @@
 	    	
 	    </div>
 	</div> 
+	
+		<nav class="mui-bar mui-bar-tab" style="background: #FFFFFF;box-shadow: none;">
+			<a id="tabNav0" class="mui-tab-item" href="view/index/index.html">
+				<span class="mui-icon sw-home">
+				</span>
+				<span class="mui-tab-label">首页</span>
+			</a>    
+			<a id="tabNav1" class="mui-tab-item mui-active" href="view/vin/index.html">
+				<span class="mui-icon sw-vin">
+				</span>
+				<span class="mui-tab-label">VIN查询</span>
+			</a>
+			<a id="tabNav2" class="mui-tab-item" href="view/coterie/list.html">
+				<span class="mui-icon sw-quanzi">
+				</span>
+				<span class="mui-tab-label">圈子</span>
+			</a>
+			<a id="tabNav3" class="mui-tab-item" href="view/gonggao/notice.html">
+				<span class="mui-icon sw-gonggao">
+				</span>
+				<span class="mui-tab-label">通知公告</span>
+			</a>
+			<a id="tabNav4" class="mui-tab-item" href="view/person/index.html">
+				<span class="mui-icon sw-geren">
+				</span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
 <script id="vin-list-tpl" type="text/html">
 	{{# var len = d['info'].length; var list = d['info']; }}
 	{{# for(var i = 0;i < len; i++){ }}
@@ -217,6 +245,22 @@
 <script src="../../js/jquery.min.js"></script>
 <script src="../../js/laytpl/laytpl.js"></script>  
  <script>
+ 	// 	vin查询
+ 	mui("#tabNav0")[0].addEventListener('tap',function(){
+		openView('../../view/index/index.html','view_index_index','fade-in');
+	})
+// 	圈子
+ 	mui("#tabNav2")[0].addEventListener('tap',function(){
+		openView('../../view/coterie/list.html','view_coterie_list','fade-in');
+	})
+// 	通知公告
+ 	mui("#tabNav3")[0].addEventListener('tap',function(){
+		openView('../../view/gonggao/notice.html','view_gonggao_notice','fade-in');
+	})
+// 	个人中心
+ 	mui("#tabNav4")[0].addEventListener('tap',function(){
+		openView('../../view/person/index.html','view_person_index','fade-in'); 
+	})
  	//监听vinp上传返回事件
  	 window.addEventListener('vinBase64',function(){ 	 	
  	 	var base64 = plus.storage.getItem('base64');

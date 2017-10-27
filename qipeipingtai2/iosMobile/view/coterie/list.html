@@ -301,14 +301,14 @@
 	    	<img src="../../image/index/icon_xiaoxi@3x.png" class="sw-title-img2"/>
 	    </button>
 		</header>
-		<div class="mui-content">
+		<div class="mui-content" style="">
 			
 			<div class="mui-input-row sw-input-box">
 				<input type="text" placeholder="输入关键字搜索" id="keyWord" style="font-size:14px;color: #666;" maxlength="17" class="sw-input-phone">
 				<p class="sw-search-p" onclick="forSearch002()"></p>
 			</div>
 
-			<div class="mui-scroll-wrapper" style="margin-top:104px;">    
+			<div class="mui-scroll-wrapper" style="margin-top:104px;margin-bottom: 44px;">    
 				<div class="mui-scroll sw-coterie-box" id="loadList">  
 					<div class="mui-table-view " id="show-list">
 
@@ -317,8 +317,37 @@
 			</div>
 		
 		</div>
+		
 <input value="1" hidden="hidden" id="page" />
 <div class="sheying sheying-box" id="publish"><img src="../../image/coterie/sheying.png" class="sheying" /></div>
+
+		<nav class="mui-bar mui-bar-tab" style="background: #FFFFFF;box-shadow: none;">
+			<a id="tabNav0" class="mui-tab-item" href="view/index/index.html">
+				<span class="mui-icon sw-home">
+				</span>
+				<span class="mui-tab-label">首页</span>
+			</a>    
+			<a id="tabNav1" class="mui-tab-item" href="view/vin/index.html">
+				<span class="mui-icon sw-vin">
+				</span>
+				<span class="mui-tab-label">VIN查询</span>
+			</a>
+			<a id="tabNav2" class="mui-tab-item mui-active" href="view/coterie/list.html">
+				<span class="mui-icon sw-quanzi">
+				</span>
+				<span class="mui-tab-label">圈子</span>
+			</a>
+			<a id="tabNav3" class="mui-tab-item" href="view/gonggao/notice.html">
+				<span class="mui-icon sw-gonggao">
+				</span>
+				<span class="mui-tab-label">通知公告</span>
+			</a>
+			<a id="tabNav4" class="mui-tab-item" href="view/person/index.html">
+				<span class="mui-icon sw-geren">
+				</span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
 <!--圈子模板-->
 <script id="show-list-tpl" type="text/html">
 	{{# var len = d.length }} 
@@ -405,6 +434,23 @@
 <script src="../../js/mui.pullToRefresh.js"></script>
 <script src="../../js/mui.pullToRefresh.material.js"></script>
 <script>
+// 	vin查询
+ 	mui("#tabNav0")[0].addEventListener('tap',function(){
+		openView('../../view/index/index.html','view_index_index','fade-in');
+	})
+// 	VIN查询
+ 	mui("#tabNav1")[0].addEventListener('tap',function(){
+		openView('../../view/vin/index.html','view_vin_index','fade-in');
+	})
+// 	通知公告
+ 	mui("#tabNav3")[0].addEventListener('tap',function(){
+		openView('../../view/gonggao/notice.html','view_gonggao_notice','fade-in');
+	})
+// 	个人中心
+ 	mui("#tabNav4")[0].addEventListener('tap',function(){
+		openView('../../view/person/index.html','view_person_index','fade-in'); 
+	})
+	
 	window.addEventListener('msgCircle', function(e) {  
 		$("#naTip").hide();  
     })

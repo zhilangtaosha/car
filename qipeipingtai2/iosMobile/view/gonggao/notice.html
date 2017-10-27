@@ -157,8 +157,8 @@
 	    </button>
 	</header>  
 	
-	<div class="mui-content">
-		<div class="mui-scroll-wrapper" style="margin-top:44px;background: #EFEFF4;"> 
+	<div class="mui-content" style="">
+		<div class="mui-scroll-wrapper" style="margin-top:44px;background: #EFEFF4;padding-bottom: 44px;"> 
 			<div class="mui-scroll sw-coterie-box" id="loadList">  
 				<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 0;margin-bottom: 15px;">
 					<li class="mui-table-view-cell mui-media sw-table-cell" id="promotion" onclick="$('#activeTip').hide()">	
@@ -187,12 +187,40 @@
 					</li>
 				</ul>
 				
-				<div class="mui-table-view " id="noticeList">
+				<div class="mui-table-view " id="noticeList" style="">
 
 				</div>
 			</div>   
 		</div>
 	</div>
+	
+		<nav class="mui-bar mui-bar-tab" style="background: #FFFFFF;box-shadow: none;">
+			<a id="tabNav0" class="mui-tab-item" href="view/index/index.html">
+				<span class="mui-icon sw-home">
+				</span>
+				<span class="mui-tab-label">首页</span>
+			</a>    
+			<a id="tabNav1" class="mui-tab-item" href="view/vin/index.html">
+				<span class="mui-icon sw-vin">
+				</span>
+				<span class="mui-tab-label">VIN查询</span>
+			</a>
+			<a id="tabNav2" class="mui-tab-item" href="view/coterie/list.html">
+				<span class="mui-icon sw-quanzi">
+				</span>
+				<span class="mui-tab-label">圈子</span>
+			</a>
+			<a id="tabNav3" class="mui-tab-item mui-active" href="view/gonggao/notice.html">
+				<span class="mui-icon sw-gonggao">
+				</span>
+				<span class="mui-tab-label">通知公告</span>
+			</a>
+			<a id="tabNav4" class="mui-tab-item" href="view/person/index.html">
+				<span class="mui-icon sw-geren">
+				</span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
 	
 	<input value="1" hidden="hidden" id="page"/>
 <!--列表模板-->
@@ -234,6 +262,23 @@
 <script type="text/javascript" src="../../js/mui.pullToRefresh.js"></script>
 <script type="text/javascript" src="../../js/mui.pullToRefresh.material.js"></script> 
 <script type="text/javascript" charset="utf-8">
+// 	vin查询
+ 	mui("#tabNav0")[0].addEventListener('tap',function(){
+		openView('../../view/index/index.html','view_index_index','fade-in');
+	})
+	// 	vin查询
+	mui("#tabNav1")[0].addEventListener('tap',function(){
+		openView('../../view/vin/index.html','view_vin_index','fade-in');
+	})
+// 	圈子
+ 	mui("#tabNav2")[0].addEventListener('tap',function(){
+		openView('../../view/coterie/list.html','view_coterie_list','fade-in');
+	})
+// 	个人中心
+ 	mui("#tabNav4")[0].addEventListener('tap',function(){
+		openView('../../view/person/index.html','view_person_index','fade-in'); 
+	})
+
 window.addEventListener('msgNotice', function(e) {  
 		$("#naTip").hide();  
     })
