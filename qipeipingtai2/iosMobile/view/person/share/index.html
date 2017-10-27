@@ -88,15 +88,16 @@
 		</header>
 
 		<div class="mui-content">
-			<div class="mui-scroll-wrapper" style="margin-top:44px;">  
-				
-				<div class="mui-scroll sw-coterie-box" id="loadList">  
-					<div id="infoCon"></div>
+			<div id="infoCon"></div>  
+			<div class="mui-scroll sw-coterie-box" > 
+				<div id="loadList"> 
 					<ul class="mui-table-view" id="show-list" style="margin-top: 10px;">
-	
-					</ul>
+
+				</ul>
 				</div>   
-			</div>
+				
+			</div>   
+			
 		</div>
 	
 		<input value="1" hidden="hidden" id="page"/>		
@@ -108,7 +109,7 @@
 			<p style="font-size: 14px;color: #333">我的邀请人</p>
 			<p >
 				<input type="text" name="inviteCode" id="inviteCode" maxlength="8" value="" placeholder="输入邀请码绑定分享人"  />
-				<button type="button" class="mui-btn mui-btn-tangerine sw-submit-btn" onclick="bindSharer()">绑定</button>
+				<button type="button" id="inviteBtn" class="mui-btn mui-btn-tangerine sw-submit-btn" onclick="bindSharer()">绑定</button>
 			</p>
 		</div>
 		{{# }else{ }}
@@ -185,8 +186,7 @@
 					</div>
 				</a>
 			</li>
-			{{# } }}
-		
+			{{# } }}	
 		{{# } }}
 	</script>
 	<script src="../../../js/mui.min.js"></script>
@@ -230,7 +230,7 @@
 						laytpl(infoTpl).render(info, function(render) {
 							$('#infoCon').html(render);
 						});
-
+										    
 					} else {
 						sw.toast(rData.msg);
 					}
@@ -239,7 +239,7 @@
 					(function($) {
 						//阻尼系数
 						var deceleration = mui.os.ios?0.003:0.009;
-						$('.mui-scroll-wrapper').scroll({		
+						$('.mui-content').scroll({		
 							bounce: false,   
 							indicators: true, //是否显示滚动条
 							deceleration:deceleration 
@@ -253,13 +253,16 @@
 					//sw.toast('获取数据失败，服务器或网络异常');
 				})
 
+				mui(".mui-content").pullToRefresh({
+					down: {   
+						callback: function() {				
+							location.href = location.href;		
+						}
+					} 
+					
+				}) 
 
 				mui("#loadList").pullToRefresh({ 
-					down: {
-							callback: function(){
-								location.href = location.href;
-							}
-					},
 					up: { 
 						auto: true,
 						offset: 50, //距离底部高度(到达该高度即触发)
@@ -376,7 +379,7 @@
 				sw.toast('分享成功！')
 			}, function(e) {
 				dy(e)
-				sw.toast("取消分享");
+//				sw.toast("取消分享");
 			});
 		}
 
@@ -390,6 +393,15 @@
 			openBrowser(shareUrl);
 			return false;
 		}
+
+		/**
+		 * 输入框聚焦
+		 */
+		function inputFocus(){
+			$("#inviteCode").focus()
+			return;
+		}
+
 
 		//绑定分享人
 		function bindSharer() {
