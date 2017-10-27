@@ -515,7 +515,7 @@
 		</a>
 		{{# } }}
 		
-		<a class="mui-tab-items" onclick="document.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin=821273766&version=1&src_type=web&web_src=qq.com'">
+		<a class="mui-tab-items" onclick="document.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin={{d.qqIni}}&version=1&src_type=web&web_src=qq.com'">
 			<span class="mui-icon sw-jubao"></span>
 			<span class="mui-tab-label sw-ctheme">举报</span>
 		</a>
@@ -578,7 +578,9 @@
 					//未删除					 	 				
 				 	var infoTpl   = $('#pro-list-tpl').html();
 				}
-				
+				var qq   = plus.storage.getItem('qqIni');
+					info.qqIni = qq;
+						
 				laytpl(infoTpl).render(info,function(render){           
 			            $('#proDetail').html(render);  			             
 			      	});

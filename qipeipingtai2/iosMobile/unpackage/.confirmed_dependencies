@@ -21,7 +21,8 @@
 		],
 		"refer": [
 			"view/coterie/coterieDetail.html",
-			"view/coterie/publish.html"
+			"view/coterie/publish.html",
+			"view/index/shangjia/jingxiao.html"
 		]
 	},
 	"index.html": {
@@ -314,7 +315,8 @@
 			"js/laytpl/laytpl.js",
 			"js/jquery.min.js",
 			"fonts/mui.ttf",
-			"js/global.js"
+			"js/global.js",
+			"image/login/icon_gou.png"
 		],
 		"refer": []
 	},

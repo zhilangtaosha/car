@@ -487,7 +487,9 @@
 						kefuStatus = 0;
 						setTimeout(function() {
 							kefuStatus = 1;
-							window.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin=821273766&version=1&src_type=web&web_src=qq.com';
+							var qq   = plus.storage.getItem('qqIni');
+
+							window.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin='+qq+'&version=1&src_type=web&web_src=qq.com';
 						}, 300)
 					}
 				}, 'div')
