@@ -277,7 +277,7 @@
 			}
 			sw.jcon(rData.wechat_pic)
 			//微信二维码
-			if(rData.wechat_pic&&rData.face_pic!='null'){
+			if(rData.wechat_pic&&rData.wechat_pic!='null'){
 				$("#wechatImg").attr('src',imgUrl+rData.wechat_pic);
 				plus.storage.setItem('wechatPic',rData.wechat_pic);  
 			}else{
