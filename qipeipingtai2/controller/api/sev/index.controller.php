@@ -446,6 +446,21 @@ class ApiSevIndexController extends Controller{
     }
 
     /**
+     * 获取vip 刷新点显示 配置
+     */
+    public function getVipRefreshIni(){
+
+        if($this->user['status']==200){
+            $indexMo = model('api.sev.index','mysql');
+            $return  = $indexMo->getVipRefreshIni();
+        }else{
+            $return = array('status'=>101,'msg'=>'加载失败','value'=>1);
+        }
+        exit(json_encode($return,JSON_UNESCAPED_UNICODE));
+
+    }
+
+    /**
      * 获取配置城市数据
      */
     public function getCityIni(){

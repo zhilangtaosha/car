@@ -558,6 +558,25 @@ class ApiSevIndexModel extends Model{
 
 
     /**
+     * 获取vip 刷新点 配置
+     * @return array
+     */
+    public function getVipRefreshIni(){
+
+        $res = $this->table('base_ini')->where(array('`name`'=>'vip刷新点配置'))->getOne();
+
+        if($res&&!empty($res)){
+
+            $return = array('status'=>'200','msg'=>'vip刷新点配置','value'=>$res['value']);
+        }else{
+            $return = array('status'=>'200','msg'=>'vip刷新点配置','value'=>1);
+        }
+
+        return $return;
+    }
+
+
+    /**
      *  次数转换成文字
      * @param $count
      * @return int|string
