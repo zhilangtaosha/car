@@ -450,12 +450,8 @@ class ApiSevIndexController extends Controller{
      */
     public function getVipRefreshIni(){
 
-        if($this->user['status']==200){
-            $indexMo = model('api.sev.index','mysql');
-            $return  = $indexMo->getVipRefreshIni();
-        }else{
-            $return = array('status'=>101,'msg'=>'加载失败','value'=>1);
-        }
+        $indexMo = model('api.sev.index','mysql');
+        $return  = $indexMo->getVipRefreshIni();
         exit(json_encode($return,JSON_UNESCAPED_UNICODE));
 
     }
