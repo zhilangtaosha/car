@@ -12,6 +12,7 @@
         .div_90x110{width: 90px;display: inline-block; margin-right: 10px; margin-bottom: 10px;}
         .span_90x110{width: 96px;height: 116px; text-align: center;line-height: 110px; display: inline-block; border: 1px solid lightgrey;margin-bottom: 5px;}
         .span_90x20{width: 90px;height: 20px; text-align: center;line-height: 20px; display: inline-block;}
+        .div_90x110 img{ width: 90px;height: 110px ;border: 0;cursor: pointer; }
     </style>
 </head>
 <body>
@@ -56,7 +57,7 @@
                             <div class="div_90x110">
                                 <span class="span_90x110">
                                     <?php if ($OneCheck['licence_pic']) {?>
-                                    <img style="width: 90px;height: 110px ;border: 0;" alt="营业执照" src="<?php echo $OneCheck['licence_pic'] ;?>">
+                                    <img data-url="<?php echo $OneCheck['licence_pic'] ;?>" onclick="photo(this)" alt="营业执照" src="<?php echo $OneCheck['licence_pic'] ;?>">
                                     <?php }else{ ?>
                                     未上传
                                     <?php } ?>
@@ -66,7 +67,7 @@
                             <div class="div_90x110">
                                 <span class="span_90x110">
                                     <?php if ($OneCheck['taxes_pic']) {?>
-                                    <img style="width: 90px;height: 110px ;border: 0;" alt="纳税认证" src="<?php echo $OneCheck['taxes_pic'] ;?>">
+                                    <img data-url="<?php echo $OneCheck['taxes_pic'] ;?>" onclick="photo(this)" alt="纳税认证" src="<?php echo $OneCheck['taxes_pic'] ;?>">
                                     <?php }else{ ?>
                                     未上传
                                     <?php } ?>
@@ -77,7 +78,7 @@
                             <div class="div_90x110">
                                 <span class="span_90x110">
                                     <?php if ($OneCheck['field_pic']) {?>
-                                    <img style="width: 90px;height: 110px ;border: 0;" alt="实地认证" src="<?php echo $OneCheck['field_pic'] ;?>">
+                                    <img data-url="<?php echo $OneCheck['field_pic'] ;?>" onclick="photo(this)" alt="实地认证" src="<?php echo $OneCheck['field_pic'] ;?>">
                                     <?php }else{ ?>
                                     未上传
                                     <?php } ?>
@@ -88,7 +89,7 @@
                             <div class="div_90x110">
                                 <span class="span_90x110">
                                     <?php if ($OneCheck['brand_pic']) {?>
-                                    <img style="width: 90px;height: 110px ;border: 0;" alt="商标认证" src="<?php echo $OneCheck['brand_pic'] ;?>">
+                                    <img data-url="<?php echo $OneCheck['brand_pic'] ;?>" onclick="photo(this)" alt="商标认证" src="<?php echo $OneCheck['brand_pic'] ;?>">
                                     <?php }else{ ?>
                                     未上传
                                     <?php } ?>
@@ -99,7 +100,7 @@
                             <div class="div_90x110">
                                 <span class="span_90x110">
                                     <?php if ($OneCheck['agents_pic']) {?>
-                                    <img style="width: 90px;height: 110px ;border: 0;" alt="产品代理认证" src="<?php echo $OneCheck['agents_pic'] ;?>">
+                                    <img data-url="<?php echo $OneCheck['agents_pic'] ;?>" onclick="photo(this)" alt="产品代理认证" src="<?php echo $OneCheck['agents_pic'] ;?>">
                                     <?php }else{ ?>
                                     未上传
                                     <?php } ?>
@@ -130,5 +131,40 @@
         </div>
     </div>
 </div>
+<script type="text/html" id="photo">
+    <img src="{{ d }}" id="imgItem" onerror="javascript:layer.msg('图片加载异常');" style="width: 100%;height: 100%;">
+</script>
 </body>
+<script src="/js/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script  type="text/javascript" src="/js/hplus/js/plugins/layer/layer-3.0.3.min.js"></script>
+<script src="/js/laytpl/laytpl.js"></script>
+<script>
+    function photo(obj) {
+        var url = $(obj).attr('data-url');
+        var tpl = $("#photo").html();
+
+        var img = new Image();
+        img.src = url ;
+        var w   = img.width; //
+        var h   = img.height; //
+        var area= ['500px','500px']  ;//宽 高
+        if( w < h ){
+            area = ['400px','550px'] ;
+        }else if( w > h ){
+            area = ['550px','400px'] ;
+        }
+
+        laytpl(tpl).render(url, function(html){
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: area,
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: html
+            });
+        });
+    }
+</script>
 </html>

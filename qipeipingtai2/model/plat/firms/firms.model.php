@@ -22,7 +22,7 @@ class PlatFirmsFirmsModel extends Model
 
         $pages = ($data['page']-1)* $data['pageSize'];
 
-        $find = 'a.id!=0' ;
+        $find = 'a.isDel=0' ;
         if($suppProv){
             $find  .= ' and a.province ="'.$suppProv.'"';
         }
@@ -100,19 +100,22 @@ class PlatFirmsFirmsModel extends Model
         $data = array() ;
         $time = date('Y-m-d H:i:s',time());
         $data['classification'] = $d['cfn'];
-        $data['business'] = $d['business'];
-        $data['companyname'] = $d['comName'];
-        $data['address'] = $d['address'];
-        $data['coordinate'] = $d['position'];
-        $data['longitude'] = $d['lng'];
-        $data['latitude'] = $d['lat'];
-        $data['face_pic'] = $d['face_pic'];
-        $data['major'] = $d['major'];
-        $data['linkMan'] = $d['linkMan'];
-        $data['linkPhone'] = $d['linkPhone'];
-        $data['linkTel'] = $d['linkTel'];
-        $data['qq'] = $d['qq'];
-        $data['update_time'] = $time;
+        $data['business']       = $d['business'];
+        $data['companyname']    = $d['comName'];
+        $data['address']        = $d['address'];
+        $data['coordinate']     = $d['position'];
+        $data['longitude']      = $d['lng'];
+        $data['latitude']       = $d['lat'];
+        $data['face_pic']       = $d['face_pic'];
+        $data['major']          = $d['major'];
+        $data['linkMan']        = $d['linkMan'];
+        $data['linkPhone']      = $d['linkPhone'];
+        $data['linkTel']        = $d['linkTel'];
+        $data['qq']             = $d['qq'];
+        $data['update_time']    = $time;
+        $data['province']       = $d['province'];
+        $data['city']           = $d['city'];
+        $data['district']       = $d['county'];
 
         $com_banner = isset($d['com_banner']) ? $d['com_banner'] : '' ;
 
@@ -147,9 +150,6 @@ class PlatFirmsFirmsModel extends Model
             $data['password']       = md5(sha1('7777777').'sw');
             $data['type']           = $d['type'];
             $data['uname']          = $d['comName'];
-            $data['province']       = $d['province'];
-            $data['city']           = $d['city'];
-            $data['district']       = $d['county'];
             $data['invite_code']    = $invite_code;
             $data['create_time']    = $time;
 
@@ -199,9 +199,27 @@ class PlatFirmsFirmsModel extends Model
     }
 
     /**
-     * 启用/停用厂商帐号
-     * @param $comId
-     * @return int
+     * 删除厂商
+     * @param $d
+     * @return mixed
+     */
+    public function delFirm($d){
+        $comId  = $d['id'] ;
+        $data   = array('isDel'=>1);
+        $result = $this->table('firms')->where(array('id'=>$comId))->update($data);
+        if($result){
+            //记录日志
+            $suUser = G('user') ;
+            $action = '删除厂商';
+            model('actionLog')->actionLog($suUser['id'],$suUser['name'],$suUser['code'],$action) ;
+        }
+        return $result;
+    }
+
+    /**
+     * 重置密码
+     * @param $d
+     * @return mixed
      */
     public function resetPassword($d){
         $comId  = $d['id'] ;
@@ -308,7 +326,7 @@ class PlatFirmsFirmsModel extends Model
         $field   = 'a.id,a.companyname,a.type,a.classification,a.business,a.is_showfactry,a.face_pic,a.major';
         $field  .= ',a.linkMan,a.linkPhone,a.linkTel,a.qq,a.wechat_pic,a.coordinate,a.longitude,a.latitude';
         $field  .= ',a.address,a.info,a.create_time,a.last_time,a.is_check,a.refresh_point,a.is_vip,a.vip_time';
-        $field  .= ',a.city,a.scale';
+        $field  .= ',a.province,a.city,a.district,a.scale';
         $field  .= ',GROUP_CONCAT(b.banner_url SEPARATOR ",") as banner';
         $firm    = $this->table('firms a')
             ->field($field)

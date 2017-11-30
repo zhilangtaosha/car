@@ -98,13 +98,13 @@ class PlatChargeChargeModel extends Model
         $suppProv = @$supper['province'] ;
 
 
-        //$find = 'a.is_check=1' ;
+        $find = 'a.isDel=0' ;
 
 
         if($d['type'] == 1){
-            $find  = ' a.type=1' ;
+            $find .= ' and a.type=1' ;
         }else{
-            $find  = ' ( a.type=1 or a.type=2 )' ;
+            $find .= ' and ( a.type=1 or a.type=2 )' ;
         }
         if($suppProv){
             $find .= ' and a.province ="'.$suppProv.'"';

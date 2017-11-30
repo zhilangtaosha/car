@@ -97,9 +97,9 @@ class PlatFirmsController extends Controller {
 
             if($result){//判断是否保存成功
                 $return['massageCode'] = 'success';
-                $return['massage']     = $status == 1 ? '启用成功' : '停用成功' ;
+                $return['massage']     = $status == 1 ? '启用成功' : '禁用成功' ;
             }else{
-                $return['massage']     = $status == 1 ? '启用失败' : '停用失败' ;
+                $return['massage']     = $status == 1 ? '启用失败' : '禁用失败' ;
             }
 
         }else{
@@ -315,6 +315,37 @@ class PlatFirmsController extends Controller {
                 $return['massage']      = '重置成功' ;
             }else{
                 $return['massage']      = '重置成功' ;
+            }
+        }else{
+            $return['massage'] = '没有相关权限' ;
+
+        }
+
+        exit(json_encode($return,JSON_UNESCAPED_UNICODE));
+    }
+
+    public function delFirm(){
+        //检查是否登录
+        $mo     = model('suAdmin','mysql');
+        $user   = $mo->loginIs();
+
+        //检查用户权限
+        $userId = $user["id"];
+        $authMo = model("suAdmin","mysql");//链接权限模块
+        $mod    = 'plat.firms';
+        $fun    = 'lists';
+        $isAuth = $authMo->checkUserAuth($userId,$mod,$fun);
+        $return = array('massageCode'=>0) ;
+        if($isAuth){
+            $data     = $this->getRequest('data' ,'');
+            //dump($data);die;
+            $firmMo   = model('plat.firms.firms','mysql');
+            $res      = $firmMo->delFirm($data)  ;
+            if($res){
+                $return['massageCode']  = 'success' ;
+                $return['massage']      = '删除成功' ;
+            }else{
+                $return['massage']      = '删除失败' ;
             }
         }else{
             $return['massage'] = '没有相关权限' ;

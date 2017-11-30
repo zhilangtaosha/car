@@ -232,12 +232,36 @@
 
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <th style="text-align: center;width:120px;height: 60px;">所属区域</th>
+                                    <td style="">
+                                        <div class="col-xs-12 col-sm-12 input-group">
+                                            <div class="col-xs-4 col-sm-4" style="padding-left: 0;padding-right: 0;">
+                                                <select id="province" class="form-control" style="padding-left: 5px;" onchange="theLocation(this)">
+                                                    <option value="<?php echo $firm['province'] ; ?>"><?php echo $firm['province'] ; ?></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4" style="padding-left: 0;padding-right: 0;">
+                                                <select id="city" class="form-control" style="padding-left: 5px;" onchange="theLocation(this)">
+                                                    <option value="<?php echo $firm['city'] ; ?>"><?php echo $firm['city'] ; ?></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4" style="padding-left: 0;padding-right: 0;">
+                                                <select id="county" class="form-control" style="padding-left: 5px;" onchange="theLocation(this)">
+                                                    <option value="<?php echo $firm['district'] ; ?>"><?php echo $firm['district'] ; ?></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <th style="text-align: center;width:120px;height: 60px;">企业坐标</th>
                                     <td style="">
                                         <div class="col-xs-12 col-sm-12 input-group" style="margin-bottom: 5px;">
                                             <div class="col-xs-12 col-sm-12 input-group">
-                                                <input type="hidden" id="city" value="<?php echo isset($firm['city']) ? $firm['city'] : '' ;?>"/>
+                                                <!--<input type="hidden" id="city" value="<?php echo isset($firm['city']) ? $firm['city'] : '' ;?>"/>-->
                                                 <input type="hidden" id="lng" value="<?php echo isset($firm['longitude']) ? $firm['longitude'] : '' ;?>"/>
                                                 <input type="hidden" id="lat" value="<?php echo isset($firm['latitude']) ? $firm['latitude'] : '' ;?>"/>
                                                 <input type="text" class="form-control input-xs" value="<?php echo $firm['coordinate']?>" id="position"/>
@@ -297,7 +321,7 @@
 <!--弹窗js-->
 <script src="/js/hplus/js/plugins/layer/layer.min.js"></script>
 
-
+<script src="/js/area.js"></script>
 <!--自定义JS-->
 <script src="/js/plat/bmap/bmap.js"></script>
 <script src="/js/global.js"></script>
@@ -308,6 +332,16 @@
         upImg('_face');
         upImg('_banner');
         upImg('_wx');
+
+        setProvince('province',$('#province').val(),'city','county');
+        $("#province") .change(function () {
+            setCity($('#province').val(),'city','county');
+            setCounty('','','county');
+        });
+        $("#city") .change(function () {
+            setCounty($('#province').val(),$('#city').val(),'county');
+        });
+
         $('.checkInput').click(function () {
             checkInput(this);
         });
@@ -473,6 +507,9 @@
         data.linkTel    = getVal('_tel') ;
         data.qq         = getVal('_qq') ;
         data.wx_pic     = $("#wx_pic").val() ;
+        data.province   = $("#province").val() ;
+        data.city       = $("#city").val() ;
+        data.county     = $("#county").val() ;
         data.position   = $("#position").val() ;
         data.lng        = $("#lng").val() ;
         data.lat        = $("#lat").val() ;

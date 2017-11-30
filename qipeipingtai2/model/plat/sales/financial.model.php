@@ -555,7 +555,7 @@ class PlatSalesFinancialModel extends Model
                                     $used_num   = $this->table('firms_visit_log')
                                         ->where('to_firms_id='.$firm_v['firms_id'].' and DATE_FORMAT(create_time, \'%Y-%m-%d\') BETWEEN "'.$use_start.'" and "'.$use_end.'"')
                                         ->count() ;
-                                    writeLog('业务员【'.$sale['id'].'】的厂商【'.$firm_v['firms_id'].'】使用次数',$log_path);
+                                    //writeLog('业务员【'.$sale['id'].'】的厂商【'.$firm_v['firms_id'].'】使用次数',$log_path);
                                     //writeLog($this->lastSql(),$log_path);
                                     //根据 配置将不同使用频率的计入不同提成等级
                                     if($used_num >= $used_lv_3['min']){

@@ -376,7 +376,7 @@ class PlatStatisticsStatisticsModel extends Model
             $join .= ' left join firms c on a.to_firms_id=c.id' ;
             $where = ' a.firms_id>0' ;
             if($suppProv){
-                $where .= ' b.province ="'.$suppProv.'"';
+                $where .= ' and b.province ="'.$suppProv.'"';
             }
 
             $sum3  = $this->table('firms_call_log a')->jion($join)->where($where)->count() ;

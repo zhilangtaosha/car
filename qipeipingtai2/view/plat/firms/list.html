@@ -212,8 +212,10 @@
                                         <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="changeStatus({{ list[i].status }},{{ list[i].id }})">[ 启用 ]</span>
                                         {{# } }}
                                     </p>
-
-                                    <p style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" data-id="{{ list[i].id }}" onclick="resetPassword(this)">[ 重置密码 ]</p>
+                                    <p style="white-space: nowrap;margin-bottom: 0;">
+                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" data-id="{{ list[i].id }}" onclick="resetPassword(this)">[ 密码 ]</span>
+                                        <span style="cursor: pointer;color: red;margin-bottom: 2px;" data-id="{{ list[i].id }}" onclick="delFirm(this)">[ 删除 ]</span>
+                                    </p>
                                 </span>
                             </td>
 
@@ -378,7 +380,7 @@
      */
     function changeStatus(j,comId){
         //alert(1);
-        var tip = '是否禁用 ? 停用之后无法登录!' ;
+        var tip = '是否禁用 ? 禁用之后无法登录!' ;
         if(j == 2){
             tip = '是否启用 ?' ;
         }
@@ -411,6 +413,20 @@
             data.id  = $(obj).attr('data-id') ;
             $.post(url,{data:data},function (rv) {
                 layer.msg(rv.massage) ;
+            },'json');
+        });
+
+    }
+    function delFirm(obj) {
+        var tip = '删除之后无法恢复，是否继续? ' ;
+        layer.confirm(tip,{shadeClose: true,title:'重要提示'},function () {
+            var url = '/plat.firms/delFirm';
+            var data = {} ;
+            data.id  = $(obj).attr('data-id') ;
+            $.post(url,{data:data},function (rv) {
+                layer.msg(rv.massage,{time:1500},function () {
+                    getList(1);
+                }) ;
             },'json');
         });
 
