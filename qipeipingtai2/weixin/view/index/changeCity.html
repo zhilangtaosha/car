@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title></title>
+    <title>城市选择-汽配城</title>
     <link href="../../css/mui.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8"/>
 </head>
@@ -22,7 +22,7 @@
 	}
 	.sw-input-phone{
 		text-align: left;height: 48px!important;
-		background: url(../../image/index/icon_wz_sousuo@3x.png)no-repeat;
+		background: url(../../image/index/icon_wz_sousuo@3x.png) no-repeat;
 		background-position: 24px;
 		background-size: 16px;
 		padding-left: 42px!important;
@@ -42,7 +42,7 @@
 	<header class="mui-bar mui-bar-nav">
 	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	    <h1 class="mui-title">企业位置</h1>
-	    <button class="mui-btn mui-btn-link mui-pull-right" onclick="sureCity();">确认</button>
+	    <!--<button class="mui-btn mui-btn-link mui-pull-right" onclick="sureCity();">确认</button>-->
 	</header>
 	<div class="mui-content" style="background: #EFEFEF;">
 		<input type="text" name="sureCity" id="sureCity" value="" hidden="hidden"/>
@@ -54,7 +54,7 @@
 <script id="city-list-tpl" type="text/html">
 	{{# var len = d.length; }}
 	{{# for(var i = 0;i < len; i++){ }}
-	<li class="mui-table-view-cell sw-cityList" onclick="$('.sw-cityList').removeClass('active');$(this).addClass('active');$('#sureCity').val($(this).text())">{{ d[i].zh }}</li>                              
+	<li class="mui-table-view-cell sw-cityList" onclick="$('.sw-cityList').removeClass('active');$(this).addClass('active');$('#sureCity').val($(this).text());sureCity()">{{ d[i].zh }}</li>
 	{{# } }}
 </script>				
 </body>

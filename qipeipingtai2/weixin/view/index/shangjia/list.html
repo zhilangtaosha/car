@@ -149,7 +149,7 @@
 	{{# for(var i = 0;i < len; i++){ }}
 		
 		<ul class="mui-table-view" style="margin-top: 10px;" onclick="openJx('{{ d[i].EnterpriseID }}','{{ d[i].companyname }}')">
-		<li class="mui-table-view-cell mui-media sw-no-active">
+		<li class="mui-table-view-cell mui-media sw-no-active" style="padding-right: 15px;">
 			<div style="width: 110px;height: 110px;display: inline-block;float: left;">
 				{{# if(d[i].face_pic!=''||d[i].face_pic!='null'){ }}
 				<img class="mui-media-object mui-pull-left sw-dp-img1" src="{{ imgUrl+d[i].face_pic }}">
@@ -275,9 +275,14 @@
 			openView('../../../view/index/shangjia/jingxiao.html','index_shangjia_jingxiao','pop-in',postData);
         }else{//未登录显示未登录界面
             //关闭加载框
-            closeLoading();
+			            closeLoading();
             //顶部
-            sw.toast('您还未登录，请登录后重试');
+			            sw.toast('您还未登录，请登录后重试');
+            //打开窗口
+			setTimeout(function () {
+                openView('../../../view/person/index.html','person_index','pop-in');
+            },1000)
+
         }
 	}
 </script>

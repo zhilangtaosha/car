@@ -2,12 +2,17 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	<title>用品商家</title>
+	<title>用品商家-汽配城</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link href="../../../css/mui.min.css" rel="stylesheet"/>
-	<link rel="stylesheet" href="../../../css/common.css" type="text/css" charset="utf-8"/>
-	<link href="../../../css/swiper.css" rel="stylesheet"/>
+	<link rel="stylesheet" href="../../../css/common.css">
 	<style>
+		.mui-bar~.mui-content .mui-fullscreen {
+			top: 44px;
+			height: auto;
+		}
 		.sw-payList:after{
 			height: 0;
 		}
@@ -43,10 +48,15 @@
 		}
 
 		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
-			border-bottom: 1px solid #FF534C!important;
 			color: #FF534C!important;
+			border-bottom: 3px solid #FF534C!important;
 		}
 
+		.mui-control-item{
+			height:38px;
+			padding: 0 4px!important;
+			margin: 0 11px;
+		}
 		.sw-scope-box{
 			background: none;
 		}
@@ -99,8 +109,8 @@
 		}
 	</style>
 </head>
-<body style="background: #F5F5F5;">
 
+<body>
 <header class="mui-bar mui-bar-nav" >
 	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	<h1 class="mui-title">
@@ -108,86 +118,82 @@
 	</h1>
 </header>
 <input value="0" id="oldNum" hidden="hidden" placeholder=""/>
-<div class="mui-content mui-slider" style="background: #F5F5F5;">
-	<input type="text" value="" hidden="hidden" id="group">
-	<input type="text" value="" hidden="hidden" id="groupName">
+<input type="text" value="" hidden="hidden" id="group">
+<input type="text" value="" hidden="hidden" id="groupName">
+<div class="mui-content" >
 	<div class="sw-header-content">
 		<div class="mui-input-row sw-input-box">
-			<input type="text" placeholder="输入地址查询" class="sw-input-phone" id="keyword">
+			<input type="text" placeholder="输入公司名称、主营产品查询" class="sw-input-phone" id="keyword">
 			<p class="sw-search-p" onclick="search()"></p>
 		</div>
 	</div>
-
-	<div id="slider" class="mui-slider" style="margin-top: 60px;">
-
-		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-			<div class="sw-header mui-slider" id="header">
-				<div class="swiper-wrapper" id="p-list">
-
-
-				</div>
-			</div>
-		</div>
-
-		<div class="mui-slider-group" id="c-list">
-			<div id="item1mobile0" class="mui-slider-item mui-control-content mui-active" style="border-top: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;"></div>
-		</div>
+	<div id="box">
 
 	</div>
-</div>
 
+</div>
 <!--父级内容-->
 <script id="p-list-tpl" type="text/html">
-	{{# var len = d.length }}
-	<a class="swiper-slide sw-parent mui-control-item mui-active" href="#item1mobile">{{ d[0].name }}</a>
-	{{# for(var i = 1;i < len; i++){ }}
-	<a class="swiper-slide sw-parent mui-control-item" href="#item1mobile{{ i }}">{{ d[i].name }}</a>
-	{{# } }}
+	<div id="slider" class="mui-slider mui-fullscreen" style="margin-top: 60px;background: #FFFFFF;">
+		<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" style="background: #FFFFFF;">
+			<div class="mui-scroll" id="p-list" style="background: #FFFFFF;">
+				{{# var len = d.length }}
+				<a id="tapA0" class="mui-control-item mui-active" href="#item1mobile0">{{ d[0].name }}</a>
+				{{# for(var i = 1;i< len; i++){ }}
+				<a id="tapA{{i}}" class="mui-control-item" href="#item1mobile{{ i }}">{{ d[i].name }}</a>
+				{{# } }}
+			</div>
+		</div>
+		<div class="mui-slider-group" id="c-list">
+			<div id="item1mobile0" class="mui-slider-item mui-control-content mui-active" style="border-top: 1px solid #CCCCCC;margin-top: -1px;border-bottom:none"></div>
+		</div>
+	</div>
 </script>
 
 <!--子级内容-->
 <script id="c-list-tpl" type="text/html">
 	{{# var list = d.list; var len = list.length; var pid = d.pid; var id = d.id; }}
 	{{# if(id!=0){ }}
-	<div id="item1mobile{{ id }}" class="mui-slider-item mui-control-content mui-active" style="border-top: 1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;">
-		<ul class="mui-table-view mui-grid-view sw-scope-box">
-			{{# for(var i = 0;i < len; i++){ }}
-			{{# if(pid==list[i].pid){ }}
-			<li class="mui-table-view-cell mui-media mui-col-xs-3 sw-child cpid{{ list[i].pid }}" onclick="selectChild(this,'{{ list[i].id }}','{{ list[i].name }}')" data-pid="{{ list[i].pid }}">
-
-				<p  class="sw-icon"></p>
-				<img class="mui-media-object" src="{{ imgUrl+list[i].img }}" style="border: 1px solid #DDDDDD;height: {{ imgH }}px;">
-				<span class="mui-media-body sw-table-text3">{{ list[i].name }}</span>
-
-			</li>
-			{{# } }}
-			{{# } }}
-		</ul>
+	<div id="item1mobile{{id}}" class="mui-slider-item mui-control-content" style="border-top: 1px solid #CCCCCC;margin-top: -1px;border-bottom:none">
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view mui-grid-view sw-scope-box">
+					{{# for(var i = 0;i< len; i++){ }}
+					{{# if(pid==list[i].pid){ }}
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 sw-child cpid{{ list[i].pid }}" onclick="selectChild(this,'{{ list[i].id }}','{{ list[i].name }}')" data-pid="{{ list[i].pid }}">
+						<p class="sw-icon"></p>
+						<img class="mui-media-object" src="{{ imgUrl+list[i].img }}" style="border: 1px solid #DDDDDD;height: {{ imgH }}px;">
+						<span class="mui-media-body sw-table-text3">{{ list[i].name }}</span>
+					</li>
+					{{# } }}
+					{{# } }}
+				</ul>
+			</div>
+		</div>
 	</div>
 	{{# }else{ }}
-	<ul class="mui-table-view mui-grid-view sw-scope-box">
-		{{# for(var i = 0;i < len; i++){ }}
-		{{# if(pid==list[i].pid){ }}
-		<li class="mui-table-view-cell mui-media mui-col-xs-3 sw-child cpid{{ list[i].pid }}" onclick="selectChild(this,'{{ list[i].id }}','{{ list[i].name }}')" data-pid="{{ list[i].pid }}">
-
-			<p  class="sw-icon"></p>
-			<img class="mui-media-object" src="{{ imgUrl+list[i].img }}" style="border: 1px solid #DDDDDD;height: {{ imgH }}px;">
-			<span class="mui-media-body sw-table-text3">{{ list[i].name }}</span>
-
-		</li>
-		{{# } }}
-		{{# } }}
-	</ul>
+	<div class="mui-scroll-wrapper">
+		<div class="mui-scroll" >
+			<ul class="mui-table-view mui-grid-view sw-scope-box">
+				{{# for(var i = 0;i< len; i++){ }}
+				{{# if(pid==list[i].pid){ }}
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 sw-child cpid{{ list[i].pid }}" onclick="selectChild(this,'{{ list[i].id }}','{{ list[i].name }}')" data-pid="{{ list[i].pid }}">
+					<p class="sw-icon"></p>
+					<img class="mui-media-object" src="{{ imgUrl+list[i].img }}" style="border: 1px solid #DDDDDD;height: {{ imgH }}px;">
+					<span class="mui-media-body sw-table-text3">{{ list[i].name }}</span>
+				</li>
+				{{# } }}
+				{{# } }}
+			</ul>
+		</div>
+	</div>
 	{{# } }}
 </script>
-</body>
 <script src="../../../js/mui.min.js"></script>
 <script src="../../../js/global.js"></script>
-<script type="text/javascript" src="../../../js/swiper.js"></script>
 <script src="../../../js/jquery.min.js"></script>
 <script src="../../../js/laytpl/laytpl.js"></script>
-<script type="text/javascript" charset="utf-8">
-    //mui初始化
+<script>
     mui.init();
     var imgH = parseInt((document.body.clientWidth-70)/4);
     //mui plusReady
@@ -205,10 +211,10 @@
                 var cate_1 = rData.data.cate_1;
                 var pTpl   = $('#p-list-tpl').html();
                 laytpl(pTpl).render(cate_1,function(render){
-                    $('#p-list').html(render);
+                    $('#box').html(render);
                 });
+
                 //子级数据页面输出
-                //sw.jcon(cate_1);
                 var len = cate_1.length;
                 for(var i=0;i<len;i++){
 
@@ -218,19 +224,23 @@
                     cate2.list = rData.data.cate_2;
                     var cTpl   = $('#c-list-tpl').html();
                     laytpl(cTpl).render(cate2,function(render){
-
                         if(i === 0){
                             $('#item1mobile0').html(render);
                         }else{
                             $('#c-list').append(render);
                         }
-
                     });
-
                 }
 
-                //父级滚动
-                mySwiper();
+                var gallery = mui('#slider').slider();
+                gallery.refresh();
+                //阻尼系数
+                var deceleration = mui.os.ios?0.003:0.0009;
+                mui('.mui-scroll-wrapper').scroll({
+                    bounce: false,
+                    indicators: true, //是否显示滚动条
+                    deceleration:deceleration
+                });
 
             }else{
                 sw.toast(rData.msg);
@@ -243,11 +253,6 @@
         })
 
     })
-
-
-
-
-
 
     //选择子级
     function selectChild(j,cid,name){
@@ -265,32 +270,6 @@
 
         openView('../../../view/index/shangjia/list.html','sjList','pop-in',postData);
     }
-
-    //父级滚动
-    function mySwiper(){
-
-        //父级滚动
-        var mySwiper = new Swiper('#header',{
-            freeMode : true,
-            slidesPerView : 'auto',
-            freeModeSticky : true
-        });
-
-        document.getElementById('slider').addEventListener('slide', function(e) {
-
-
-            if(e.detail.slideNumber==0){
-                mySwiper.slideTo(e.detail.slideNumber, 300, false);
-            }
-
-            if(e.detail.slideNumber>1){
-                mySwiper.slideTo(e.detail.slideNumber-1, 300, false);
-            }
-
-
-        });
-
-    }
-
 </script>
+</body>
 </html>

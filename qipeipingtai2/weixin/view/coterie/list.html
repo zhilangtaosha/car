@@ -205,65 +205,79 @@
 <!--圈子模板-->
 <script id="pay-list-tpl" type="text/html">
 	{{# var len = d.length }}
-	{{# for(var i = 0;i < len; i++){ }}
+	{{# for(var i = 0;i< len; i++){ }}
 	<div class="mui-card-header mui-card-media sw-card-header" id="circle_{{ d[i].id }}">
-		<img src="{{ imgUrl+d[i].head_pic }}" class="sw-face"/>
-		<div class="mui-media-body">
+		<img src="{{ imgUrl+d[i].head_pic }}" class="sw-face" style="width:36px;height: 36px;"/>
+		<div class="mui-media-body" style="-webkit-user-select:auto!important">
 			<span class="sw-nickName">{{ d[i].uname }}</span>
-			<p class="sw-table-text1" style="word-break: break-all;">{{ d[i].content }}</p>
+			<p class="sw-table-text1" style="word-break: break-all;-webkit-user-select:auto!important">{{ d[i].content }}</p>
 			{{# if(d[i].circle_type==2){ }}
 
-			<ul class="mui-table-view sw-coterie-imgBox" onclick="openFirms('{{ d[i].fxFirm.EnterpriseID }}','{{ d[i].fxFirm.companyname }}','{{ d[i].fxFirm.type }}')" style="margin: 10px 0;">
+			<ul class="mui-table-view sw-coterie-imgBox" onclick="openFirms('{{ d[i].fxFirm.EnterpriseID }}','{{ d[i].fxFirm.companyname }}','{{ d[i].fxFirm.type }}')" >
 				<li class="mui-table-view-cell mui-media sw-card-li">
-
-					<img class="mui-media-object mui-pull-left sw-card-img1" src="{{ imgUrl+d[i].fxFirm.face_pic }}">
-					<div class="mui-media-body sw-card-cuBox3">
-						{{ d[i].fxFirm.companyname }}
-					</div>
-
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left sw-card-img1" src="{{ imgUrl+d[i].fxFirm.face_pic }}">
+						<div class="mui-media-body sw-card-cuBox3">
+							{{ d[i].fxFirm.companyname }}
+						</div>
+					</a>
 				</li>
 			</ul>
+			{{# }else if(d[i].circle_type==3){ }}
+
+			<ul class="mui-table-view mui-grid-view sw-coterie-imgBox" style="margin-left: -12px;">
+				{{# for(var j=0,len2=d[i].imgs.length;j<len2;j++){ }}
+				{{# if(j==0){ }}
+				<li class="mui-table-view-cell mui-media mui-col-xs-12">
+					<img class="mui-media-object" src="{{ imgUrl+d[i].imgs[j] }}" data-preview-src="{{ imgUrl+d[i].imgs[j] }}" data-preview-group="{{ d[i].id }}" width="100%" >
+				</li>
+				{{# }else{ }}
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" style="height:{{imgH}}px;">
+					<img style="background:url({{ imgUrl+d[i].imgs[j] }}) no-repeat center center!important;backgorund-size:100% auto;" width="100%" height="{{imgH}}px" src="{{ imgUrl+d[i].imgs[j] }}"  data-preview-src="{{ imgUrl+d[i].imgs[j] }}" data-preview-group="{{ d[i].id }}" >
+				</li>
+				{{# } }}
+				{{# } }}
+			</ul>
+
 			{{# }else{ }}
 
 			<ul class="mui-table-view mui-grid-view sw-coterie-imgBox" style="margin-left: -12px;">
 				{{# for(var j=0,len2=d[i].imgs.length;j<len2;j++){ }}
-				<li class="mui-table-view-cell mui-media mui-col-xs-4">
-					<img style="height: {{ imgH }}px;" class="mui-media-object" src="{{ imgUrl+d[i].imgs[j] }}" data-preview-src="{{ imgUrl+d[i].imgs[j] }}" data-preview-group="{{ d[i].id }}" width="100%" >
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" style="height:{{imgH}}px;">
+					<img style="background:url({{ imgUrl+d[i].imgs[j] }}) no-repeat center center!important;backgorund-size:100% auto;" width="100%" height="{{imgH}}px" src="{{ imgUrl+d[i].imgs[j] }}"  data-preview-src="{{ imgUrl+d[i].imgs[j] }}" data-preview-group="{{ d[i].id }}" >
 				</li>
 				{{# } }}
 			</ul>
 
 			{{# } }}
 			<p style="color: #FF534C!important;">
-				<img src="../../image/coterie/dingwei.png" class="sw-dingwei-img"/>{{ d[i].area }}
+				<img src="../../image/coterie/dingwei.png" class="sw-dingwei-img" />{{ d[i].area }}
 			</p>
 			<div style="width: 100%;">
 				<p class="sw-del-box">
-					{{ d[i].create_time }}
-					{{# if(d[i].can_delete){ }}
+					{{ d[i].create_time }} {{# if(d[i].can_delete){ }}
 					<span class="sw-del-text" onclick="delCircle('{{ d[i].id }}','{{ d[i].type }}','{{ d[i].fu_id }}')">删除</span>
-					<input type="number" name="delStatus{{ d[i].id }}" id="delStatus{{ d[i].id }}" value="1" hidden="hidden" />
-					{{# } }}
+					<input type="number" name="delStatus{{ d[i].id }}" id="delStatus{{ d[i].id }}" value="1" hidden="hidden" /> {{# } }}
 				</p>
 				<p class="sw-like-box">
-						<span style="margin-right: 32px;">
-							{{# if(d[i].is_collect){ }}
-							<img src="../../image/coterie/icon_dt_like_r.png" class="sw-like-img" id="like_this_{{ d[i].id }}" onclick="collectCircle('{{ d[i].id }}',0)"/>
-							{{# }else{ }}
-							<img src="../../image/coterie/icon_dt_like.png" class="sw-like-img" id="like_this_{{ d[i].id }}"  onclick="collectCircle('{{ d[i].id }}',1)"/>
-							{{# } }}
-							<span id="circle_collect_{{ d[i].id }}">{{ d[i].collection }}</span>
-						</span>
-						<span id="detail">
-							<img src="../../image/coterie/icon_dt_pingjia.png" class="sw-pj-img" onclick="pinglun22('{{ d[i].id  }}')"/>{{ d[i].comments }}
-						</span>
+					<span style="margin-right: 32px;">
+				{{# if(d[i].is_collect){ }}
+				<img src="../../image/coterie/icon_dt_like_r.png" class="sw-like-img" id="like_this_{{ d[i].id }}" onclick="collectCircle('{{ d[i].id }}',0)"/>
+				{{# }else{ }}
+				<img src="../../image/coterie/icon_dt_like.png" class="sw-like-img" id="like_this_{{ d[i].id }}"  onclick="collectCircle('{{ d[i].id }}',1)"/>
+				{{# } }}
+				<span id="circle_collect_{{ d[i].id }}">{{ d[i].collection }}</span>
+					</span>
+					<span id="detail">
+				<img src="../../image/coterie/icon_dt_pingjia.png" class="sw-pj-img" onclick="pinglun22('{{ d[i].id  }}')"/>{{ d[i].comments }}
+			</span>
 				</p>
 			</div>
 
 			<div style="clear: both;"></div>
 		</div>
 	</div>
-	{{# mui.previewImage(); } }}
+	{{# mui.previewImage();  } }}
 </script>
 <script src="../../js/mui.min.js"></script>
 <script src="../../js/global.js"></script>
@@ -523,6 +537,15 @@
 		}
 	}
 
+    //详情
+    function pinglun22(n){
+        openView('../../view/coterie/coterieDetail.html','detail','pop-in',{vid:n});
+    }
+
+    //发表评论
+    mui("#publish")[0].addEventListener('tap',function(){
+        openView('../../view/coterie/publish.html','publish','pop-in');
+    });
 </script>
 </body>
 
