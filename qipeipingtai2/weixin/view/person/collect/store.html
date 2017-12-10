@@ -334,7 +334,9 @@
 			//选中自己的id
 			$("#cate_2").val(cid);
 		}
-
+		setTimeout(function(){
+			searchxcm()
+		},300)
 	}
 	
 	//切换父级选项子级变化
@@ -364,5 +366,19 @@
 			JsonStorage.setItem('searchStore',JSON.stringify(postData));
 			mui.back(); 
 	}
+
+
+ /**
+  * 搜索
+  */
+ function searchxcm(){
+	 var	keyword = '';
+	 var	cate_1  = $("#cate_1").val();
+	 var	cate_2  = $("#cate_2").val();
+	 var	storeType = $("#storeType").val();
+	 var postData = {'type':storeType,'keyword':keyword,'cate_1':cate_1,'cate_2':cate_2};
+	 JsonStorage.setItem('searchStore',JSON.stringify(postData));
+	 mui.back();
+ }
 </script>
 </html>

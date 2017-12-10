@@ -459,30 +459,32 @@
  	 * 获取刷新点
  	 */
  	function getRefresh(){
- 		//获取刷新点数量
-		var token      = JsonStorage.getItem('token');
-		var postData    = {};
-        postData.token      = token;        
+		//获取刷新点数量
+		var token      = plus.storage.getItem('token');
+		var postData   = {};
+		postData.token = token;
+
 		//如果已经登陆 获取登录后的数据
-		http.load('api.sev.user','getRefresh',postData,function(rData){//请求成功									
- 			if(rData.status==200){//保存成功
- 				//根据刷新点提示
- 				sw.jcon(rData);  
-				// 
+		http.load('api.sev.user','getRefreshX',postData,function(rData){//请求成功
+
+			if(rData.status==200){//保存成功
+				//根据刷新点提示
+				sw.jcon(rData);
+				//
 				if(rData.refresh_point>0){//刷新点充足
-					 $("#allRefresh").text(rData.refresh_point);
+					$("#allRefresh").text(rData.refresh_point);
 				}else{//刷新点不住
 					$("#allRefresh").text(0);
 				}
-				
- 			}else{
- 				sw.toast(rData.msg);  
- 			}	 			
- 		},function(xhr,type,errorThrown){//请求失败
- 			$(delId).val(1)
+
+			}else{
+				sw.toast(rData.msg);
+			}
+		},function(xhr,type,errorThrown){//请求失败
+			$(delId).val(1)
 			//无网络提示
-			sw.toast('请求失败，服务器或网络异常'); 
- 		})
+			//sw.toast('请求失败，服务器或网络异常');
+		})
  	}
  	
  	/**

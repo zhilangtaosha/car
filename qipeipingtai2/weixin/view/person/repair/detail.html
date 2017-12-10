@@ -477,7 +477,7 @@
 				{{# if(d.linkPhoneArr.length>0){ var linkPhoneArr = d.linkPhoneArr; }}			
 					<div class="sw-list-text2">
 						{{# for(var i=0,iLen=linkPhoneArr.length;i<iLen;i++){ }}
-						<p style="margin-bottom: 6px;">{{ linkPhoneArr[i] }}<span class="sw-sj-phone"></span></p>				
+						<p style="margin-bottom: 6px;" onclick="callLog('{{ d.id }}',1);setTimeout(function(){ document.location.href = 'tel:{{ linkPhoneArr[i] }}'; },300)">{{ linkPhoneArr[i] }}<span class="sw-sj-phone"></span></p>
 						{{# } }}
 					</div>					
 				{{# }else{ }}
@@ -489,7 +489,7 @@
 				{{# if(d.linkTelArr.length>0){ var linkTelArr = d.linkTelArr; }}		
 				<div class="sw-list-text2">
 					{{# for(var j=0,jLen=linkTelArr.length;j<jLen;j++){ }}
-					<p style="margin-bottom: 6px;">{{ linkTelArr[j] }}<span class="sw-sj-tel"></span></p>
+					<p style="margin-bottom: 6px;" onclick="callLog('{{ d.id }}',1);setTimeout(function(){ document.location.href = 'tel:{{ linkTelArr[j] }}'; },300)">{{ linkTelArr[j] }}<span class="sw-sj-tel"></span></p>
 					{{# } }}
 				</div>
 				{{# }else{ }}
@@ -501,7 +501,7 @@
 				{{# if(d.qqArr.length>0){ var qqArr = d.qqArr; }}		
 				<div class="sw-list-text2">
 					{{# for(var m=0,mLen=qqArr.length;m<mLen;m++){ }}
-					<p style="margin-bottom: 6px;">{{ qqArr[m] }}<span class="sw-sj-qq"></span></p>	
+					<p style="margin-bottom: 6px;" onclick="callLog('{{ d.id }}',2);setTimeout(function(){ document.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin={{ qqArr[m] }}&version=1&src_type=web&web_src=qq.com;'; },300)">{{ qqArr[m] }}<span class="sw-sj-qq"></span></p>
 					{{# } }}
 				</div>
 				{{# }else{ }}
@@ -663,20 +663,20 @@
 	</a>
 	
 	{{# if(d.wechat_pic==''){ }}
-	<a class="mui-tab-items" id="imgCon"> 
+		<a class="mui-tab-items" onclick="sw.toast('该公司未上传微信二维码');">
+		<span class="mui-icon">
+			<img height="20px" width="24px" style="vertical-align: bottom;" src="../../../image/index/weixin.png" />
+		</span>
+			<span class="mui-tab-label sw-ctheme" style="margin-top:5px;">微信</span>
+		</a>
+	{{# }else{ }}
+		<a class="mui-tab-items" id="imgCon">
 		<span class="mui-icon" data-preview-src="{{ imgUrl+d.wechat_pic }}" data-preview-group="1">
 			<img height="20px" width="24px" style="vertical-align:bottom" src="../../../image/index/weixin.png" data-preview-src="{{ imgUrl+d.wechat_pic }}" data-preview-group="1"/>
 		</span>
-		<span class="mui-tab-label sw-ctheme" style="margin-top:5px;">微信</span> 
-	</a> 		
-	{{# }else{ }}
-	<a class="mui-tab-items" onclick="sw.toast('该公司未上传微信二维码');"> 
-		<span class="mui-icon">
-			<img height="20px" width="24px" style="vertical-align: bottom;" src="../../../image/index/weixin.png" />
-		</span> 
-		<span class="mui-tab-label sw-ctheme" style="margin-top:5px;">微信</span>  
-	</a> 		
-	{{# } }}   
+		<span class="mui-tab-label sw-ctheme" style="margin-top:5px;">微信</span>
+		</a>
+	{{# } }}
 	
 	<a class="mui-tab-items" id="dhdetail">
 		<span class="mui-icon sw-daohang"></span>

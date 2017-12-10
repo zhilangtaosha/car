@@ -48,11 +48,22 @@
 	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	    <h1 class="mui-title">分享邀请</h1>
 	</header>
-	
-	<div class="mui-content" style="background: #EFEFEF;" id="infoCon">
-	
+
+	<div class="mui-content">
+		<div id="infoCon"></div>
+		<div class="mui-scroll sw-coterie-box" >
+			<div id="loadList">
+				<ul class="mui-table-view" id="conList" style="margin-top: 10px;">
+
+				</ul>
+			</div>
+
+		</div>
+
 	</div>
-	
+
+	<input value="1" hidden="hidden" id="page"/>
+
 	<script id="info-list-tpl" type="text/html">
 		
 		{{# if(d.isInvited==false){ }}
@@ -78,7 +89,8 @@
 			 	</li>
 			</ul>		
 	    </div>
-			
+		{{# } }}
+
 		<div style="margin-top: 10px;padding:15px 15px 5px;background: #FFFFFF;text-align: center;">		
 			<p style="font-size: 14px;color: #666666;margin-bottom: 0;">我的邀请码</p>
 			<p style="font-size: 12px;color: #999999;margin-bottom: 0;">成功绑定邀请码，邀请人及被邀请人都将获得刷新点</p>
@@ -114,37 +126,33 @@
 	        </li>
 		            
 		</ul> 
-		
-		{{# var myInviteLen = myInvite.length; if(myInviteLen>0){ }}
-		
-		<ul class="mui-table-view" style="margin-top: 10px;margin-bottom: 20px;">
-					
-			 {{# for(var i=0;i<myInviteLen;i++){ }}
-			 {{# if(myInvite[i].type==1){ }}		
-			 <li class="mui-table-view-cell sw-list-r" onclick="openJx('{{ myInvite[i].EnterpriseID }}','{{ myInvite[i].companyname }}')">
-			 {{# }else{ }}	
-			 <li class="mui-table-view-cell sw-list-r" onclick="openQx('{{ myInvite[i].EnterpriseID }}','{{ myInvite[i].companyname }}')">
-			 {{# } }}  
-			 	<a class="mui-navigate-right">
-			 	<p><img src="{{ imgUrl+myInvite[i].face_pic }}" height="48px" width="48px" style="border-radius:24px;"/></p>
-			 	
-			 	<div style="margin-left: 56px;margin-top: -50px;">
-			 		<p style="margin-right: 14px;" class="sw-word-one sw-ctheme">
-			 		<span style="font-size: 14px;" class="sw-ctheme">{{ myInvite[i].uname }}</span>
-			 	   </p>
-			 		<p style="margin-right: 14px;">
-			 		<span style="font-size: 12px;color: #999;">{{ myInvite[i].create_time }}</span>
-			 	   </p>
-			 	</div>
-			 	</a>
-			 </li>
-			 {{# } }}	
-		</ul>
-		
-		{{# } }}	
-		
-		{{# } }}	  			
-	</script>		
+
+	</script>
+
+	<script type="text/html" id="show-list-tpl">
+		{{# var len = d.length; if(len>0){ }}
+
+		{{# for(var i=0;i<len;i++){ }} {{# if(d[i].type==1){ }} <li class="mui-table-view-cell sw-list-r" onclick="openJx('{{ d[i].EnterpriseID }}','{{ d[i].companyname }}')">
+			{{# }else{ }}
+		<li class="mui-table-view-cell sw-list-r" onclick="openQx('{{ d[i].EnterpriseID }}','{{ d[i].companyname }}')">
+			{{# } }}
+			<a class="mui-navigate-right">
+				<p><img src="{{ imgUrl+d[i].face_pic }}" height="48px" width="48px" style="border-radius:24px;" /></p>
+
+				<div style="margin-left: 56px;margin-top: -50px;">
+					<p style="margin-right: 14px;" class="sw-word-one sw-ctheme">
+						<span style="font-size: 14px;" class="sw-ctheme">{{ d[i].uname }}</span>
+					</p>
+					<p style="margin-right: 14px;">
+						<span style="font-size: 12px;color: #999;">{{ d[i].create_time }}</span>
+					</p>
+				</div>
+			</a>
+		</li>
+		{{# } }}
+		{{# } }}
+	</script>
+
 </body>
 <script src="../../../js/mui.min.js"></script>
 <script src="../../../js/global.js"></script>
@@ -195,8 +203,29 @@
 	 				//无网络提示
 	 				sw.toast('获取数据失败，服务器或网络异常'); 
 		 		})
-			
-			}else{
+
+			mui(".mui-content").pullToRefresh({
+				down: {
+					callback: function() {
+						location.href = location.href;
+					}
+				}
+
+			})
+
+			mui("#loadList").pullToRefresh({
+				up: {
+					auto: true,
+					offset: 50, //距离底部高度(到达该高度即触发)
+					contentnomore:contentnomoreStr,
+					contentrefresh:contentrefreshStr,
+					callback: function() {
+						getMyInvite();
+					}
+				}
+			});
+
+		}else{
 				sw.toast('您还未登录，请登录后重试'); 
 			}
 			
@@ -210,9 +239,35 @@
 			}
 			
 	})
-	
-	
-		/**
+
+	/**
+	 * 获取我的邀请列表
+	 * @param {Object} showSelf
+	 */
+	function getMyInvite(){
+
+		var token = JsonStorage.getItem('token');
+		var page  = mui("#page")[0].value;//获取页数
+		var data  = {};
+		var postData = {};
+
+		//请求的数据
+		postData.page     = page;//请求的页码
+		postData.pageSize = 10;//每页显示数量
+		postData.token    = token;
+
+		data.postData = postData;
+		//页面相关数据
+		data.mod      = 'api.sev.invite';//模型
+		data.fun      = 'getMyInvite';//方法
+		data.tpl      = 'show-list-tpl';//列表模板
+
+		//请求并处理数据
+		loadInfo(data,false);
+
+	}
+
+	/**
          * 更新分享服务
          */
         function updateSerivces() {
@@ -373,7 +428,9 @@
 					kefuStatus = 0;
 					setTimeout(function(){
 						kefuStatus = 1;
-						window.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin=821273766&version=1&src_type=web&web_src=qq.com';				
+						var qq   = plus.storage.getItem('qqIni');
+
+						window.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin='+qq+'&version=1&src_type=web&web_src=qq.com';
 					},300)										
 				}	  			
 			},'div')
