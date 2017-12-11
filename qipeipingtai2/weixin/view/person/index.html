@@ -883,7 +883,8 @@ function getToken(){
 		})
 		
 		mui("#collect")[0].addEventListener('tap',function(){
-			openView('../../view/person/collect/index.html','person_collect_index','pop-in');
+            var postData = {'productType':'','keyword':'','groupId':'','urlType':'0'};
+			openView('../../view/person/collect/index.html','person_collect_index','pop-in',postData);
 		})
 		}else{
 			//业务员
@@ -899,8 +900,9 @@ function getToken(){
 		mui("#boDaJiLu")[0].addEventListener('tap',function(){	//拨打记录 
 			openView('../../view/person/salesman/jilu/dial.html','person_salesman_jilu_dial','pop-in');
 		}) 
-		mui("#shouCang")[0].addEventListener('tap',function(){	//收藏记录 
-			openView('../../view/person/collect/index.html','person_collect_index','pop-in');
+		mui("#shouCang")[0].addEventListener('tap',function(){	//收藏记录
+            var postData = {'productType':'','keyword':'','groupId':'','urlType':'0'};
+			openView('../../view/person/collect/index.html','person_collect_index','pop-in',postData);
 		})  
 		mui("#quanZi")[0].addEventListener('tap',function(){	//圈子
 			openView('../../view/person/myCircle/list.html','person_salesman_coterie_list','pop-in');

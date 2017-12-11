@@ -278,8 +278,8 @@
 	 	var page     = mui("#page")[0].value;//获取页数	 
 	 	var pro_type = mui("#proType")[0].value;
 	 	var proStatus = mui("#proStatus")[0].value;
-	 	var pro_cate_2 = JSON.parse(JsonStorage.getItem('pro_cate_2'));
-	 	
+	 	var pro_cate_2 = JsonStorage.getItem('pro_cate_2x')?JSON.parse(JsonStorage.getItem('pro_cate_2x')):[];
+	 	console.log(pro_cate_2)
 	 	var keyword = mui("#keyword")[0].value; 
 	 	
   		var token   = JsonStorage.getItem('token');
@@ -460,7 +460,7 @@
  	 */
  	function getRefresh(){
 		//获取刷新点数量
-		var token      = plus.storage.getItem('token');
+		var token      = JsonStorage.getItem('token');
 		var postData   = {};
 		postData.token = token;
 

@@ -663,7 +663,7 @@
 				{{# if(d.qqArr.length>0){ var qqArr = d.qqArr; }}		
 				<div class="sw-list-text2">
 					{{# for(var m=0,mLen=qqArr.length;m<mLen;m++){ }}
-					<p style="margin-bottom: 6px;" onclick="callLog('{{ d.id }}',2);setTimeout(function(){ document.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin={{ qqArr[m] }}&version=1&src_type=web&web_src=qq.com;'; },300)">{{ qqArr[m] }}<span class="sw-sj-qq"></span></p>
+					<p style="margin-bottom: 6px;" onclick="setTimeout(function(){ window.location.href = 'mqqwpa://im/chat?chat_type=wpa&uin={{ qqArr[m] }}&version=1&src_type=web&web_src=qq.com;'; },300)">{{ qqArr[m] }}<span class="sw-sj-qq"></span></p>
 					{{# } }}
 				</div>
 				{{# }else{ }}

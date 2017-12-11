@@ -1,6 +1,8 @@
 //图片地址
 // var imgUrl = 'http://app.7pqun.com';
-var imgUrl = 'http://119.23.215.135';
+// var imgUrl = 'http://119.23.215.135';
+// var imgUrl = 'http://www.suowei.com';
+var imgUrl = 'http://192.168.2.21';
 //图片上传地址
 //var imgUploadImg =  'http://119.23.215.135/api.sev.upload/uploadImg';
 var imgUploadImg = imgUrl+'/api.sev.upload/uploadImg';  
@@ -14,6 +16,11 @@ var cardBg4 = '../../../image/card-bg4.jpg';//名片背景
 
 var logBg  = imgUrl+'/images/pub/log.png';//分享log
 var apkUrl = 'http://app.7pqun.com/apk/mobile.apk';
+
+
+var contentnomoreStr = '<div class="sw-footer"><span class="sw-footer-t">没有更多数据了</span></div>';
+var contentnomoreStr1 = '<div class="sw-footer"><span class="sw-footer-t">没有更多数据了<br>温馨提示：产品的上传和编辑请在PC网站后台进行操作。网址：www.7pqun.com</span></div>';
+var contentrefreshStr = '<i class="mui-spinner sw-loading"></i>正在加载...';
 
 /**
  *mui监听li点击事件
@@ -54,12 +61,12 @@ function openView(url,id,aniShow,extras){
 
 				var extrasStr = JSON.stringify(extras);
 				location.href = encodeURI(url+'?data='+extrasStr);
-				return; 
-			}  
-		
+				return;
+			}
+
 			var webview_style = {};
-			var extras  = extras?extras:{};
-			var aniShow = aniShow?aniShow:"pop-in";
+				extras  = extras?extras:{};
+				aniShow = aniShow?aniShow:"pop-in";
 			var webview = plus.webview.create(url,id,webview_style,extras);
 				webview.addEventListener("titleUpdate",function () {
 					setTimeout(function () {
@@ -116,7 +123,7 @@ http.load = function(mod,act,data,funOk,funEr){
  * 
  */
 function loadInfo(inData,isLogin,isDown){
-	console.log('开始加载数据');
+	// console.log('开始加载数据');
 //	sw.jcon(inData)
 	var postData = inData.postData; 
 	var mod      = inData.mod;//模型

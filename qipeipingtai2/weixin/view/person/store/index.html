@@ -225,6 +225,8 @@
 				openView('../../../view/person/store/info.html','person_store_info','pop-in');
 			})			
 			mui("#productView")[0].addEventListener('tap',function(){
+                var cateArr = [];
+                JsonStorage.setItem('pro_cate_2x',JSON.stringify(cateArr));
 				openView('../../../view/person/store/product.html','person_store_product','pop-in');
 			})						
 			mui("#card")[0].addEventListener('tap',function(){

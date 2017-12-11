@@ -208,9 +208,9 @@
 	{{# for(var i = 0;i< len; i++){ }}
 	<div class="mui-card-header mui-card-media sw-card-header" id="circle_{{ d[i].id }}">
 		<img src="{{ imgUrl+d[i].head_pic }}" class="sw-face" style="width:36px;height: 36px;"/>
-		<div class="mui-media-body" style="-webkit-user-select:auto!important">
+		<div class="mui-media-body">
 			<span class="sw-nickName">{{ d[i].uname }}</span>
-			<p class="sw-table-text1" style="word-break: break-all;-webkit-user-select:auto!important">{{ d[i].content }}</p>
+			<p class="sw-table-text1" style="word-break: break-all;">{{ d[i].content }}</p>
 			{{# if(d[i].circle_type==2){ }}
 
 			<ul class="mui-table-view sw-coterie-imgBox" onclick="openFirms('{{ d[i].fxFirm.EnterpriseID }}','{{ d[i].fxFirm.companyname }}','{{ d[i].fxFirm.type }}')" >
