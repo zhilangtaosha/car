@@ -52,7 +52,7 @@ class WebProductModel extends Model
         $data  = $this->table('product_list as a')
             ->field('a.proId,a.proName,a.pro_type,b.name as cate_1_name,c.name as cate_2_name,a.pro_price,a.car_group,a.pro_pic')
             ->jion('inner join firms as f on a.firms_id=f.id left join product_category as b on a.pro_cate_1=b.id left join product_category as c on a.pro_cate_2=c.id')
-            ->where($where)->order('a.pro_refresh desc,a.create_time desc')->limit($start,$pageSize)->get();
+            ->where($where)->order('a.refresh_time desc,a.create_time desc')->limit($start,$pageSize)->get();
         foreach ($data as $k=>$v){
             if($v['pro_price']==0 || $v['pro_price']=='0.00'){
                 $data[$k]['pro_price'] = '欢迎来电咨询';
@@ -71,7 +71,7 @@ class WebProductModel extends Model
             ->field('a.proId,a.proName,a.car_group,a.pro_price,a.pro_pic,c.name')
             ->jion('left join firms as b on a.firms_id=b.id left join product_category as c on a.pro_cate_1=c.id')
             ->where('a.is_delete=0 and a.pro_status=1 and a.pro_type="新品促销" and b.city like "%'.$currentCity.'%"')
-            ->order('a.refresh_time desc,b.create_time desc')
+            ->order('a.refresh_time desc,a.create_time desc')
             ->limit(0,6)->get();
         return $res;
     }
@@ -81,7 +81,7 @@ class WebProductModel extends Model
             ->field('a.proId,a.proName,a.car_group,a.pro_price,a.pro_pic,c.name')
             ->jion('left join firms as b on a.firms_id=b.id left join product_category as c on a.pro_cate_1=c.id')
             ->where('a.is_delete=0 and a.pro_status=1 and a.pro_type="库存清仓" and b.city like "%'.$currentCity.'%"')
-            ->order('a.refresh_time desc,b.create_time desc')
+            ->order('a.refresh_time desc,a.create_time desc')
             ->limit(0,6)->get();
         return $res;
     }
