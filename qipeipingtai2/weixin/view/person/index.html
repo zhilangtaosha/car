@@ -166,6 +166,9 @@
 				height: 0;
 			}
 
+			input{
+				user-select: auto!important;
+			}
 
 		</style>
 	</head>
@@ -883,7 +886,7 @@ function getToken(){
 		})
 		
 		mui("#collect")[0].addEventListener('tap',function(){
-            var postData = {'productType':'','keyword':'','groupId':'','urlType':'0'};
+            var postData = {'productType':'','keyword':'','groupId':''};
 			openView('../../view/person/collect/index.html','person_collect_index','pop-in',postData);
 		})
 		}else{
@@ -901,7 +904,7 @@ function getToken(){
 			openView('../../view/person/salesman/jilu/dial.html','person_salesman_jilu_dial','pop-in');
 		}) 
 		mui("#shouCang")[0].addEventListener('tap',function(){	//收藏记录
-            var postData = {'productType':'','keyword':'','groupId':'','urlType':'0'};
+            var postData = {'productType':'','keyword':'','groupId':''};
 			openView('../../view/person/collect/index.html','person_collect_index','pop-in',postData);
 		})  
 		mui("#quanZi")[0].addEventListener('tap',function(){	//圈子
@@ -949,6 +952,5 @@ function getToken(){
 	}
 		
 </script>
-
-	</body>
+</body>
 </html>

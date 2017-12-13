@@ -1,8 +1,8 @@
 //图片地址
 // var imgUrl = 'http://app.7pqun.com';
 // var imgUrl = 'http://119.23.215.135';
-// var imgUrl = 'http://www.suowei.com';
-var imgUrl = 'http://192.168.2.21';
+var imgUrl = 'http://www.suowei.com';
+// var imgUrl = 'http://192.168.2.21';
 //图片上传地址
 //var imgUploadImg =  'http://119.23.215.135/api.sev.upload/uploadImg';
 var imgUploadImg = imgUrl+'/api.sev.upload/uploadImg';  
@@ -19,8 +19,7 @@ var apkUrl = 'http://app.7pqun.com/apk/mobile.apk';
 
 
 var contentnomoreStr = '<div class="sw-footer"><span class="sw-footer-t">没有更多数据了</span></div>';
-var contentnomoreStr1 = '<div class="sw-footer"><span class="sw-footer-t">没有更多数据了<br>温馨提示：产品的上传和编辑请在PC网站后台进行操作。网址：www.7pqun.com</span></div>';
-var contentrefreshStr = '<i class="mui-spinner sw-loading"></i>正在加载...';
+var contentrefreshStr = '<div class="sw-footer"><span class="sw-footer-t"><i class="mui-spinner sw-loading" style="width: 16px;vertical-align: middle;"></i>正在加载...</span></div>';
 
 /**
  *mui监听li点击事件

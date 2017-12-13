@@ -129,7 +129,7 @@
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	    <h1 class="mui-title">
 	    	<p style="margin-bottom: 0;">
-	   		   <input type="text" id="keyword" placeholder="输入公司名称、主营产品查询" class="sw-input-search">	
+	   		   <input type="text" id="keyword" placeholder="输入公司名称、主营产品查询" class="sw-input-search">
 	   		</p>
 	    </h1>
 	    <a class="mui-icon mui-pull-right">
@@ -223,17 +223,6 @@
 <script type="text/javascript" src="../../../js/laytpl/laytpl.js"></script>
 <script type="text/javascript" charset="utf-8">
 	//获取筛选数据
-	//mui初始化
-	mui.init({  
-	    beforeback: function() {  
-	    //获得列表界面的webview  
-	    var info = plus.webview.currentWebview().opener();  
-	    //触发列表界面的自定义事件（refresh）,从而进行数据刷新  
-	    mui.fire(info, 'searchProduct');  
-	    //返回true，继续页面关闭逻辑   
-	    return true;  
-	    }  
-	});
 	var imgH = parseInt((document.body.clientWidth-70)/4);  
 	//mui plusReady
 	$(function() {
@@ -270,9 +259,7 @@
  		})				
 	})
 	
-	
-	
-	
+
 	//切换选项
 	function productType(j,type){
 		$("#productType").val(type);
@@ -307,6 +294,12 @@
 			$("#group").val(cid);
 		}
 
+        var	keyword = $.trim($("#keyword").val());
+        var	groupId = $("#group").val();
+        var	productType = $("#productType").val();
+
+        var postData = {'productType':productType,'keyword':keyword,'groupId':groupId};
+        openView('../../../view/person/collect/indexProduct.html','person_collect_indexProduct','pop-in',postData);
 	}
 	
 	/**
@@ -319,8 +312,7 @@
 		var	productType = $("#productType").val();
 		
 		var postData = {'productType':productType,'keyword':keyword,'groupId':groupId};
-			JsonStorage.setItem('searchProduct',JSON.stringify(postData));
-			mui.back();
+        	openView('../../../view/person/collect/indexProduct.html','person_collect_indexProduct','pop-in',postData);
 	}
 </script>
 </html>

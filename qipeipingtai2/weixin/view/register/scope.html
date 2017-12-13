@@ -122,16 +122,7 @@
 <script type="text/javascript" src="../../js/laytpl/laytpl.js"></script> 
 <script>	
 	//mui初始化
-	mui.init({  
-	    beforeback: function() {  
-	    //获得列表界面的webview  
-	    var info = plus.webview.currentWebview().opener();  
-	    //触发列表界面的自定义事件（refresh）,从而进行数据刷新  
-	    mui.fire(info, 'refreshScope');  
-	    //返回true，继续页面关闭逻辑  
-	    return true;  
-	    }  
-	});
+	mui.init();
 	//mui plusReady
 	$(function() {
 		var self      = sw.getQueryVariable();

@@ -125,32 +125,63 @@
 			<p style="font-size: 14px;color: #333333;padding-left: 15px;padding-right: 15px;">资质照片 <span class="sw-ctheme">(至少上传1张)</span></p>
 			
 			<ul class="mui-table-view mui-grid-view mui-grid-5 sw-after-no sw-before-no" style="padding:0 0 20px;">
-		            
-	            <li class="mui-table-view-cell mui-media mui-col-sm-33" id="yyzz">	            		
-	            	<img class="mui-media-object" id="imgSrc" src="../../../image/person/purchase/tianjiazp.png" onclick="showActionSheet(this,'yyzz')">
-	            	<span style="font-size: 12px;color: #666666;" class="sw-word-one">营业执照</span>
-	            </li>
-	            
-	            <li class="mui-table-view-cell mui-media mui-col-sm-33" id="nsrz">
-	            	<img class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png" onclick="showActionSheet(this,'nsrz')">
-	            	<span style="font-size: 12px;color: #666666;" class="sw-word-one">纳税认证</span>
-	            </li>
-	            
-	            <li class="mui-table-view-cell mui-media mui-col-sm-33" id="sdrz">
-	            	<img class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png" onclick="showActionSheet(this,'sdrz')">
-	            	<span style="font-size: 12px;color: #666666;" class="sw-word-one">实地认证</span>
-	            </li>
-	            
-	            <li class="mui-table-view-cell mui-media mui-col-sm-33" id="sbrz">
-	            	<img class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png" onclick="showActionSheet(this,'sbrz')">	
-	            	<span style="font-size: 12px;color: #666666;" class="sw-word-one">商标认证</span>
-	            </li>
-	            
-	            <li class="mui-table-view-cell mui-media mui-col-sm-33" id="cpdlrz">
-	            	<img class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png" onclick="showActionSheet(this,'cpdlrz')">	
-	            	<span style="font-size: 12px;color: #666666;" class="sw-word-one">产品代理认证</span>
-	            </li>
- 
+
+				<li class="mui-table-view-cell mui-media mui-col-sm-33" id="yyzz">
+					<div class="imgChildren">
+
+					</div>
+					<label>
+						<img id="imgSrc" class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png">
+						<span style="font-size: 12px;color: #666666;" class="sw-word-one">营业执照</span>
+						<input type="file" name="file"  lay-ext="jpg|png|gif" id="yyzzVal" style="display: none;height:0;width:0">
+					</label>
+
+				</li>
+
+				<li class="mui-table-view-cell mui-media mui-col-sm-33" id="nsrz">
+					<div class="imgChildren">
+
+					</div>
+					<label>
+						<img class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png">
+						<span style="font-size: 12px;color: #666666;" class="sw-word-one">纳税认证</span>
+						<input type="file" name="file"  lay-ext="jpg|png|gif" id="nsrzVal" style="display: none;height:0;width:0">
+					</label>
+				</li>
+
+				<li class="mui-table-view-cell mui-media mui-col-sm-33" id="sdrz">
+					<div class="imgChildren">
+
+					</div>
+					<label>
+						<img class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png">
+						<span style="font-size: 12px;color: #666666;" class="sw-word-one">实地认证</span>
+						<input type="file" name="file"  lay-ext="jpg|png|gif" id="sdrzVal" style="display: none;height:0;width:0">
+					</label>
+				</li>
+
+				<li class="mui-table-view-cell mui-media mui-col-sm-33" id="sbrz">
+					<div class="imgChildren">
+
+					</div>
+					<label>
+						<img class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png">
+						<span style="font-size: 12px;color: #666666;" class="sw-word-one">商标认证</span>
+						<input type="file" name="file"  lay-ext="jpg|png|gif" id="sbrzVal" style="display: none;height:0;width:0">
+					</label>
+				</li>
+
+				<li class="mui-table-view-cell mui-media mui-col-sm-33" id="cpdlrz">
+					<div class="imgChildren">
+
+					</div>
+					<label>
+						<img class="mui-media-object" src="../../../image/person/purchase/tianjiazp.png">
+						<span style="font-size: 12px;color: #666666;" class="sw-word-one">产品代理认证</span>
+						<input type="file" name="file"  lay-ext="jpg|png|gif" id="cpdlrzVal" style="display: none;height:0;width:0">
+					</label>
+				</li>
+
 			    </ul>
 		    
 		    <div style="width: 100%;padding: 0 10%;">
@@ -413,7 +444,9 @@
 <script src="../../../js/laytpl/laytpl.js"></script>
 <!--图片预览-->
 <script src="../../../js/mui.previewimage.js?v=1.0.6"></script>   
-<script src="../../../js/mui.zoom.js"></script> 
+<script src="../../../js/mui.zoom.js"></script>
+<!--图片上传-->
+<script src="../../../js/layui2.0/layui.all.js" charset="utf-8"></script>
 <script>
 	//mui初始化
 	mui.init();
@@ -516,92 +549,79 @@
 			});
 		}, false);			
 	}
-	
-	
-	//选取图片的来源，拍照和相册  
-function showActionSheet(conf,imgId){  
-  var divid = conf.id;  
-      var actionbuttons=[{title:"拍照"},{title:"相册选取"}];  
-      var actionstyle={title:"选择照片",cancel:"取消",buttons:actionbuttons};  
-      plus.nativeUI.actionSheet(actionstyle, function(e){  
-            if(e.index==1){  
-                appendByCamera(imgId);
-            }else if(e.index==2){  
-                appendByGallery(imgId);  
-            }  
-      } );  
-    }  
 
-var files={};
-// 上传文件
-function upload(imgId){
-	if(files.length<=0){
-		plus.nativeUI.alert("没有添加上传文件！");
-		return;
-	}
-	loading('上传中');
-	var task=plus.uploader.createUpload(imgUploadImg, 
-		{method:"POST"},
-		function(t,status){ //上传完成
-			closeLoading();			
-			if(status==200){
-				sw.jcon(t.responseText);	
-				var rData   = JSON.parse(t.responseText);
-					sw.toast(rData.msg);
-					
-				var rStatus = rData.status;
-					if(rStatus==200){
-					
-						var rz   = [];
-						rz['yyzz'] = '营业执照';
-						rz['nsrz'] = '纳税认证';
-						rz['sdrz'] = '实地认证';
-						rz['sbrz'] = '商标认证';
-						rz['cpdlrz'] = '产品代理认证';
-								
-					var data = {};
-						data.imgId = imgId;
-						data.url   = rData.url;
-						data.str   = rz[imgId];
-				 	var imgShowTpl   = $('#imgShow-list-tpl').html();	 		
-				    laytpl(imgShowTpl).render(data,function(render){            
-				        $("#"+imgId).html(render);    
-				    });
-					
-					var storId = 'authImg'+imgId;
-					JsonStorage.setItem(storId,rData.url);
-					
-					}
-			}else{
-				sw.toast("上传失败："+status);				
-			}
-			
-		}
-	);
-	task.addFile(files.path,{key:files.name});	
-	task.start();
-}
-// 拍照添加文件
-function appendByCamera(imgId){
-	plus.camera.getCamera().captureImage(function(p){
-		appendFile(p,imgId);
-	});	
-}
-// 从相册添加文件
-function appendByGallery(imgId){
-	plus.gallery.pick(function(p){
-        appendFile(p,imgId);
+
+    //容器Id
+    var Ids = [['#yyzzVal','yyzz'],['#nsrzVal','nsrz'],['#sdrzVal','sdrz'],['#sbrzVal','sbrz'],['#cpdlrzVal','cpdlrz']];
+    //循环初始化上传图片
+    $.each(Ids,function (index,item) {
+        startImgUp(item[0],item[1]);
     });
-}
-// 添加文件
-function appendFile(p,imgId){
-	files = {name:"uploadkey",path:p};
-	upload(imgId);
-}
-// 产生一个随机数
-function getUid(){
-	return Math.floor(Math.random()*100000000+10000000).toString();
-}
+
+    //初始化图片
+    function startImgUp(elem,imgId) {
+        //初始化已保存的图片
+        var storIds = 'authImg'+imgId;
+        JsonStorage.setItem(storIds,'');
+        //图片初始化操作
+        layui.upload.render({
+            url: imgUploadImg,
+            elem:elem
+            ,multiple:false
+            ,auto:false
+            ,choose:function (obj) {
+                var files = '';
+                //获取已上传文件数量
+                var imgNum  = $('.ma-img-list').find("li").length;
+                files = obj.pushFile();
+
+                //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+                obj.preview(function(index, file, result){
+                    // console.log(index); //得到文件索引
+
+                    imgNum ++;
+                    if(imgNum>9){
+                        delete files[index];
+                        $('#upload-img-tips').text('选择图片数量超出限制，部分图片未上传');
+                        return false;
+                    }else{
+                        obj.upload(index, file);
+                        delete files[index];
+                    }
+
+                });
+            },done: function(rData){
+
+                if(rData.status==200)
+                {
+                    var rz   = [];
+                    rz['yyzz'] = '营业执照';
+                    rz['nsrz'] = '纳税认证';
+                    rz['sdrz'] = '实地认证';
+                    rz['sbrz'] = '商标认证';
+                    rz['cpdlrz'] = '产品代理认证';
+
+                    var data = {};
+                    data.imgId = imgId;
+                    data.url   = rData.url;
+                    data.str   = rz[imgId];
+                    var imgShowTpl   = $('#imgShow-list-tpl').html();
+                    laytpl(imgShowTpl).render(data,function(render){
+                        $("#"+imgId).find('.imgChildren').html(render);
+                        $("#"+imgId).find('label').css('display','none');
+                    });
+
+                    var storId = 'authImg'+imgId;
+                    JsonStorage.setItem(storId,rData.url);
+
+                }
+            },error: function(index, upload){
+                console.log(index);
+                console.log(upload);
+            }
+        });
+
+    }
 
 /**
  * 删除图片
@@ -615,18 +635,13 @@ function delImg(j,imgId){
 		rz['sdrz'] = '实地认证';
 		rz['sbrz'] = '商标认证';
 		rz['cpdlrz'] = '产品代理认证';
-				
-	var data = {};
-		data.imgId = imgId;
-		data.str   = rz[imgId];
-		sw.jcon(data) 
- 	var imgUploadTpl   = $('#imgUpload-list-tpl').html();	 		
-    laytpl(imgUploadTpl).render(data,function(render){            
-        $("#"+imgId).html(render);    
-    });
-    
+
+
+    $("#"+imgId).find('.imgChildren').html('');
+    $("#"+imgId).find('label').css('display','block');
+
     var storId = 'authImg'+imgId;
-	JsonStorage.setItem(storId,'');
+    JsonStorage.setItem(storId,'');
 }
 
 
@@ -720,8 +735,7 @@ function saveAuth(){
 							sw.toast(rData.msg); 
 							if(rData.status==200){
 				 				//发布求购成功
-								var person = plus.webview.getWebviewById("person_purchase_auth");
-								person.reload(true);  									 					
+								location.href = location.href;
 							}else{
 								$("#authStatus").val(1); 
 							}

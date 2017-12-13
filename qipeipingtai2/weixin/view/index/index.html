@@ -320,26 +320,14 @@
 <script src="../../js/jquery.min.js"></script>
 <script src="../../js/laytpl/laytpl.js"></script>
 <script src="../../js/mui.pullToRefresh.js"></script>
-<script src="../../js/mui.pullToRefresh.material.js"></script> 
+<script src="../../js/mui.pullToRefresh.material.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZBcSIHdvwjfx105K8jvQCj5W"></script>
  <script type="text/javascript" charset="utf-8">	
 
  	$(function(){
-		//初始化城市配置
-		var cityIni= JsonStorage.getItem('cityIni');
-		if(cityIni==undefined){
-			cityIni = '成都市';
-			JsonStorage.setItem('cityIni',cityIni)
-		}
+        setCityIni();
 
-		if(cityIni.length>4){
-			cityIni = cityIni.substring(0,4)+'...';
-		}
-
-
-
-		$("#addressCon").text(cityIni);
-
-		//将之前保存数据提前显示到页面
+        //将之前保存数据提前显示到页面
 		var data = JsonStorage.getItem('banner');
 		if(data){
 			data = JSON.parse(data);
@@ -413,7 +401,74 @@
 		} 
 		
 	});
- 
+
+
+    //获取城市坐标
+    function setCityIni() {
+        //延时加载地图
+        setTimeout(function () {
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function (r) {
+                if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+
+                    cityIni = r.address.city;
+                    //获取配置城市数据
+                    http.load('api.sev.index', 'getCityIni', {'key': cityIni}, function (rData) {
+                        if (rData.status == 200) {
+
+                            if (rData.data.length > 0) {//有城市且城市获取成功
+
+                                JsonStorage.setItem('cityIni', cityIni);
+
+                                if (cityIni.length > 4) {
+                                    cityIni = cityIni.substring(0, 4) + '...';
+                                }
+
+                                $("#addressCon").text(cityIni);
+
+                            } else {
+
+                                sw.toast("当前城市未开通服务，请手动选择");
+                                getNoCity();
+
+                            }
+
+                        } else {
+
+                            sw.toast("定位失败，请手动选择");
+                            getNoCity();
+
+                        }
+                    }, function (xhr, type, errorThrown) {
+
+                    })
+
+                } else {
+
+                    sw.toast("定位失败，请手动选择");
+                    getNoCity();
+                }
+            }, {enableHighAccuracy: true});
+
+        }, 300)
+    };
+
+    /**
+     * 获取定位失败  或者没有配置的城市时处理
+     */
+    function getNoCity(){
+
+        cityIni = '成都市';
+        plus.storage.setItem('cityIni',cityIni);
+
+        if(cityIni.length>4){
+            cityIni = cityIni.substring(0,4)+'...';
+        }
+
+        $("#addressCon").text(cityIni);
+
+    }
+
  	/**
  	 * 初始化页面数据
  	 * @param {Object} data
@@ -442,8 +497,7 @@
 	            mui('#yaoList')[0].innerHTML = render;
 	        });
  	}
- 
- 
+
  	/**
  	 * 前往产品页面  清仓 促销
  	 */
@@ -475,19 +529,15 @@
 	 	
 	 	var aniShow = 'pop-in';
 	 	openView(url,id,aniShow,extras);	 	
-	 }	
-	 
+	 }
 	//城市选择
 	mui("#addressCon")[0].addEventListener('tap',function(){
 		openView('../../view/index/changeCity.html','selectAddress','slide-in-bottom');
 	})
-	
 	//消息列表
 	mui("#msgList")[0].addEventListener('tap',function(){
 		openView('../../view/msg/index.html','view_msg_index','pop-in');
 	})
-	
-	
 	//求购
 	mui("#qiugou")[0].addEventListener('tap',function(){
 		openView('../../view/index/qiugou/index.html','qiugou','pop-in');

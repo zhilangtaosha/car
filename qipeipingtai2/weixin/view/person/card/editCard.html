@@ -143,7 +143,7 @@
 <script id="info-list-tpl" type="text/html">
 	<li class="mui-table-view-cell  sw-no-active sw-after-no">
 		<span class="sw-list-title">企业名称：</span>
-		<span class="sw-list-input1 " id="companyname">{{ d.companyname }}</span>
+		<input class="sw-list-input1" onkeyup="inputChange()" id="companyname" value="{{ d.companyname }}" placeholder="请输入企业名称"/>
 	</li>
 
 	<li class="mui-table-view-cell  sw-no-active sw-after-no">
@@ -319,7 +319,7 @@
 
 	/*经销商提交保存*/
     function createCanvas(type){
-        var firms_name    = $.trim($("#companyname").text());
+        var firms_name    = $.trim($("#companyname").val());
         var firms_linkMan = $.trim($("#linkMan").val());
         var firms_phone 	= $.trim($("#phoneStr").val());
         var firms_tel 		= $.trim($("#telStr").val());
@@ -584,7 +584,7 @@
             var token  = plus.storage.getItem('token');
 
             var data = {};
-            data.firms_name     = $.trim($("#companyname").text());
+            data.firms_name     = $.trim($("#companyname").val());
             data.firms_linkMan  = $.trim($("#linkMan").val());
             data.firms_phone 	= $.trim($("#phoneStr").val());
             data.firms_tel 		= $.trim($("#telStr").val());

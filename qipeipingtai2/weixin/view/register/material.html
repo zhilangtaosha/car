@@ -65,8 +65,11 @@
 	.sw-address{
 		border: none;font-size: 12px;overflow-y: hidden;padding: 0;margin-bottom: 0;
 	}
+	input,textarea{
+		user-select: text!important;
+	}
 </style>
-<body style="background: #F5f5f5;">
+<body style="background: #F5f5f5;" onload="startInputData()">
 	<header class="mui-bar mui-bar-nav">
 	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	    <h1 class="mui-title">完善基本资料</h1>
@@ -78,13 +81,13 @@
 			
 			<li class="mui-table-view-cell sw-no-active">
 			 	<span class="sw-ctheme sw-list-title">企业类型：</span>
-			 	<span class="sw-list-text1" onclick="selectFirmType(this)">
+			 	<span class="sw-list-text1 firmType1" onclick="selectFirmType(this)">
 			 		<label for="firmType1">
 			 			<p class="sw-gou firmType"></p>经销商
 			 			<input type="radio" name="firmType" checked="checked" id="firmType1" value="1" hidden="hidden" />
 			 		</label>			 		
 			 	</span>
-			 	<span class="sw-list-text1" onclick="selectFirmType(this)">
+			 	<span class="sw-list-text1 firmType2" onclick="selectFirmType(this)">
 			 		<label for="firmType2">
 			 			<p class="sw-quan firmType"></p>汽修厂
 			 			<input type="radio" name="firmType" id="firmType2" value="2" hidden="hidden" />
@@ -95,19 +98,19 @@
 			
 			<li class="mui-table-view-cell  sw-no-active sw-after-r sw-fenlei sw-fenlei1" style="display: block;">
 			 	<span class="sw-ctheme sw-list-title">企业分类：</span>
-			 	<span class="sw-list-text1" onclick="selectClass(this)">
+			 	<span class="sw-list-text1 classT1" onclick="selectClass(this)">
 			 		<label for="jx1">
 				 		<p class="sw-gou firmClass firmClassDef"></p>轿车商家
 				 		<input type="radio" name="jxType" id="jx1" value="1" checked="checked" hidden="hidden"/>
 			 		</label>	
 			 	</span>
-			 	<span class="sw-list-text1" onclick="selectClass(this)">
+			 	<span class="sw-list-text1 classT2" onclick="selectClass(this)">
 			 		<label for="jx2">
 				 		<p class="sw-quan firmClass"></p>货车商家
 				 		<input type="radio" name="jxType" id="jx2" value="2" hidden="hidden"/>
 				 	</label>
 			 	</span>
-			 	<span class="sw-list-text1" onclick="selectClass(this)">
+			 	<span class="sw-list-text1 classT3" onclick="selectClass(this)">
 			 		<label for="jx3">
 				 		<p class="sw-quan firmClass"></p>用品商家
 				 		<input type="radio" name="jxType" id="jx3" value="3" hidden="hidden"/>
@@ -117,19 +120,19 @@
 			
 			 <li class="mui-table-view-cell  sw-no-active sw-after-r sw-fenlei sw-fenlei2" style="display: none;">
 			 	<span class="sw-ctheme sw-list-title">企业分类：</span> 
-			 	<span class="sw-list-text1" onclick="selectClass(this)">
+			 	<span class="sw-list-text1 classT4" onclick="selectClass(this)">
 			 		<label for="qx4">
 				 		<p class="sw-gou firmClass firmClassDef"></p>修理厂
 				 		<input type="radio" name="qxType" id="qx4" value="4" hidden="hidden"/>
 				 	</label>	
 			 	</span>
-			 	<span class="sw-list-text1" onclick="selectClass(this)">
+			 	<span class="sw-list-text1 classT5" onclick="selectClass(this)">
 			 		<label for="qx5">
 				 		<p class="sw-quan firmClass"></p>快修保养
 				 		<input type="radio" name="qxType" id="qx5" value="5" hidden="hidden"/>
 			 		</label>	
 			 	</span>
-			 	<span class="sw-list-text1" onclick="selectClass(this)">
+			 	<span class="sw-list-text1 classT6" onclick="selectClass(this)">
 			 		<label for="qx6">
 				 		<p class="sw-quan firmClass"></p>美容店
 				 		<input type="radio" name="qxType" id="qx6" value="6" hidden="hidden"/> 
@@ -236,43 +239,8 @@
  <script src="../../js/jquery.min.js"></script>
  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZBcSIHdvwjfx105K8jvQCj5W"></script> 
 <script>
-	//监听自定义事件
-	window.addEventListener('refreshScope', function(e) {  
-		var pIIIs = JsonStorage.getItem('pIIIs');
-		if(pIIIs==1){
-			var firmClasses = JSON.parse(JsonStorage.getItem('firmClasses'));
-			var classLen = firmClasses.length;
-			var str   = '';
-			var business = ',';
-			for(var i=0;i<classLen;i++){
-				var firm = firmClasses[i].split(",");
-				    str += " "+firm[1];
-				    business += firm[0]+',';
-			}
-
-			$("#scopeText").text(str);
-			$("#business").val(business);			
-			//刷新后清除刷新标记
-			JsonStorage.removeItem('pIIIs');
-		}
-    })
-	
-	//监听自定义事件
-	window.addEventListener('refreshImg', function(e) { 
-		var pIImg = JsonStorage.getItem('pIImg');
-		if(pIImg==1){
-			var face_pic = JsonStorage.getItem('face_pic');
-			var faceImg  =	imgUrl + face_pic;
-			    $("#faceImg").attr('src',faceImg);
-			    $("#face_img").val(faceImg);
-			    
-			//刷新后清除刷新标记
-			JsonStorage.removeItem('pIImg');
-		}
-    })
-	
 	//mui初始化
-	mui.init();
+
 	var	firmsId = '';
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");
@@ -303,7 +271,8 @@
 			//初始化城市选择
 			var cityPicker = new mui.PopPicker({
 					layer: 3,
-					title:'选择城市'
+					title:'选择城市',
+					value:'山西省 太原市 小店区'
 			});
 			cityPicker.setData(cityData3);
 			
@@ -471,10 +440,14 @@
 		})
           
 	}
-	
+
+
 	//经营范围  根据轿车 货车 物流 分别获取 
-	mui("#scope")[0].addEventListener('tap',function(){		
-		var firmClass = $("input[name='jxType']:checked").val();
+	mui("#scope")[0].addEventListener('tap',function(){
+	    //保存数据
+        saveInputData();
+
+        var firmClass = $("input[name='jxType']:checked").val();
 		var data = {'firmClass':firmClass};
 		openView('../../view/register/scope.html','scope','pop-in',data);
 	});
@@ -483,6 +456,129 @@
 	mui("#uploadImg")[0].addEventListener('tap',function(){		
 		openView('../../view/common/uploadImg.html','uploadImg','pop-in');
 	})
+
+    /**
+	 * 将数据保存到本地
+     */
+	function  saveInputData() {
+        var companyType = $('input[name="firmType"]:checked').val();
+        //console.log(companyType);
+        if(companyType==1){
+            var classification = $('input[name="jxType"]:checked').val();
+        }else {
+            var classification = $('input[name="qxType"]:checked').val();
+        }
+        //console.log(classification);
+        var business    = $('input[name="business"]').val();   //经营范围
+        var companyname = $('input[name="companyname"]').val();//企业名称
+        var province    = $('#province').val();
+        var city        = $('#city').val();
+        var district    = $('#district').val();
+        var address     = $('textarea[name="address"]').val();
+        var coordinate  = $('#mapText').text();
+        //经纬度
+        var longitude   = $('input[name="longitude"]').val();
+        var latitude    = $('input[name="latitude"]').val();
+        var face_pic    = $('input[name="face_img"]').val();//封面
+        var major       = $('textarea[name="major"]').val();//主营
+        var linkMan     = $('input[name="linkMan"]').val(); //联系人
+        var linkPhone   = $('input[name="linkPhone"]').val();//手机
+        var linkTel     = $('input[name="linkTel"]').val();//座机
+        var qq          = $('input[name="linkQQ"]').val();//QQ
+        //console.log(business);
+
+        var postData = {
+            'firmsId':firmsId,
+            'companyType':companyType,
+            'classification':classification,
+            'business':business,
+            'companyname':companyname,
+            'province':province,
+            'city':city,
+            'district':district,
+            'address':address,
+            'coordinate':coordinate,
+            'longitude':longitude,
+            'latitude':latitude,
+            'face_pic':face_pic,
+            'major':major,
+            'linkMan':linkMan,
+            'linkPhone':linkPhone,
+            'linkTel':linkTel,
+            'qq':qq
+        };
+
+        JsonStorage.setItem('materialData',JSON.stringify(postData));
+    }
+
+    /**
+	 * 将保存的数据输出
+     */
+    function startInputData() {
+
+        if(JsonStorage.getItem('materialData')&&JsonStorage.getItem('materialData')!=''){
+            var data = JSON.parse(JsonStorage.getItem('materialData'));
+
+			var firmTypeObj = $(".classT"+data.classification);
+            selectClass(firmTypeObj);
+
+            $('input[name="business"]').val(data.business);   //经营范围
+            $('input[name="companyname"]').val(data.companyname);//企业名称
+
+            var province = data.province;
+            var city = data.city;
+            var district = data.district;
+
+            var cityStr = province+ " " + city+ " " + district;
+
+            $("#cityStr").text(cityStr);
+
+            $('#province').val(province);
+            $('#city').val(city);
+            $('#district').val(district);
+
+            $('textarea[name="address"]').val(data.address);
+            $('#mapText').text(data.coordinate);
+            //经纬度
+            $('input[name="longitude"]').val(data.longitude);
+            $('input[name="latitude"]').val(data.latitude);
+            $('input[name="face_img"]').val(data.face_img);//封面
+            $('textarea[name="major"]').val(data.major);//主营
+            $('input[name="linkMan"]').val(data.linkMan); //联系人
+            $('input[name="linkPhone"]').val(data.linkPhone);//手机
+            $('input[name="linkTel"]').val(data.linkTel);//座机
+            $('input[name="linkQQ"]').val(data.qq);//QQ
+		}
+
+
+        var pIIIs = JsonStorage.getItem('pIIIs');
+        if(pIIIs==1){
+            var firmClasses = JSON.parse(JsonStorage.getItem('firmClasses'));
+            var classLen = firmClasses.length;
+            var str   = '';
+            var business = ',';
+            for(var i=0;i<classLen;i++){
+                var firm = firmClasses[i].split(",");
+                str += " "+firm[1];
+                business += firm[0]+',';
+            }
+
+            $("#scopeText").text(str);
+            $("#business").val(business);
+
+        }
+
+
+        var pIImg = JsonStorage.getItem('pIImg');
+        if(pIImg==1){
+            var face_pic = JsonStorage.getItem('face_pic');
+            var faceImg  =	imgUrl + face_pic;
+            $("#faceImg").attr('src',faceImg);
+            $("#face_img").val(faceImg);
+
+        }
+
+    }
  </script>
 
 </html>

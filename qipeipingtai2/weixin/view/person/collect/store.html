@@ -176,16 +176,7 @@
 <script type="text/javascript" src="../../../js/laytpl/laytpl.js"></script>
 <script type="text/javascript" charset="utf-8">
  //mui初始化
-	mui.init({  
-	    beforeback: function() {  
-	    //获得列表界面的webview  
-	    var info = plus.webview.currentWebview().opener();  
-	    //触发列表界面的自定义事件（refresh）,从而进行数据刷新  
-	    mui.fire(info, 'searchStore');  
-	    //返回true，继续页面关闭逻辑   
-	    return true;  
-	    }  
-	});
+	mui.init();
 	var imgH = parseInt((document.body.clientWidth-70)/4);  
 	//mui plusReady
 	$(function() {
@@ -362,9 +353,8 @@
 		var	cate_1  = $("#cate_1").val();
 		var	cate_2  = $("#cate_2").val();
 		var	storeType = $("#storeType").val();
-		var postData = {'type':storeType,'keyword':keyword,'cate_1':cate_1,'cate_2':cate_2};
-			JsonStorage.setItem('searchStore',JSON.stringify(postData));
-			mui.back(); 
+        var postData = {'type':storeType,'keyword':keyword,'cate_1':cate_1,'cate_2':cate_2,'urlType':'1'};
+        openView('../../../view/person/collect/index.html','person_collect_index','pop-in',postData);
 	}
 
 
@@ -377,8 +367,7 @@
 	 var	cate_2  = $("#cate_2").val();
 	 var	storeType = $("#storeType").val();
 	 var postData = {'type':storeType,'keyword':keyword,'cate_1':cate_1,'cate_2':cate_2};
-	 JsonStorage.setItem('searchStore',JSON.stringify(postData));
-	 mui.back();
+     openView('../../../view/person/collect/index.html','person_collect_index','pop-in',postData);
  }
 </script>
 </html>

@@ -42,6 +42,11 @@
 	.sw-text-2{
 		padding: 4px 36px;border: 1px solid #FF534C;display: inline-block;color: #FF534C;border-radius: 15px;margin-top: 24px;letter-spacing: 2px;
 	}
+
+	.mui-pull-bottom-wrapper{
+		text-align: center;font-size: 14px;
+		color: #999;
+	}
 </style>
 <body style="background: #EFEFEF;">
 	<header class="mui-bar mui-bar-nav">
@@ -158,6 +163,8 @@
 <script src="../../../js/global.js"></script>
 <script src="../../../js/jquery.min.js"></script>
 <script src="../../../js/laytpl/laytpl.js"></script>
+<script type="text/javascript" src="../../../js/mui.pullToRefresh.js"></script>
+<script type="text/javascript" src="../../../js/mui.pullToRefresh.material.js"></script>
 <script type="text/javascript">
 	//mui初始化
 	mui.init();
@@ -204,14 +211,6 @@
 	 				sw.toast('获取数据失败，服务器或网络异常');
 		 		})
 
-			mui(".mui-content").pullToRefresh({
-				down: {
-					callback: function() {
-						location.href = location.href;
-					}
-				}
-
-			})
 
 			mui("#loadList").pullToRefresh({
 				up: {
@@ -220,7 +219,8 @@
 					contentnomore:contentnomoreStr,
 					contentrefresh:contentrefreshStr,
 					callback: function() {
-						getMyInvite();
+                        var showSelf = this;
+                        getMyInvite(showSelf);
 					}
 				}
 			});
@@ -229,22 +229,13 @@
 				sw.toast('您还未登录，请登录后重试');
 			}
 
-			//获取分享
-			updateSerivces();
-			if(plus.os.name=="Android"){
-				main = plus.android.runtimeMainActivity();
-				Intent = plus.android.importClass("android.content.Intent");
-				File = plus.android.importClass("java.io.File");
-				Uri = plus.android.importClass("android.net.Uri");
-			}
-
 	})
 
 	/**
 	 * 获取我的邀请列表
 	 * @param {Object} showSelf
 	 */
-	function getMyInvite(){
+	function getMyInvite(showSelf){
 
 		var token = JsonStorage.getItem('token');
 		var page  = mui("#page")[0].value;//获取页数
@@ -261,27 +252,81 @@
 		data.mod      = 'api.sev.invite';//模型
 		data.fun      = 'getMyInvite';//方法
 		data.tpl      = 'show-list-tpl';//列表模板
-
+        data.listId   = 'conList';//列表容器
+        data.pageId   = 'page';//页码Id
 		//请求并处理数据
-		loadInfo(data,false);
+        loadInfoArr(data,false,showSelf);
 
 	}
 
-	/**
-         * 更新分享服务
-         */
-        function updateSerivces() {
-            plus.share.getServices(function(s) {
-                shares = {};
-                for (var i in s) {
-                    var t = s[i];
-                    shares[t.id] = t;
-                }
-//              outSet("获取分享服务列表成功");
-            }, function(e) {
-//              outSet("获取分享服务列表失败：" + e.message);
-            });
+    /**
+     *加载数据
+     * @param inData 数据
+     * @param isLogin 判断是否需要登录
+     *
+     */
+    function loadInfoArr(inData,isLogin,self){
+//	sw.jcon(inData)
+        var postData = inData.postData;
+        var mod      = inData.mod;//模型
+        var fun      = inData.fun;//方法
+        var tpl      = inData.tpl;//列表模板
+        var listId   = inData.listId;//列表容器
+        var pageId   = inData.pageId;//页码Id
+
+        var isload = true;
+        if(isLogin){//需要判断是否登录
+            //监控页面是否登录
+            if(UserInfo.has_login()==false){
+                isload = false;
+            }
         }
+
+        if(isload){
+            //如果已经登陆 获取登录后的数据
+            http.load(mod,fun,postData,function(rData){//请求成功
+
+                if(rData.status==200){
+
+                    //将数据输出到页面
+                    var data   = rData.list;
+                    sw.jcon(rData)
+                    var payTpl = $('#'+tpl).html();
+                    laytpl(payTpl).render(data,function(render){
+                        $('#'+listId).append(render);
+                    });
+
+                    //处理加载逻辑
+                    var count    = parseInt(rData.count);//数据总条数
+                    var page     = parseInt(rData.page);
+                    var pageSize = parseInt(rData.pageSize);
+                    var showLen  = page*pageSize;//统计当前应该显示多少条
+
+                    //判断条数是否足够
+                    if(count<=showLen){//加载动图隐藏
+                        self.endPullUpToRefresh(true); //参数为true代表没有更多数据了。
+                    }else{
+                        self.endPullUpToRefresh(false);
+                        $("#"+pageId).val(page+1);
+                    }
+                    //如果条数为 0 出现提示语言
+                    if(count==0&&page==1){
+                        self.endPullUpToRefresh(true); //参数为true代表没有更多数据了。
+                    }
+
+                }else{
+                    sw.toast(rData.msg);
+                    self.endPullUpToRefresh(true);
+                }
+
+            },function(xhr,type,errorThrown){//请求失败
+                //无网络提示
+                sw.toast('请求数据失败，请检查网络后重试');
+                self.endPullUpToRefresh(true);
+            })
+        }
+    }
+
         /**
          * 分享操作
          */

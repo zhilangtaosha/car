@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="utf-8">
 	<title>圈子</title>
@@ -156,21 +155,18 @@
 	<p class="sw-search-p" onclick="forSearch002()"></p>
 </div>
 <!--下拉刷新容器-->
-<div id="pullrefresh" class="mui-content mui-scroll-wrapper"  style="margin-top:60px;padding-bottom: 50px;">
-
+<div class="mui-content">
 	<div class="mui-scroll">
+		<div id="loadList" style="margin-bottom: 50px;">
+			<ul class="mui-table-view" id="conList" style="margin-top: 62px;">
 
+			</ul>
+		</div>
 		<!--数据列表-->
-		<ul id="conList" class="mui-table-view mui-table-view-chevron">
-
-		</ul>
-
 		<input value="1" hidden="hidden" id="page"/>
-
-
 	</div>
-
 </div>
+
 <div class="sheying sheying-box" id="publish"><img src="../../image/coterie/sheying.png" class="sheying"/></div>
 
 <nav class="mui-bar mui-bar-tab" style="background: #FFFFFF;box-shadow: none;">
@@ -208,9 +204,9 @@
 	{{# for(var i = 0;i< len; i++){ }}
 	<div class="mui-card-header mui-card-media sw-card-header" id="circle_{{ d[i].id }}">
 		<img src="{{ imgUrl+d[i].head_pic }}" class="sw-face" style="width:36px;height: 36px;"/>
-		<div class="mui-media-body">
+		<div class="mui-media-body" style="-webkit-user-select: text">
 			<span class="sw-nickName">{{ d[i].uname }}</span>
-			<p class="sw-table-text1" style="word-break: break-all;">{{ d[i].content }}</p>
+			<p class="sw-table-text1" style="word-break: break-all;-webkit-user-select: text">{{ d[i].content }}</p>
 			{{# if(d[i].circle_type==2){ }}
 
 			<ul class="mui-table-view sw-coterie-imgBox" onclick="openFirms('{{ d[i].fxFirm.EnterpriseID }}','{{ d[i].fxFirm.companyname }}','{{ d[i].fxFirm.type }}')" >
@@ -284,6 +280,8 @@
 <script src="../../js/jquery.min.js"></script>
 <script src="../../../js/laytpl/laytpl.js"></script>
 <script src="../../js/mui.previewimage.js?v=1.0.6"></script>
+<script type="text/javascript" src="../../js/mui.pullToRefresh.js"></script>
+<script type="text/javascript" src="../../js/mui.pullToRefresh.material.js"></script>
 <script src="../../js/mui.zoom.js"></script>
 <script>
 
@@ -327,20 +325,18 @@
 	});
 
 
-	mui.init({
-		pullRefresh: {
-			container: '#pullrefresh',
-			down: {
-				callback: pulldownRefresh
-			},
-			up: {
-				auto:true,
-				contentrefresh: '正在加载...',
-				contentnomore:'<div class="sw-footer"><span>我是有底线的</span></div>',
-				callback: pullupRefresh
-			}
-		}
-	});
+    mui("#loadList").pullToRefresh({
+        up: {
+            auto: true,
+            offset: 50, //距离底部高度(到达该高度即触发)
+            contentnomore:contentnomoreStr,
+            contentrefresh:contentrefreshStr,
+            callback: function() {
+                var showSelf = this;
+                pullupRefresh(showSelf);
+            }
+        }
+    });
 
 	/**
 	 * 下拉刷新具体业务实现
@@ -362,7 +358,7 @@
 	/**
 	 * 上拉加载具体业务实现
 	 */
-	function pullupRefresh() {
+	function pullupRefresh(showSelf) {
 			var page = mui("#page")[0].value;//获取页数
 			var keyword = $('#keyWord').val();
 
@@ -383,13 +379,83 @@
 			data.mod      = 'api.sev.circle';//模型
 			data.fun      = 'getCircleDateList';//方法
 			data.tpl      = 'pay-list-tpl';//列表模板
-			data.listId   = 'payList';//列表容器
+			data.listId   = 'conList';//列表容器
+        	data.pageId   = 'page';//页码Id
 			//请求并处理数据
-			loadInfo(data,false);
+			loadInfoArr(data,false,showSelf);
 
 	}
 
-	function delCircle(n,t,f){
+    /**
+     *加载数据
+     * @param inData 数据
+     * @param isLogin 判断是否需要登录
+     *
+     */
+    function loadInfoArr(inData,isLogin,self){
+//	sw.jcon(inData)
+        var postData = inData.postData;
+        var mod      = inData.mod;//模型
+        var fun      = inData.fun;//方法
+        var tpl      = inData.tpl;//列表模板
+        var listId   = inData.listId;//列表容器
+        var pageId   = inData.pageId;//页码Id
+
+        var isload = true;
+        if(isLogin){//需要判断是否登录
+            //监控页面是否登录
+            if(UserInfo.has_login()==false){
+                isload = false;
+            }
+        }
+
+        if(isload){
+            //如果已经登陆 获取登录后的数据
+            http.load(mod,fun,postData,function(rData){//请求成功
+
+                if(rData.status==200){
+
+                    //将数据输出到页面
+                    var data   = rData.list;
+                    sw.jcon(rData)
+                    var payTpl = $('#'+tpl).html();
+                    laytpl(payTpl).render(data,function(render){
+                        $('#'+listId).append(render);
+                    });
+
+                    //处理加载逻辑
+                    var count    = parseInt(rData.count);//数据总条数
+                    var page     = parseInt(rData.page);
+                    var pageSize = parseInt(rData.pageSize);
+                    var showLen  = page*pageSize;//统计当前应该显示多少条
+
+                    //判断条数是否足够
+                    if(count<=showLen){//加载动图隐藏
+                        self.endPullUpToRefresh(true); //参数为true代表没有更多数据了。
+                    }else{
+                        self.endPullUpToRefresh(false);
+                        $("#"+pageId).val(page+1);
+                    }
+                    //如果条数为 0 出现提示语言
+                    if(count==0&&page==1){
+                        self.endPullUpToRefresh(true); //参数为true代表没有更多数据了。
+                    }
+
+                }else{
+                    sw.toast(rData.msg);
+                    self.endPullUpToRefresh(true);
+                }
+
+            },function(xhr,type,errorThrown){//请求失败
+                //无网络提示
+                sw.toast('请求数据失败，请检查网络后重试');
+                self.endPullUpToRefresh(true);
+            })
+        }
+    }
+
+
+    function delCircle(n,t,f){
 		mui.confirm('确认删除？删除后不可恢复', '&nbsp;', ['<span class="mui-popup-button mui-btn sw-popu-btn" style="color:#333">确认</span>','<span class="mui-popup-button mui-btn mui-btn-blue sw-popu-btn">取消</span>' ], function(e) {
 			if (e.index == 1) {//确认
 				var delId = "#delStatus"+n;

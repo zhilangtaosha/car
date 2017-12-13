@@ -189,16 +189,7 @@
 <script src="../../../js/laytpl/laytpl.js"></script>
  <script type="text/javascript" charset="utf-8">
 	//mui初始化
-	mui.init({  
-	    beforeback: function() {  
-	    //获得列表界面的webview  
-	    var info = plus.webview.currentWebview().opener();  
-	    //触发列表界面的自定义事件（refresh）,从而进行数据刷新  
-	    mui.fire(info, 'cateSelect');  
-	    //返回true，继续页面关闭逻辑  
-	    return true;  
-	    }  
-	});
+	mui.init();
 	
 	var type = '';
 	//mui plusReady
@@ -264,7 +255,7 @@
 			var val = $(this).val();
 			cateArr.push(val);
 		})		
-		JsonStorage.setItem('pro_cate_2',JSON.stringify(cateArr));
+		JsonStorage.setItem('pro_cate_2x',JSON.stringify(cateArr));
 		mui.back();
 	}
 	
@@ -273,7 +264,7 @@
 	 */
 	function resetGoBack(){
 		var cateArr = [];
-		JsonStorage.setItem('pro_cate_2',JSON.stringify(cateArr));
+		JsonStorage.setItem('pro_cate_2x',JSON.stringify(cateArr));
 		mui.back();
 	}
 	
