@@ -1,7 +1,7 @@
 //图片地址
-// var imgUrl = 'http://app.7pqun.com';
+var imgUrl = 'http://app.7pqun.com';
 // var imgUrl = 'http://119.23.215.135';
-var imgUrl = 'http://www.suowei.com';
+// var imgUrl = 'http://www.suowei.com';
 // var imgUrl = 'http://192.168.2.21';
 //图片上传地址
 //var imgUploadImg =  'http://119.23.215.135/api.sev.upload/uploadImg';
