@@ -496,7 +496,7 @@
 		var postData    = {};
         postData.token      = token;        
 		//如果已经登陆 获取登录后的数据
-		http.load('api.sev.user','getRefresh',postData,function(rData){//请求成功									
+		http.load('api.sev.user','getRefreshX',postData,function(rData){//请求成功
  			if(rData.status==200){//保存成功
  				//根据刷新点提示
  				sw.jcon(rData); 

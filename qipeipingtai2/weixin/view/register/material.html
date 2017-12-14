@@ -433,6 +433,8 @@
         	sw.toast(rData.msg);          	
         	if(rData.status==200){  		      		
 				onSuccess(rData);
+				//
+                openView('../../view/person/index.html','person_index','pop-in');
 			}
         },function(xhr,type,errorThrown){//请求失败 将之前的数据填入		
 				//无网络提示
