@@ -15,8 +15,20 @@ class ApiSevLogModel extends Model
     //拨打记录写入                                   1电话· 2QQ
     public function callToLog($myFirmId,$toFirmId,$call_type=1,$userType=1,$plat=1){
         if($userType==1){
+            $rr = $this->table('firms_call_log')->where(array('firms_id'=>$myFirmId,'to_firms_id'=>$toFirmId,'call_type'=>$call_type))->order('create_time desc')->getOne();
+            if($rr){
+                if(time()<strtotime('+60 seconds',strtotime($rr['create_time']))){
+                    return false;
+                }
+            }
             $res = $this->table('firms_call_log')->insert(array('firms_id'=>$myFirmId,'to_firms_id'=>$toFirmId,'call_type'=>$call_type,'create_time'=>date('Y-m-d H:i:s')));
         }else{
+            $rr = $this->table('sales_call_log')->where(array('sales_user_id'=>$myFirmId,'firms_id'=>$toFirmId,'visit_type'=>$plat,'call_type'=>$call_type))->order('create_time desc')->getOne();
+            if($rr){
+                if(time()<strtotime('+60 seconds',strtotime($rr['create_time']))){
+                    return false;
+                }
+            }
             $res = $this->table('sales_call_log')->insert(array('sales_user_id'=>$myFirmId,'firms_id'=>$toFirmId,'visit_type'=>$plat,'call_type'=>$call_type,'create_time'=>date('Y-m-d H:i:s'),'is_show'=>1));
         }
 
