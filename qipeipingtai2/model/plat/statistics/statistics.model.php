@@ -583,7 +583,7 @@ class PlatStatisticsStatisticsModel extends Model
             $where  .= " and (b.EnterpriseID like $findKey or b.companyname like $findKey or b.uname like $findKey or b.phone like $findKey)";
         }
 
-        $field  = "a.create_time,ELT(a.call_type,'QQ','电话') as `call`,";
+        $field  = "a.create_time,ELT(a.call_type,'电话','QQ') as `call`,";
         $field .= "b.EnterpriseID as EnterpriseID1,b.uname ,b.phone,b.companyname as companyname1,";
         $field .= "b.type,b.classification ,b.province,b.city, b.district,";
         $field .= "c.EnterpriseID as EnterpriseID2,c.companyname as companyname2";

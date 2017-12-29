@@ -445,7 +445,7 @@ class PlatSalesFinancialModel extends Model
                         ->get() ;
                     //writeLog('业务员:'.$sale['id'].' 的有效厂商',$log_path);
                     //writeLog($this->lastSql(),$log_path);
-                    //获取在有效时间内厂商充值金额
+
                     //$user_firm => 单个业务员绑定的所有厂商
                     $firm_recharge_money = 0 ;//初始化充值金额
                     $call_total_num      = 0 ;//初始化拨打次数
@@ -483,7 +483,7 @@ class PlatSalesFinancialModel extends Model
 
                             }
 
-
+                            //获取在有效时间内厂商充值金额
                             //有效时间内厂商 充值金额
                             if($recharge_start && $recharge_end){
                                 $firm_recharge = $this->table('pay_history a')
