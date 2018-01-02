@@ -42,6 +42,7 @@ class PlatFirmsController extends Controller {
         $authMo = model("suAdmin","mysql");//链接权限模块
         $mod    = 'plat.firms';
         $fun    = 'lists';
+        $del    = ($userId == 1 || $user["code"] == 'admin')? true : false ;
         $isAuth = $authMo->checkUserAuth($userId,$mod,$fun);
         if($isAuth){
             $data    = $this->getRequest('data','1');
@@ -62,7 +63,8 @@ class PlatFirmsController extends Controller {
                         }else{
                             $area = $item['province'].'/'.$item['city'].'/'.$item['district'];
                         }
-                        $list[$k]['area'] = $area ;
+                        $list[$k]['delAuth'] = $del ;
+                        $list[$k]['area']    = $area ;
                     }
                     $return['list'] = $list ;
                 }

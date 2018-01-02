@@ -205,16 +205,20 @@
                                 <span>
                                     <p style="white-space: nowrap;margin-bottom: 0;">
                                         {{# if(list[i].status == 1){ }}
-                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="getOneFirm('{{ list[i].companyname }}' ,{{ list[i].id }})">[ 详情 ]</span>
-                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="changeStatus({{ list[i].status }},{{ list[i].id }})">[ 禁用 ]</span>
+                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="getOneFirm('{{ list[i].companyname }}' ,{{ list[i].id }})">[详情]</span>
+                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="changeStatus({{ list[i].status }},{{ list[i].id }})">[禁用]</span>
                                         {{# }else{ }}
-                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="getOneFirm('{{ list[i].companyname }}' ,{{ list[i].id }})">[ 详情 ]</span>
-                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="changeStatus({{ list[i].status }},{{ list[i].id }})">[ 启用 ]</span>
+                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="getOneFirm('{{ list[i].companyname }}' ,{{ list[i].id }})">[详情]</span>
+                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" onclick="changeStatus({{ list[i].status }},{{ list[i].id }})">[启用]</span>
                                         {{# } }}
                                     </p>
                                     <p style="white-space: nowrap;margin-bottom: 0;">
-                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" data-id="{{ list[i].id }}" onclick="resetPassword(this)">[ 密码 ]</span>
-                                        <span style="cursor: pointer;color: red;margin-bottom: 2px;" data-id="{{ list[i].id }}" onclick="delFirm(this)">[ 删除 ]</span>
+                                        {{# if(list[i].delAuth){ }}
+                                        <span style="cursor: pointer;color: #0066FF;margin-bottom: 2px;" data-id="{{ list[i].id }}" onclick="resetPassword(this)">[密码]</span>
+                                        <span style="cursor: pointer;color: red;margin-bottom: 2px;" data-id="{{ list[i].id }}" onclick="delFirm(this)">[删除]</span>
+                                        {{# }else{ }}
+                                        <span style="cursor: pointer;color: red;margin-bottom: 2px;" data-id="{{ list[i].id }}" onclick="resetPassword(this)">[重 置 密 码]</span>
+                                        {{# } }}
                                     </p>
                                 </span>
                             </td>

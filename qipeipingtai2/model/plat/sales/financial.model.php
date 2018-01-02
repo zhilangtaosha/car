@@ -318,6 +318,7 @@ class PlatSalesFinancialModel extends Model
             ->group("DATE_FORMAT(a.create_time, '%Y-%m-%d')")
             ->order("a.create_time DESC")
             ->get();
+        //writeLog($this->lastSql());
         if($lists){
             $data    = array('list'=>$lists,'count'=>$count,'page'=>$d['page'],'pageSize'=>$d['pageSize'],'massageCode'=>'success');
         }else{
@@ -330,7 +331,7 @@ class PlatSalesFinancialModel extends Model
         $supper   = G('user') ;
         $suppProv = @$supper['province'] ;
 
-        $find = 'a.type in (1,2) and a.payway in (1,2,3) ';
+        $find     = 'a.`status`=1 and a.type in (1,2) and a.payway in (1,2,3) ';
 
         if($suppProv){
             $find .= ' and b.province ="'.$suppProv.'"';
@@ -341,9 +342,10 @@ class PlatSalesFinancialModel extends Model
         $field  = "SUM( CASE WHEN a.type = 1 THEN a.money ELSE 0 END ) AS money1,";
         $field .= "SUM( CASE WHEN a.type = 2 THEN a.money ELSE 0 END ) AS money2,";
         $field .= "SUM( a.money ) AS money3 ";
-        return $this->table('pay_history a')->jion($join)->field($field)->where($find)
+        $res    = $this->table('pay_history a')->jion($join)->field($field)->where($find)
             ->getOne();
-
+        //writeLog($this->lastSql());
+        return $res ;
     }
 
 
