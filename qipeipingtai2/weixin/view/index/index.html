@@ -325,8 +325,8 @@
  <script type="text/javascript" charset="utf-8">	
 
  	$(function(){
-        setCityIni();
 
+        setNowCity();
         //将之前保存数据提前显示到页面
 		var data = JsonStorage.getItem('banner');
 		if(data){
@@ -411,7 +411,7 @@
             geolocation.getCurrentPosition(function (r) {
                 if (this.getStatus() == BMAP_STATUS_SUCCESS) {
 
-                    cityIni = r.address.city;
+                    var cityIni = r.address.city;
                     //获取配置城市数据
                     http.load('api.sev.index', 'getCityIni', {'key': cityIni}, function (rData) {
                         if (rData.status == 200) {
@@ -458,8 +458,8 @@
      */
     function getNoCity(){
 
-        cityIni = '成都市';
-        plus.storage.setItem('cityIni',cityIni);
+        var cityIni = '成都市';
+        JsonStorage.setItem('cityIni',cityIni);
 
         if(cityIni.length>4){
             cityIni = cityIni.substring(0,4)+'...';
@@ -467,6 +467,20 @@
 
         $("#addressCon").text(cityIni);
 
+    }
+
+    function setNowCity() {
+
+        var city =  JsonStorage.getItem('cityIni');
+
+        if(city!=undefined){
+            if(city.length>4){
+                city = city.substring(0,4)+'...';
+            }
+            $("#addressCon").text(city);
+		}else{
+            setCityIni();
+		}
     }
 
  	/**
