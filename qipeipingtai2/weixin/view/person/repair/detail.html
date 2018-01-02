@@ -192,7 +192,7 @@
 	   </div>
 		
 		<!--公司信息-->
-		<div class="companyCon" style="margin-bottom: 75px;" id="infoList">
+		<div class="companyCon" style="padding-bottom: 20px;" id="infoList">
 	
 		<div class="sw-box-1">
 			
@@ -247,7 +247,7 @@
 			
 		<div style="clear: both;"></div> 
 		<!--认证信息-->
-		<div class="companyCon" style="margin-bottom: 75px;display: none;" id="authList">		
+		<div class="companyCon" style="padding-bottom: 60px;display: none;" id="authList">
 			<ul class="mui-table-view" style="margin: 0;">
 				 <li class="mui-table-view-cell sw-after-l">
 				 	<span class="sw-zhizhao">营业执照</span><span class="sw-renz-status">无</span>
@@ -723,7 +723,8 @@
       	var title = qxName?qxName:'经销商名字未设置';
 		//设置标题     
 	    $("#mui_title").text(title);
-	    //请求经销商数据
+        $("title").text(title);
+        //请求经销商数据
 		//加载弹窗
 		loading('加载中...');
 		//获取数据

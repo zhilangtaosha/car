@@ -1,5 +1,5 @@
 //图片地址
-var imgUrl = 'http://app.7pqun.com';
+var imgUrl = 'http://m.7pqun.com';
 // var imgUrl = 'http://119.23.215.135';
 // var imgUrl = 'http://www.suowei.com';
 // var imgUrl = 'http://192.168.2.21';
@@ -15,7 +15,7 @@ var cardBg3 = '../../../image/card-bg3.jpg';//名片背景
 var cardBg4 = '../../../image/card-bg4.jpg';//名片背景
 
 var logBg  = imgUrl+'/images/pub/log.png';//分享log
-var apkUrl = 'http://app.7pqun.com/apk/mobile.apk';
+var apkUrl = 'http://m.7pqun.com/apk/mobile.apk';
 
 
 var contentnomoreStr = '<div class="sw-footer"><span class="sw-footer-t">没有更多数据了</span></div>';

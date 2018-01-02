@@ -283,7 +283,9 @@
 	 //从新开始加载数据 
 	 function pullupRefresh(){
 	 	var token = JsonStorage.getItem('token');
-	 	var page  = mui("#page")[0].value;//获取页数							
+         //获取地址
+         var cityIni= JsonStorage.getItem('cityIni');
+         var page  = mui("#page")[0].value;//获取页数
       	var data  = {};  
       	var postData = {};
   		     		
@@ -291,6 +293,7 @@
 			postData.page     = page;//请求的页码
       		postData.pageSize = 10;//每页显示数量 
      		postData.token    = token;
+     		postData.cityIni  = cityIni;
 			postData.userType = JsonStorage.getItem('userType');	//2为业务员
 			
       		data.postData = postData;  
