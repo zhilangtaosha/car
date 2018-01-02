@@ -382,7 +382,8 @@ class WebFirmsModel extends Model
      * @return string
      */
     public function getQRStore($firmsID,$name,$type){
-        $domainName = G('config')['domainName'];
+        #$domainName = G('config')['domainName'];
+        $domainName = 'http://m.7pqun.com';
         $outPath    = './data/firmsQR/'.$firmsID.'.png';
         include_once './lib/phpqrcode/phpqrcode.php';
         if($type==1){
