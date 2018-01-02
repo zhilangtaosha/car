@@ -39,6 +39,10 @@ class ApiSevUserModel extends Model{
             $return['data']   = $user;
         }
 
+        //调用push消息写入
+        $pushMo = model('plat.push.push','mysql');
+        $pushMo->addToMsg() ;
+
         return $return;
     }
 
@@ -67,6 +71,11 @@ class ApiSevUserModel extends Model{
 
 
         }
+
+        //调用push消息写入
+        $pushMo = model('plat.push.push','mysql');
+        $pushMo->addToMsg() ;
+
         return $return;
     }
 

@@ -376,7 +376,7 @@ class ApiSevIndexController extends Controller{
             $page = $this->getRequest('page',1);
             $city = $this->getRequest('cityIni','');
             $msgMo = model('web.msg','mysql');
-            $data  = $msgMo->getMsg( $this->userType,$this->user['data']['id'],$page,10,$city);
+            $data  = $msgMo->getMsg($this->userType,$this->user['data']['id'],$page,10,0,$city);
             $data['status'] = 200;
         }else{
             $data = array('list'=>array(),'page'=>1,'count'=>0,'pageSize'=>10,'status'=>200);;
