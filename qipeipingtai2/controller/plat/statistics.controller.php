@@ -176,6 +176,73 @@ class PlatStatisticsController extends Controller
         exit(json_encode($return,JSON_UNESCAPED_UNICODE));
     }
 
+    /**
+     * 导出访问统计记录明细
+     */
+    public function exportStatisticsInfoToExcel(){
+
+        //检查用户权限
+        $userId = $this->user["id"];
+        $authMo = model("suAdmin","mysql");//链接权限模块
+        $mod    = 'plat.statistics';
+        $fun    = 'lists';
+        $isAuth = $authMo->checkUserAuth($userId,$mod,$fun);
+        if($isAuth){
+            $data             = array() ;
+            $data['type']     = $this->getRequest('type' ,'');
+            $data['time1']    = $this->getRequest('time1' ,'');
+            $data['time2']    = $this->getRequest('time2' ,'');
+            $data['page']     = $this->getRequest('page' ,'');
+            $data['pageSize'] = $this->getRequest('pageSize' ,'');
+            $data['fType']    = $this->getRequest('fType' ,'');
+            $data['classes']  = $this->getRequest('classes' ,'');
+            $data['province'] = $this->getRequest('province' ,'');
+            $data['city']     = $this->getRequest('city' ,'');
+            $data['county']   = $this->getRequest('county' ,'');
+            $data['visit']    = $this->getRequest('visit' ,'');
+            $data['keywords'] = $this->getRequest('keywords' ,'');
+            $staMo  = model('plat.statistics.statistics','mysql');
+            $return = $staMo->getStatisticsInfo($data);
+
+            $titleArr= array(1=>'访问经销商记录明细(移动端)',2=>'访问经销商记录明细(PC web端)',3=>'来电数据明细(移动端)');
+
+            $fileName = $titleArr[$data['type']].'_'.date('ymdHis') . ".csv";//自定义名称
+            $headArr  = array(
+                1=>array('企业名称', '手机号', '所属区域','企业类型','企业分类','被访问经销商名称','所属区域','时间'),
+                2=>array('企业名称', '手机号', '所属区域','企业类型','企业分类','被访问经销商名称','所属区域','时间'),
+                3=>array('企业名称', '手机号', '所属区域','企业类型','企业分类','被访问经销商名称','所属区域','时间', '访问方式'),
+            );
+
+            $csvArr = array();//数据
+            //dump($return);die;
+            if($return['massageCode']==='success'){
+                foreach ($return['list'] as $key => $item) {
+                    $arr = array(
+                        $item['companyname1'],
+                        $item['phone']."\t",
+                        $item['area1'],
+                        $item['type1'],
+                        $item['class'],
+                        $item['companyname2'],
+                        $item['area2'],
+                        $item['create_time']."\t",
+                    );
+
+                    if($data['type'] == 3){
+                        $arr[] = $item['call'] ;
+                    }
+                    $csvArr[] = $arr ;
+                }
+            }
+//            dump($csvArr);die;
+            $csvMo = model('tools.getCsv', 'mysql');
+            echo $csvMo->array2csv($csvArr, $headArr[$data['type']], $fileName);
+            unset($csvArr);
+            die();
+        }else{
+            dump('没有相关权限');
+        }
+    }
 
 
 }

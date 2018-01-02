@@ -932,7 +932,7 @@
                 bannerObj.html(html);
             });
             pageObj.val(p);
-            downObj.attr('href',('/plat.statistics/exportStatisticsToExcel/?type='+data.type+'&time1='+data.time1+'&time2='+data.time2+'&page='+data.page+'&pageSize='+data.pageSize));
+            downObj.attr('href',('/plat.statistics/exportStatisticsToExcel/?type='+data.type+'&time1='+data.time1+'&time2='+data.time2+'&page='+data.page+'&pageSize='+count));
         },'json');
     }
 
@@ -1059,7 +1059,6 @@
         var url       = '/plat.statistics/getStatisticsInfo';
         var index     = layer.load(2);
         $.post(url,{data:data},function(rdata){
-            $("#tab_6_download").attr('href','/plat.statistics/exportStatisticsInfoToExcel/?type='+type);
             layer.close(index);
             var pageInfo = '';
             var p     = rdata.page;
@@ -1096,6 +1095,7 @@
             $("#tab_6_find").unbind('click').click(function () {
                 getStatisticsInfo(type,1) ;
             });
+            $("#tab_6_download").attr('href','/plat.statistics/exportStatisticsInfoToExcel/?type='+type+'&fType='+data.fType+'&classes='+data.classes+'&province='+data.province+'&city='+data.city+'&county='+data.county+'&time1='+data.time1+'&time2='+data.time2+'&visit='+data.visit+'&keywords='+data.keywords+'&page='+data.page+'&pageSize='+count);
         },'json');
 
 
