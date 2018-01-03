@@ -73,6 +73,13 @@ class WebProductModel extends Model
             ->where('a.is_delete=0 and a.pro_status=1 and a.pro_type="新品促销" and b.city like "%'.$currentCity.'%"')
             ->order('a.refresh_time desc,a.create_time desc')
             ->limit(0,6)->get();
+        foreach ($res as $k=>$v){
+            if($v['pro_price']==0 || $v['pro_price']=='0.00'){
+                $res[$k]['pro_price'] = '欢迎来电咨询';
+            }else{
+                $res[$k]['pro_price'] = '￥ '.$v['pro_price'];
+            }
+        }
         return $res;
     }
     //首页库存清仓6条
@@ -83,6 +90,13 @@ class WebProductModel extends Model
             ->where('a.is_delete=0 and a.pro_status=1 and a.pro_type="库存清仓" and b.city like "%'.$currentCity.'%"')
             ->order('a.refresh_time desc,a.create_time desc')
             ->limit(0,6)->get();
+        foreach ($res as $k=>$v){
+            if($v['pro_price']==0 || $v['pro_price']=='0.00'){
+                $res[$k]['pro_price'] = '欢迎来电咨询';
+            }else{
+                $res[$k]['pro_price'] = '￥ '.$v['pro_price'];
+            }
+        }
         return $res;
     }
 
@@ -97,8 +111,9 @@ class WebProductModel extends Model
             $rst = $this->table('product_list')->where('proId='.$proId)->update($data);
         }else{
             //添加
-            $data['pro_refresh'] = 0;
-            $data['pro_status'] = 1;
+            $data['pro_refresh']  = 0;
+            $data['pro_status']   = 1;
+            $data['refresh_time'] = $data['create_time'];
             $rst = $this->table('product_list')->insert($data);
         }
         return $rst;

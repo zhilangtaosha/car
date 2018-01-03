@@ -302,6 +302,8 @@
         }
         if(!i.refresh_time){
             i.refresh_time = '-';
+        }else if(i.refresh_time === i.create_time){
+            i.refresh_time = '-';
         }
         var str = '';
         if(!i.twoTypeName){
