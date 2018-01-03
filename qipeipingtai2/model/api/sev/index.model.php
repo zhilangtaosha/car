@@ -79,7 +79,7 @@ class ApiSevIndexModel extends Model{
 
         $join = "inner join firms as f on a.firms_id=f.id left join product_category b on a.pro_cate_1=b.id left join product_category c on a.pro_cate_2=c.id";
 
-        $list  = $this->table('product_list a')->field($filed)->where($find)->jion($join)->limit($page,$pageSize)->order('a.pro_refresh desc')->get();
+        $list  = $this->table('product_list a')->field($filed)->where($find)->jion($join)->limit($page,$pageSize)->order('a.refresh_time desc,a.create_time desc')->get();
 
         $count = $this->table('product_list a')->where($find)->jion($join)->count();
 
