@@ -155,8 +155,8 @@
 			 	<input class="sw-list-input1" name="companyname" id="companyname" placeholder="请输入企业名称"/>
 			 </li>
 			
-			<li class="mui-table-view-cell sw-after-r" id="showCityPicker">
-				<a class="mui-navigate-right">
+			<li class="mui-table-view-cell sw-after-r" id="showCityPicker" style="height: 44px;">
+				<a class="mui-navigate-right" style="height: 44px;">
 					<span class="sw-ctheme sw-list-title">所属地区：</span>
 					<span class="sw-list-text2" id="cityStr">请选择所属地区</span>
 					<input type="text" name="province"  id="province" value="" hidden="hidden"/>
@@ -208,7 +208,7 @@
 			 </li>
 			
 			<li class="mui-table-view-cell  sw-no-active sw-after-no"> 
-			 	<span class="sw-list-title1" style="">手机</span>
+			 	<span class="sw-list-title1 sw-ctheme" style="">手机</span>
 			 	<input class="sw-list-input2" id="linkPhone" name="linkPhone" placeholder="请输入联系人手机号"/>
 			 </li>
 			
@@ -405,6 +405,15 @@
         var linkTel     = $('input[name="linkTel"]').val();//座机
         var qq          = $('input[name="linkQQ"]').val();//QQ
         //console.log(business);
+        if(linkPhone==''){
+            sw.toast('请输入联系人手机号码');
+            return;
+        }else{
+            if(Verification.isTel(linkPhone)==false){//验证手机号码输入是否正确
+                sw.toast('您输入的手机号码有误，请检查后重试');
+                return;
+            }
+        }
 
         var postData = {
         		   'firmsId':firmsId,
@@ -429,12 +438,12 @@
         
         //保存材料信息
         http.load('api.sev.register','saveMaterial',postData,function(rData){//请求成功
-        	
         	sw.toast(rData.msg);          	
         	if(rData.status==200){  		      		
 				onSuccess(rData);
-				//
-                openView('../../view/person/index.html','person_index','pop-in');
+				setTimeout(function () {
+                    openView('../../view/person/index.html','person_index','pop-in');
+                },1500)
 			}
         },function(xhr,type,errorThrown){//请求失败 将之前的数据填入		
 				//无网络提示

@@ -76,7 +76,7 @@
 		$("#showImg").attr('src',imgUrl+imgSrc);
 	}
 
-
+     console.log(1111111);
 	//图片上传
 	 function ajaxFileUpload() {
 		 $.ajaxFileUpload
@@ -88,13 +88,13 @@
 					 dataType: 'json', //返回值类型 一般设置为json
 					 success: function (data, status)  //服务器成功响应处理函数
 					 {
-						 //console.log(data);
+//						 console.log(data);
 						 //上传成功返回值，必须为json格式
 						 if(data.status==200){
 							 $("#showCon").css('display','block');
 							 $("#F_CKJLB").css('display','none');
 							 $("#showImg").attr('src',imgUrl+data.url);
-							 //console.log(upId);
+							 console.log(upId);
 							// JsonStorage.removeItem(upId);
 							 //将数据保存到本地
 							JsonStorage.setItem(upId,data.url);

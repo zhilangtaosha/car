@@ -95,7 +95,13 @@
 		
 		{{# if(d.type==1){ }}
 		<div class="mui-card-header mui-card-media sw-card-header">
+
+			{{# if(d.face_pic!=null&&d.face_pic!=''){ }}
 			<div style="width: 100%;text-align: center;"><img src="{{ imgUrl+d.face_pic }}" class="sw-person-face" id="face_img"/></div>
+			{{# }else{ }}
+			<div style="width: 100%;text-align: center;"><img src="../../../image/face_pic.png" class="sw-person-face" id="face_img"/></div>
+			{{# } }}
+
 			<div style="width: 90%;text-align: center;margin: auto;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size: 14px;" id="companyname">
 				{{ d.companyname }}
 			</div>

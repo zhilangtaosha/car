@@ -536,7 +536,7 @@
 		var info		= $.trim($("#info").val());
 		
 		
-		if(faceImg==''||faceImg=='null'){
+		/*if(faceImg==''||faceImg=='null'){
 			sw.toast('请上传店铺封面');
 			isSubmit  = 0;
 	 		return; 
@@ -558,7 +558,7 @@
 			sw.toast('请输入联系人姓名');
 			isSubmit  = 0;
 	 		return;
-		}
+		}*/
 		
 		//联系手机
 		var linkPhone   = $("input[name='linkPhone']");
@@ -589,12 +589,14 @@
 		$.each(linkTel, function() {
 			var tel = $.trim($(this).val());
 			if(tel==''){
-				$(this).focus();
+				/*$(this).focus();
 				sw.toast('请输入座机号码'); 	
 				isSubmit  = 0;
-				return;
-			}		
-			telArr.push(tel);
+				return;*/
+			}else{
+                telArr.push(tel);
+			}
+
 		});
 		var tels = telArr.join(",");
 		
@@ -604,17 +606,19 @@
 		$.each(linkQQ, function() {
 			var qq = $.trim($(this).val());
 			if(qq==''){
-				$(this).focus();
+				/*$(this).focus();
 				sw.toast('请输入qq号码'); 
 				isSubmit  = 0;
-				return;
+				return;*/
+			}else{
+                qqArr.push(qq);
 			}
-			qqArr.push(qq);
+
 		});
 		var qqs = qqArr.join(",");
 			
 		
-		if(longitude==''&&latitude==''){
+		/*if(longitude==''&&latitude==''){
 			sw.toast('请选择企业坐标');
 			isSubmit  = 0;
 	 		return; 
@@ -630,7 +634,7 @@
 			sw.toast('请输入企业介绍');
 			isSubmit  = 0;
 	 		return; 
-		}
+		}*/
 		
 		 var token = ''; 
 		//监控页面是否登录
@@ -674,13 +678,9 @@
 						closeLoading();	
 						sw.toast(rData.msg); 
 						if(rData.status==200){
-			 				//发布求购成功
-							setTimeout(function(){
-								var person = plus.webview.getWebviewById("person_store_info");
-								person.reload(true); 
-				 			   	//关闭界面
-								plus.webview.close( 'person_store_editInfo', 'pop-in');	 									 					
-							},300)	
+						    setTimeout(function () {
+                                openView('../../../view/person/store/info.html','person_store_info','pop-in');
+                            },1500);
 						}
 						
 					},function(){

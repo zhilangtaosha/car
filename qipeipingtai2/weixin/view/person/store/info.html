@@ -157,18 +157,20 @@
 			if(rData.wechat_pic){ 
 				$("#wechat_pic").attr('src',imgUrl+rData.wechat_pic);			
 			}
-			$("#major").text(rData.major); 
+
 			
 			rData.linkMan = rData.linkMan?rData.linkMan:'&nbsp;';
 			rData.linkPhone = rData.linkPhone?rData.linkPhone:'&nbsp;';
 			rData.linkTel = rData.linkTel?rData.linkTel:'&nbsp;';
 			rData.qq = rData.qq?rData.qq:'&nbsp;'; 
+			rData.major = rData.major?rData.major:'&nbsp;';
 			$("#linkMan").html(rData.linkMan);
 			$("#linkPhone").html(rData.linkPhone); 
 			$("#linkTel").html(rData.linkTel);
-			$("#qq").html(rData.qq); 
-			
-			$("#address").text(rData.address); 
+			$("#qq").html(rData.qq);
+            $("#major").html(rData.major);
+
+            $("#address").text(rData.address);
 			$("#info").text(rData.info);     
 			$("#coordinate").text(rData.coordinate);     
 			//banner
