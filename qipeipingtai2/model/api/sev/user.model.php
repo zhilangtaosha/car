@@ -401,10 +401,13 @@ class ApiSevUserModel extends Model{
         $this->table('firms_banner')->where(array('firms_id'=>$userId))->del();
 
         $bannerData = array('firms_id'=>$userId);
-        //插入新banner
-        foreach ($bannerPic as $item){
-            $bannerData['banner_url'] = $item;
-            $this->table('firms_banner')->insert($bannerData);
+
+        if(isset($bannerPic)&&!empty($bannerPic)&&$bannerPic!='null'){
+            //插入新banner
+            foreach ($bannerPic as $item){
+                $bannerData['banner_url'] = $item;
+                $this->table('firms_banner')->insert($bannerData);
+            }
         }
 
         $return['status'] = 200;

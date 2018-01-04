@@ -523,7 +523,7 @@ class ApiSevSalesmanSouCangController extends Controller
         $tels    = $this->getRequest('tels','');
         $salesmanId  = $this->getRequest('userId','');
         if($token){
-            if($faceImg&&$longitude&&$major&&$linkMan&&$phones&&$qqs&&$tels){
+//            if($faceImg&&$longitude&&$major&&$linkMan&&$phones&&$qqs&&$tels){
                 $userId = authcode($token, 'DECODE');
                 $salesmanId = authcode($salesmanId, 'DECODE');
                 $return = model('api.sev.salesmanSouCang','mysql')->isGuanLian($salesmanId,$userId);
@@ -545,9 +545,9 @@ class ApiSevSalesmanSouCangController extends Controller
                     $data['update_time']  = $nowTime;
                     $return = model('api.sev.salesmanSouCang','mysql')->saveStore($data,$userId,$bannerPic);
                 }
-            }else{
-                $return = array('status'=>102,'msg'=>'提交数据有误，请检查后重试');
-            }
+//            }else{
+//                $return = array('status'=>102,'msg'=>'提交数据有误，请检查后重试');
+//            }
         }else{
             $return = array('status'=>101,'msg'=>'您还未登录，登录后重试');
         }

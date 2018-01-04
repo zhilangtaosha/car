@@ -961,7 +961,7 @@ class ApiSevUserController extends Controller{
 
         if($token){
 
-            if($faceImg&&$longitude&&$major&&$linkMan&&$phones&&$qqs&&$tels){
+            if($phones){
 
                 $userMo = model('api.sev.user','mysql');
                 $return = $userMo ->loginIs($token);
@@ -989,7 +989,9 @@ class ApiSevUserController extends Controller{
                     $nowTime = date("Y-m-d H:i:s");
                     $data['update_time']  = $nowTime;
 
-                    $return = $userMo ->saveStore($data,$userId,$bannerPic);
+                   $userMo ->saveStore($data,$userId,$bannerPic);
+
+                    $return = array('status'=>200,'msg'=>'保存成功');
                 }
 
             }else{
@@ -1001,6 +1003,7 @@ class ApiSevUserController extends Controller{
             $return = array('status'=>101,'msg'=>'您还未登录，登录后重试');
 
         }
+        writeLog($return);
         exit(json_encode($return,JSON_UNESCAPED_UNICODE));
     }
 
