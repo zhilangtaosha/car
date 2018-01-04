@@ -638,9 +638,5 @@ class PlatStatisticsStatisticsModel extends Model
             $data    = array('massageCode'=>0,'massage'=>'没有记录');
         }
         return $data;
-
-
-
-
     }
 }

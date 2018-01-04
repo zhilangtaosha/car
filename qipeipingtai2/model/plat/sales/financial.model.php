@@ -360,6 +360,295 @@ class PlatSalesFinancialModel extends Model
      * 自动计算上月工资 在首页有调用
      */
     public function automaticSettlement(){
+        $log_path   = APPROOT . 'data/log/wage/'.date('Ym').'.txt' ;//日志记录路径
+        $day        = date('Y-m-d'  ,time());                       //当前时间
+        writeLog('当前日期：'.$day,$log_path);
+
+        $last_month = date('Y-m'    ,strtotime('-1 month')) ;  //上月
+        $last_start = date('Y-m-01' ,strtotime('-1 month')) ;  //上月开始
+        $last_end   = date('Y-m-t'  ,strtotime('-1 month')) ;  //上月结束
+
+        //获取 业务员列表
+        $sales  = $this->table('sales_user')->field('id,uname,base_wage,subsidies')->get() ;
+        if($sales){
+
+            //获取当前提成配置
+            $commissionIni = $this->table('base_ini')->where('id=8')->field('`value`')->getOne() ;//业务员提成配置
+            $levelIni      = $this->table('base_ini')->where('id=7')->field('`value`')->getOne() ;//汽修厂等级配置
+
+            $de_levelIni   = (array)json_decode($levelIni['value']) ;
+
+            $used_lv_1     = (array)$de_levelIni['lv1'] ;
+            $used_lv_2     = (array)$de_levelIni['lv2'] ;
+            $used_lv_3     = (array)$de_levelIni['lv3'] ;
+
+            //----------------关联提成配置-------------------------
+            $de_commissionIni       = (array)json_decode($commissionIni['value']);
+            $commission             = (array)$de_commissionIni['commission'] ;
+            $frequency              = (array)$de_commissionIni['frequency'] ;
+            $repair_comm_prop       = $commission['relation'] ;     //汽修厂关联提成
+            $new_repair_comm_prop   = $commission['new_relation'] ; //新增关联汽修厂提成
+            $recharge_comm_prop     = $commission['recharge'] ;     //关联厂商充值提成
+
+            //修理厂使用频率等级提成配置
+            $frequency_lv1          = (array)$frequency[0] ;
+            $frequency_lv1_prop     = $frequency_lv1['money'] ;//一级
+            $frequency_lv2          = (array)$frequency[1] ;
+            $frequency_lv2_prop     = $frequency_lv2['money'] ;//二级
+            $frequency_lv3          = (array)$frequency[2] ;
+            $frequency_lv3_prop     = $frequency_lv3['money'] ;//三级
+            //-----------------提成配置获取完成-----------------------
+
+            //检测每个业务员是否生成工资
+
+            foreach ($sales as $sk => $sale){
+                // $sale => 每个业务员
+                writeLog('检测 '.$sale['uname'].' 上月工资是否已生成',$log_path);
+                $is_wage =  $this->table('sales_wage_log')->field('id')
+                    ->where(' sales_user_id='.$sale['id'].' and  DATE_FORMAT(`year_month`,"%Y-%m")="'.$last_month.'"')->getOne() ;
+                writeLog('检测结果：' .$sale['uname']. ($is_wage ? ' 工资已生成' : ' 工资未生成'),$log_path) ;
+                if(!$is_wage){
+
+                    writeLog('开始生成 "' .$sale['uname'].'" 的工资',$log_path);
+                    // C新增(汽修厂)关联提成，D汽修厂使用频率提成，E汽修厂关联提成，F关联厂商充值提成
+                    // D和E在计算的时候跟来电来访数有关系，不管是算E部分的工资，还是算D部分评定汽修厂等级的时候，都扣除掉新增关联当天的来电来访数。
+                    // 对于D，是统计关联后（关联当天的来电来访数不算在内）30天内，该月达到对应使用等级的关联汽修厂的数量提成，
+
+                    // 新增关联提成：假设该业务员12月份新增关联了5家 汽修厂，此处框中的数字为5。
+
+                    // 上月新增关联数量
+                    $new_repair_num = $this->table('firms_sales_user a')
+                        //->jion('inner join firms b on a.firms_id=b.id and b.classification=4')//b.classification=4 :修理厂
+                        ->jion('inner join firms b on a.firms_id=b.id and b.type=2')// :汽修厂
+                        ->where('a.sales_user_di='.$sale['id'].' and DATE_FORMAT(a.create_time, \'%Y-%m\')="'.$last_month.'"')
+                        ->count() ;
+                    //writeLog('业务员'.$sale['id'].'的新增厂商',$log_path);
+                    //writeLog($this->lastSql(),$log_path);
+                    //dump($this->lastSql());
+                    //总新增数量
+                    $new_repair_num  = $new_repair_num ? $new_repair_num : 0 ;
+                    //总新增提成
+                    $new_repair_comm = $new_repair_num * $new_repair_comm_prop ;
+
+                    //关联厂商充值提成，是按照该月经销商和汽修厂充值金额乘以固定系数算出的，
+                    //充值包括了买VIP、充值点数和后台人工增加的充值金额（人工开通VIP或增加刷新点，需增加财务数据）
+                    //获取关联的有效厂商(如果工资时间为12月，即在12和业务员还处于绑定状态的厂商)
+                    $user_firm = $this->table('firms_sales_user a')
+                        ->field('a.*,b.type')
+                        ->jion(' left join firms b on a.firms_id=b.id')
+                        ->where('a.sales_user_di='.$sale['id'].' and "'.$last_month.'" BETWEEN DATE_FORMAT(a.create_time, \'%Y-%m\') and DATE_FORMAT(a.end_time, \'%Y-%m\')')
+                        //->where('a.sales_user_di='.$sale['id'])
+                        ->get() ;
+
+                    $firm_recharge_money = 0 ;//初始化充值金额
+                    $call_total_num      = 0 ;//初始化拨打次数
+                    //初始化使用数量(实际计算的是汽修厂被拨打次数)
+                    $repair_lv1_used     = 0 ;
+                    $repair_lv2_used     = 0 ;
+                    $repair_lv3_used     = 0 ;
+
+                    if($user_firm) {
+                        foreach ($user_firm as $firm_v) {
+                            //$firm_v 绑定的每个厂商
+                            $create_time   = date('Y-m-d',strtotime($firm_v['create_time'])) ;//绑定时间
+                            $recharge_start= false;
+                            $recharge_end  = false;
+
+                            if($firm_v['end_time'] < $last_start || $create_time > $last_end){
+                                // 当前计算工资的月份过了绑定的有效时间 或者 还没到绑定生效时间 都不计算充值
+                            }else{
+                                if($create_time >= $last_start){
+                                    //如果是在12月1日之后绑定的业务员 则计算充值提成开始时间为绑定时间的第二天
+                                    $recharge_start = date('Y-m-d',(strtotime($firm_v['create_time']) + 84600 )) ;
+                                }else{
+                                    //如果是在12月1日或之前绑定的业务员 则计算充值提成开始时间为5月1日起
+                                    $recharge_start = $last_start ;
+                                }
+
+                                if($firm_v['end_time'] >= $last_end){
+                                    //如果解绑日期在5月31日后 则计算充值提成结束时间为5月31日
+                                    $recharge_end = $last_end ;
+                                }else{
+                                    //如果解绑日期或在5月31日前 $firm_v['end_time']
+                                    $recharge_end = date('Y-m-d',strtotime($firm_v['end_time'])) ;
+                                }
+
+                            }
+                            //先清除对应厂商对应月份 拨打数 使用频率 充值金额 (可能上一次运行时 工资记录没生成但是info记录已生成)
+                            $this->table('sales_wage_info')->where(array('fid'=>$firm_v['firms_id'],'date'=>$last_start))->del() ;
+
+                            //获取在有效时间内厂商充值金额
+                            //有效时间内厂商 充值金额
+                            if($recharge_start && $recharge_end){
+                                //dump('计算充值时间：'.$recharge_start.' 至 '.$recharge_end);
+                                //dump($firm_v['firms_id']);
+                                $firm_recharge = $this->table('pay_history a')
+                                    ->field('SUM(a.money) as total_money')
+                                    ->where('a.firms_id='.$firm_v['firms_id'].' and a.status=1 and a.type in (1,2) and a.payway in (1,2,3) and DATE_FORMAT(a.create_time, \'%Y-%m-%d\') BETWEEN "'.$recharge_start.'" and "'.$recharge_end.'"')
+                                    ->getOne() ;
+
+                                //dump($this->lastSql());
+
+                                //记录每个供应商 上月充值金额 ....
+                                $total = $firm_recharge['total_money'] ? $firm_recharge['total_money'] : 0 ;
+                                if($total > 0){ //充值金额大于0 才记录
+                                    //dump('业务员【'.$sale['uname'].'】的厂商【'.$firm_v['firms_id'].'】充值金额:'.$total);
+                                    $recharge_arr = array(
+                                        'uid'=>$sale['id'],
+                                        'fid'=>$firm_v['firms_id'],
+                                        'type'=>1,
+                                        'firm_type'=>$firm_v['type'],
+                                        'value'=>$total,
+                                        'date'=>$last_start,
+                                        'create_time'=>date('Y-m-d H:i:s'),
+                                    );
+                                    $this->table('sales_wage_info')->insert($recharge_arr);
+                                }
+
+                                $firm_recharge_money +=  $total ;//总充值金额
+                            }
+
+                            if($firm_v['type'] == 2){
+                                //获取每个汽修厂的拨打数
+                                //针对汽修厂关联提成，是按照该月来电数（移动端拨打电话+QQ）乘以固定系数算出的
+                                //关联后（关联当天的来电来访数不算在内）30天内，该月达到对应使用等级的关联汽修厂的数量提成，
+                                /*$countSql  = ' SELECT SUM(num) AS num FROM(' ;
+                                $countSql .= ' SELECT COUNT(1) as num FROM firms_call_log a WHERE to_firms_id='.$firm_v['firms_id'] .' and DATE_FORMAT(a.create_time, \'%Y-%m-%d\') BETWEEN "'.$recharge_start.'" and "'.$recharge_end.'"' ;
+                                $countSql .= ' UNION ALL SELECT COUNT(1) as num FROM sales_call_log c WHERE firms_id='.$firm_v['firms_id'] .' and DATE_FORMAT(c.create_time, \'%Y-%m-%d\') BETWEEN "'.$recharge_start.'" and "'.$recharge_end.'"' ;
+                                $countSql .= ' ) t ' ;*/
+
+                                $countSql = 'SELECT COUNT(1) as num FROM firms_call_log WHERE firms_id='.$firm_v['firms_id'] .' and DATE_FORMAT(create_time, \'%Y-%m-%d\') BETWEEN "'.$recharge_start.'" and "'.$recharge_end.'"' ;
+
+                                $call_num  = $this->getOne($countSql) ;
+                                //writeLog('业务员【'.$sale['id'].'】的厂商【'.$firm_v['firms_id'].'】拨打次数',$log_path);
+                                //writeLog($this->lastSql(),$log_path);
+                                //记录每个汽修厂拨打总数...
+                                //writeLog($call_num,$log_path) ;
+                                $call_num  = $call_num['num'] ? $call_num['num'] : 0 ;
+
+                                $call_arr = array(
+                                    'uid'=>$sale['id'],
+                                    'fid'=>$firm_v['firms_id'],
+                                    'type'=>2,
+                                    'firm_type'=>$firm_v['type'],
+                                    'value'=>$call_num,
+                                    'date'=>$last_start,
+                                    'create_time'=>date('Y-m-d H:i:s'),
+                                );
+                                $this->table('sales_wage_info')->insert($call_arr);
+                                $call_total_num += $call_num   ; //关联汽修厂总来电数
+                                //dump($call_total_num);
+
+                                //针对汽修厂使用频率的提成，是统计关联后30天内，
+                                //该月达到对应使用等级的关联汽修厂的数量提成，等级同验证厂商中的汽修厂等级定义，
+                                //如3月1日，关联修理厂满30天的，达到等级1的汽修厂有200个，达到等级2的有60个，达到等级3的有40个，
+                                //乘以对应的提成单价，已提成的修理厂就不再计入下一个月的提成；
+                                //到1号时，没有关联到30天的，这部分汽修厂的提成计入到下一个月的提成
+
+                                // 使用等级计算
+                                // 一.判断绑定时间
+                                // 1.30天内(保留至下月计算)
+                                // 2.30天至60天内(计算期间所有使用数量[部分为上月不满30天保留下来的])
+                                // 3.60天至90天(按正常计算：5月1日 - 5月31日)
+                                // 4.超过90天(应计算解绑时间：开始时间为5月1日 ，结束时间为解绑时间)
+                                $use_start= false;
+                                $use_end  = false;
+
+                                // ->不管什么时候算，只算关联当天以后的30天  是否可以理解为 当一个业务员绑定了一个厂商 在这之后的30天决定修理厂的使用频率等级
+                                $time1 = date('Y-m-d',strtotime('+ 1 day',strtotime($firm_v['create_time']))) ;
+                                $time2 = date('Y-m-d',strtotime('+30 day',strtotime($firm_v['create_time']))) ;
+
+                                if($last_start > $time2){   // 已满30天
+                                    $use_start = $time1;
+                                    $use_end   = $time2;
+                                }
+
+                                //writeLog($firm_v['firms_id'].' : '.$use_start.' ----- ' . $use_end);
+                                if($use_start && $use_end){
+                                    //每个汽修厂使用次数
+                                    $used_num  = $this->table('firms_call_log')
+                                        ->where('firms_id='.$firm_v['firms_id'].' and DATE_FORMAT(create_time, \'%Y-%m-%d\') BETWEEN "'.$use_start.'" and "'.$use_end.'"')
+                                        ->count() ;
+                                    //writeLog('业务员【'.$sale['id'].'】的厂商【'.$firm_v['firms_id'].'】使用次数',$log_path);
+                                    //writeLog($this->lastSql(),$log_path);
+                                    //根据 配置将不同使用频率的计入不同提成等级
+                                    if($used_num >= $used_lv_3['min']){
+                                        $lv = 3 ;
+                                        //$repair_lv3_used += $used_num  ;
+                                        $repair_lv3_used ++  ;
+                                    }elseif ($used_num >= $used_lv_2['min'] && $used_num <= $used_lv_2['max']){
+                                        $lv = 2 ;
+                                        //$repair_lv2_used += $used_num  ;
+                                        $repair_lv2_used ++  ;
+                                    }elseif ($used_num >= $used_lv_1['min'] && $used_num <= $used_lv_1['max']){
+                                        $lv = 1 ;
+                                        //$repair_lv1_used += $used_num  ;
+                                        $repair_lv1_used ++  ;
+                                    }else{
+                                        $lv = 1 ;
+                                        $repair_lv1_used ++  ;
+                                    }
+
+                                    $used_arr = array(
+                                        'uid'=>$sale['id'],
+                                        'fid'=>$firm_v['firms_id'],
+                                        'type'=>3,
+                                        'firm_type'=>$firm_v['type'],
+                                        'lv'=>$lv,
+                                        'value'=>$used_num,
+                                        'date'=>$last_start,
+                                        'create_time'=>date('Y-m-d H:i:s'),
+                                    );
+                                    $this->table('sales_wage_info')->insert($used_arr);
+                                }
+
+                            }
+
+
+                        }
+
+                    }
+
+                    //关联厂商充值提成
+                    $firm_recharge_comm = $firm_recharge_money * $recharge_comm_prop ;
+                    //关联汽修厂提成(实际即为拨打数量提成)
+                    $repair_comm        = $call_total_num * $repair_comm_prop ;
+                    //关联汽修厂使用频率提成(根据访问记录数分级)
+                    $repair_use_money   = $repair_lv1_used * $frequency_lv1_prop + $repair_lv2_used * $frequency_lv2_prop + $repair_lv3_used * $frequency_lv3_prop ;
+
+                    $total_money        = $sale['base_wage'] + $sale['subsidies'] + $new_repair_comm + $repair_comm + $firm_recharge_comm + $repair_use_money ;
+
+                    $wageArr = array(
+                        'sales_user_id'=>$sale['id'], '`year_month`'=>$last_start, 'base_wage'=>$sale['base_wage'], 'subsidies'=>$sale['subsidies'],
+                        'new_firm_num'=>$new_repair_num, 'new_firm_prop'=>$new_repair_comm_prop, 'new_firm_comm'=>$new_repair_comm,
+                        'firm_num'=>$call_total_num, 'firm_prop'=>$repair_comm_prop, 'firm_comm'=>$repair_comm,
+                        'firm_recharge_money'=>$firm_recharge_money, 'firm_recharge_prop'=>$recharge_comm_prop, 'firm_recharge_comm'=>$firm_recharge_comm,
+                        'repair_lv1_used'=>$repair_lv1_used, 'repair_lv1_prop'=>$frequency_lv1_prop,//一级汽修厂使用数量、提成率
+                        'repair_lv2_used'=>$repair_lv2_used, 'repair_lv2_prop'=>$frequency_lv2_prop,//
+                        'repair_lv3_used'=>$repair_lv3_used, 'repair_lv3_prop'=>$frequency_lv3_prop,//
+                        'repair_use_money'=>$repair_use_money,
+                        'total'=>$total_money,'create_time'=> date('Y-m-d H:i:s',time())
+                    );
+
+                    $old = $this->table('sales_wage_log')->field('id')->where('sales_user_id='.$sale['id'] .' and DATE_FORMAT(`year_month`, \'%Y-%m\')="'.$last_month.'"')->getOne();
+                    if($old){
+                        //有记录则不再变更
+                        //$this->table('sales_wage_log')->where(array('id'=>$old['id']))->update($wageArr);
+                    }else{
+                        $this->table('sales_wage_log')->insert($wageArr);
+                    }
+                    writeLog($sale['uname'].'工资生成完毕',$log_path);
+                }
+            }
+            writeLog('========================================================='."\r\n",$log_path);
+        }
+    }
+
+
+
+
+    //弃用
+    public function automaticSettlement1(){
         $day        = date('Y-m-d'  ,time());                       //当前时间
         $last_month = date('Y-m'    ,strtotime('-1 month')) ;  //上月
         $last_start = date('Y-m-01' ,strtotime('-1 month')) ;  //上月开始
@@ -587,7 +876,7 @@ class PlatSalesFinancialModel extends Model
                                 //writeLog($firm_v['firms_id'].' : '.$use_start.' ----- ' . $use_end);
                                 if($use_start && $use_end){
                                     //每个汽修厂使用次数
-                                    $used_num   = $this->table('firms_visit_log')
+                                    $used_num  = $this->table('firms_call_log')
                                         ->where('to_firms_id='.$firm_v['firms_id'].' and DATE_FORMAT(create_time, \'%Y-%m-%d\') BETWEEN "'.$use_start.'" and "'.$use_end.'"')
                                         ->count() ;
                                     //writeLog('业务员【'.$sale['id'].'】的厂商【'.$firm_v['firms_id'].'】使用次数',$log_path);

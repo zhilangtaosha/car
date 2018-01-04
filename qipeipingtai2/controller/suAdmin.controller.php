@@ -22,14 +22,14 @@ class suAdminController extends Controller
         $toolMo = model('tools.sales','mysql');
         $toolMo->sales2firm() ;
 
+        $this->template('plat._blank') ;
+
         //调用生成工资
         $salesMo = model('plat.sales.financial','mysql');
         $salesMo->automaticSettlement() ;
         //调用push消息写入
         $pushMo = model('plat.push.push','mysql');
         $pushMo->addToMsg() ;
-
-        $this->template('plat._blank') ;
     }
 
 
