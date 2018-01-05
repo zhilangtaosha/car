@@ -809,7 +809,7 @@ class ApiSevSalesmanModel extends Model
                 $sqlC  = 'SELECT * from (';
                 $sqlC .= 'SELECT t.id as firmId,t.EnterpriseID,t.companyname,t.major,t.classification,t.linkPhone,t.qq,t.longitude,t.latitude,count(g.id) as isGuanLian ,t.is_check,t.type,t.city,t.district,t.phone,t.num as callCount, CASE WHEN t.num >= '.$levelXiShu->lv3->min.' THEN 3 WHEN t.num >= '.$levelXiShu->lv2->min.' THEN 2 WHEN t.num <= '.$levelXiShu->lv1->max.' THEN 1 END AS levels FROM ';
                 $filedC = 'a.companyname,a.EnterpriseID,a.major,a.is_check,a.classification,a.linkPhone,a.phone,a.qq,a.longitude,a.latitude,a.type,a.id,a.city,a.district,b.create_time,count(b.id) AS num';
-                $sqlC .= '(SELECT '.$filedC.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.to_firms_id AND b.create_time>"'.$startTime.'" where a.province="'.$cityCode.'" GROUP BY a.id)';
+                $sqlC .= '(SELECT '.$filedC.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.to_firms_id and b.create_time>="'.$startTime.'" and b.create_time<="'.$newTime.'" where a.province="'.$cityCode.'" GROUP BY a.id)';
                 $sqlC .= ' AS t LEFT JOIN firms_sales_user g ON t.id=g.firms_id and g.end_time>"'.$newTime.'" GROUP BY t.id';
                 $sqlC .= ') as y where '.$where;
                 $count = $this->count($sqlC);
@@ -817,7 +817,7 @@ class ApiSevSalesmanModel extends Model
                 $sql  = 'SELECT * from (';
                 $sql .= 'SELECT t.id as firmId,t.companyname,t.face_pic,t.major,t.distance,t.classification,t.linkPhone,t.qq,t.longitude,t.latitude,count(g.id) as isGuanLian ,t.is_check,t.type,t.EnterpriseID,t.city,t.phone,t.district,t.vip_time,t.num as callCount, CASE WHEN t.num >= '.$levelXiShu->lv3->min.' THEN 3 WHEN t.num >= '.$levelXiShu->lv2->min.' THEN 2 WHEN t.num <= '.$levelXiShu->lv1->max.' THEN 1 END AS levels FROM ';
                 $filed = 'ROUND(6378.138*2*ASIN(SQRT(POW(SIN(('.$lat.'*PI()/180-a.latitude*PI()/180)/2),2)+COS('.$lat.'*PI()/180)*COS(latitude*PI()/180)*POW(SIN(('.$lng.'*PI()/180-a.longitude*PI()/180)/2),2)))*1000) AS distance,a.companyname,a.major,a.is_check,a.classification,a.linkPhone,a.qq,a.longitude,a.face_pic,a.latitude,a.type,a.id,a.city,a.phone,a.district,b.create_time,a.vip_time,count(b.id) AS num,a.EnterpriseID';
-                $sql .= '(SELECT '.$filed.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.firms_id where a.province="'.$cityCode.'" GROUP BY a.id)';
+                $sql .= '(SELECT '.$filed.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.firms_id and b.create_time>="'.$startTime.'" and b.create_time<="'.$newTime.'" where a.province="'.$cityCode.'" GROUP BY a.id)';
                 $sql .= ' AS t LEFT JOIN firms_sales_user g ON t.id=g.firms_id and g.end_time>"'.$newTime.'" GROUP BY t.id';
                 $sql .= ') as y where '.$where.' LIMIT '.$p.','.$pageSize;
                 $data = $this->get($sql);

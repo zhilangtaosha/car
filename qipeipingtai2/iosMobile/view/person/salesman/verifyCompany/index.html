@@ -188,9 +188,8 @@
 			<div class="mui-table-view " id="listCon">
 
 			</div>
-		</div> -->
-		
-	    
+		</div> --> 
+   	        
 	   	<!--<ul class="mui-table-view" style="margin-top: 0;display: none;">
 			 <li class="mui-table-view-cell sw-payList sw-no-active">
 			 	<p><span style="font-size: 14px;color: #666;">汽修厂企业名称<span class="sw-renz"></span></span></p>
@@ -706,10 +705,10 @@ function getAllZuoBiao(){
     map.clearOverlays();        //清除之前所有标注 lan_ dw_shi.png
     var allZuoBiao = JsonStorage.getItem('allZuoBiao');
     var center = map.getCenter();
-    var circle = new BMap.Circle(center,300000,{fillColor:"#fff", strokeWeight: 1 ,fillOpacity: 0.1, strokeOpacity: 0.1}); //创建圆
+    var circle = new BMap.Circle(center,30000000000,{fillColor:"#fff", strokeWeight: 1 ,fillOpacity: 0.1, strokeOpacity: 0.1}); //创建圆
     map.addOverlay(circle);
     var c = circle.getCenter();
-    var r = circle.getRadius(300000);  
+    var r = circle.getRadius(30000000000);  
     var allJia = 0;
     if(allZuoBiao){
     	if(allZuoBiao.length>0){
