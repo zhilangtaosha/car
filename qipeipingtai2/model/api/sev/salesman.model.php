@@ -586,13 +586,35 @@ class ApiSevSalesmanModel extends Model
                     $startTime = date('Y-m-d H:i:s',strtotime('-30 day'));
                     $levelXiShu= $this->table('base_ini')->field('value')->where('id=7')->getOne();     //获取拨打级数配置
                     $levelXiShu= json_decode($levelXiShu['value']);
+
+                    $ids = array();
                     for($i=0; $i<count($data); ++$i){
-                        $nums = $this->table('firms_call_log')->where('firms_id='.$data[$i]['id'].' and create_time between "'.$startTime.'" and "'.$newTime.'"')->count();
-                        $data[$i]['callCount'] = $nums;
-                        if($nums>=$levelXiShu->lv2->min && $nums <=$levelXiShu->lv2->max){
-                            $data[$i]['level'] = 2;
-                        }elseif($nums>=$levelXiShu->lv3->min){
-                            $data[$i]['level'] = 3;
+                        array_push($ids,$data[$i]['id']);
+//                        $nums = $this->table('firms_call_log')->where('firms_id='.$data[$i]['id'].' and create_time between "'.$startTime.'" and "'.$newTime.'"')->count();
+//                        $data[$i]['callCount'] = $nums;
+//                        if($nums>=$levelXiShu->lv2->min && $nums <=$levelXiShu->lv2->max){
+//                            $data[$i]['level'] = 2;
+//                        }elseif($nums>=$levelXiShu->lv3->min){
+//                            $data[$i]['level'] = 3;
+//                        }
+                    }
+                    if($ids){
+                        $ids = join(',',$ids);
+                        $log = $this->table('firms_call_log')->field('firms_id,sum(1) as num')->where('firms_id in ('.$ids.') and create_time between "'.$startTime.'" and "'.$newTime.'"')->group('firms_id')->get();
+                        if($log){
+                            foreach($data as &$v){
+                                foreach($log as $vv){
+                                    if($v['id'] == $vv['firms_id']){
+                                        if($vv['num']>=$levelXiShu->lv2->min && $vv['num'] <=$levelXiShu->lv2->max){
+                                            $v['level'] = 2;
+                                            continue;
+                                        }elseif($vv['num']>=$levelXiShu->lv3->min){
+                                            $v['level'] = 3;
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     if($guanLian){
@@ -775,6 +797,7 @@ class ApiSevSalesmanModel extends Model
             if($area == $cityCode){
                 $startTime = date('Y-m-d H:i:s',strtotime('-30 day'));
                 $newTime   = date('Y-m-d',time());
+                $nowDate   = date('Y-m-d H:i:s',time());
                 $p = ($page-1)*$pageSize;
                 $where = 'y.firmId>0';
                 if($city){
@@ -809,7 +832,7 @@ class ApiSevSalesmanModel extends Model
                 $sqlC  = 'SELECT * from (';
                 $sqlC .= 'SELECT t.id as firmId,t.EnterpriseID,t.companyname,t.major,t.classification,t.linkPhone,t.qq,t.longitude,t.latitude,count(g.id) as isGuanLian ,t.is_check,t.type,t.city,t.district,t.phone,t.num as callCount, CASE WHEN t.num >= '.$levelXiShu->lv3->min.' THEN 3 WHEN t.num >= '.$levelXiShu->lv2->min.' THEN 2 WHEN t.num <= '.$levelXiShu->lv1->max.' THEN 1 END AS levels FROM ';
                 $filedC = 'a.companyname,a.EnterpriseID,a.major,a.is_check,a.classification,a.linkPhone,a.phone,a.qq,a.longitude,a.latitude,a.type,a.id,a.city,a.district,b.create_time,count(b.id) AS num';
-                $sqlC .= '(SELECT '.$filedC.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.to_firms_id and b.create_time>="'.$startTime.'" and b.create_time<="'.$newTime.'" where a.province="'.$cityCode.'" GROUP BY a.id)';
+                $sqlC .= '(SELECT '.$filedC.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.to_firms_id and b.create_time>="'.$startTime.'" and b.create_time<="'.$nowDate.'" where a.province="'.$cityCode.'" GROUP BY a.id)';
                 $sqlC .= ' AS t LEFT JOIN firms_sales_user g ON t.id=g.firms_id and g.end_time>"'.$newTime.'" GROUP BY t.id';
                 $sqlC .= ') as y where '.$where;
                 $count = $this->count($sqlC);
@@ -817,7 +840,7 @@ class ApiSevSalesmanModel extends Model
                 $sql  = 'SELECT * from (';
                 $sql .= 'SELECT t.id as firmId,t.companyname,t.face_pic,t.major,t.distance,t.classification,t.linkPhone,t.qq,t.longitude,t.latitude,count(g.id) as isGuanLian ,t.is_check,t.type,t.EnterpriseID,t.city,t.phone,t.district,t.vip_time,t.num as callCount, CASE WHEN t.num >= '.$levelXiShu->lv3->min.' THEN 3 WHEN t.num >= '.$levelXiShu->lv2->min.' THEN 2 WHEN t.num <= '.$levelXiShu->lv1->max.' THEN 1 END AS levels FROM ';
                 $filed = 'ROUND(6378.138*2*ASIN(SQRT(POW(SIN(('.$lat.'*PI()/180-a.latitude*PI()/180)/2),2)+COS('.$lat.'*PI()/180)*COS(latitude*PI()/180)*POW(SIN(('.$lng.'*PI()/180-a.longitude*PI()/180)/2),2)))*1000) AS distance,a.companyname,a.major,a.is_check,a.classification,a.linkPhone,a.qq,a.longitude,a.face_pic,a.latitude,a.type,a.id,a.city,a.phone,a.district,b.create_time,a.vip_time,count(b.id) AS num,a.EnterpriseID';
-                $sql .= '(SELECT '.$filed.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.firms_id and b.create_time>="'.$startTime.'" and b.create_time<="'.$newTime.'" where a.province="'.$cityCode.'" GROUP BY a.id)';
+                $sql .= '(SELECT '.$filed.' FROM firms AS a LEFT JOIN firms_call_log AS b ON a.id = b.firms_id and b.create_time>="'.$startTime.'" and b.create_time<="'.$nowDate.'" where a.province="'.$cityCode.'" GROUP BY a.id)';
                 $sql .= ' AS t LEFT JOIN firms_sales_user g ON t.id=g.firms_id and g.end_time>"'.$newTime.'" GROUP BY t.id';
                 $sql .= ') as y where '.$where.' LIMIT '.$p.','.$pageSize;
                 $data = $this->get($sql);
