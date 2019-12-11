@@ -25,18 +25,11 @@ $config = array(
 //                           'dbhost'     => '192.168.2.21',
 //                           'dbhost'     => '192.168.2.2',
 <<<<<<< HEAD
-                           'dbhost'     => '119.23.215.135',
+                           'dbhost'     => '',
 //                           'dbuser'     => 'ydly',
 //                           'dbpwd'      => '!@ydly@!',
                            'dbname'     => 'car',
                            'dbport'     => '3306',
-=======
-                           'dbname'     => 'car',
-                           'dbport'     => '3306',
-                           'dbuser'     => 'root',
-                           'dbpwd'      => 'root',
-                           'dbhost'     => '119.23.215.135',
->>>>>>> 3bbb99633b5a999fbb23d83321226bf5ca447a83
                            'dbuser'     => 'car',
                            'dbpwd'      => '!@car@!',
                            'dbpccon'    => false
