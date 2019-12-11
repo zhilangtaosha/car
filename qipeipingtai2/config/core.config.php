@@ -24,14 +24,11 @@ $config = array(
 //                           'dbhost'     => '192.168.2.22',
 //                           'dbhost'     => '192.168.2.21',
 //                           'dbhost'     => '192.168.2.2',
-<<<<<<< HEAD
                            'dbhost'     => '',
-//                           'dbuser'     => 'ydly',
-//                           'dbpwd'      => '!@ydly@!',
                            'dbname'     => 'car',
                            'dbport'     => '3306',
                            'dbuser'     => 'car',
-                           'dbpwd'      => '!@car@!',
+                           'dbpwd'      => '',
                            'dbpccon'    => false
                        ),
                        2=> array(
